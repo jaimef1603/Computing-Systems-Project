@@ -12,17 +12,25 @@ three kinds of resources: courses, final degree projects, and seminars. All of t
 (where L represents letters a-z or A-Z, and N stands for numbers from 0 to 9). Additionally, these
 resources have the following specifications:
 
-• Courses: Belong  to a specific  Degree  and they  have two professors, a certain amount of credits, a list of students (unlimited),   and a list of numeric marks from 0 to 10 for each student.
+• Courses: 
+  Belong  to a specific  Degree  and they  have two professors, a certain amount of credits, a list of students (unlimited),   and a 
+  list of numeric marks from 0 to 10 for each student.
+  
 • The  Final Degree Projects: 
   Also belong to a Degree, and they have a tutor. An FDP may 
   have an additional co-tutor. Only one student can be assigned to each final project.
+  
 • Each Seminar has a coordinator, a speaker, a date, a maximum number of seats and a list of enrolled students. 
 There   are   three   kinds   of   users   in   the   application:   students,   professors,   and   administrators.  The
 students   have   an   identifier   code   (SIN:   Student   Identification   Number)   composed   of   7   digits.
+
 Professors   and   administrators   are   identified   by   a   personal   identification   code   composed   of   7
 characters. Furthermore, the users have the following characteristics:
+
 • The  Administrators are   the   only   ones   capable   of   creating   and   deleting   content   in   the application. They may also modify this content and change their status. Moreover, only they can create, modify and delete users. 
+
 • Professors can edit the information of those resources they are involved with (as course lecturers, as FDP tutors or seminar speakers), althought they cannot delete these resources. Additionally, they are the only ones who can set students’ courses marks. 
+
 • The Students, apart from the SIN, have a degree, a list of courses, seminars, and FDP. A student can join as many courses and seminars as he wants. However, only one final project can be assigned. They can enroll and drop courses, seminars and FDPs, if some  conditions are fulfilled:
     ◦ the course belongs to the same degree they are studying.
     ◦ there are free seats in the seminar.

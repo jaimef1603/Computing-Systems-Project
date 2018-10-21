@@ -62,12 +62,18 @@ Rules
 1. Projects will be done in pairs, being both students of the same group. 1 or 3-students groups are not allowed.  
 The students are free to form groups. In case anyone needs help finding a mate, the lab professor should be contacted.
 2. The main function should look something similar to the following code snippet:
+    
     #include “virtual_campus.h”
+    
     int main(){
+    
         VirtualCampus vc([may include parameters]);
+        
         vc.start();
+        
         return 0;
-        }
+        
+     }
 3. The design of the solution must make use of the Object-Oriented Programming concepts
 studied during the course (inheritance, polymorphism, files, dynamic memory, etc).
 4. The   project   will   be   presented   in   the   university   lab   computers,   using   the   available Linux  environment. The project will be compiled from scratch in the provided PC and should contain the required files to load the information of the Virtual Campus, so that the correct performance of the application can be evaluated.

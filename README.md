@@ -12,8 +12,7 @@ three kinds of resources: courses, final degree projects, and seminars. All of t
 (where L represents letters a-z or A-Z, and N stands for numbers from 0 to 9). Additionally, these
 resources have the following specifications:
 
-• Courses:
-  Belong  to a specific  Degree  and they  have two professors, a certain amount of credits, a list of students (unlimited), and a list of numeric marks from 0 to 10 for each student.
+• Courses: Belong  to a specific  Degree  and they  have two professors, a certain amount of credits, a list of students (unlimited),   and a list of numeric marks from 0 to 10 for each student.
 • The  Final Degree Projects: 
   Also belong to a Degree, and they have a tutor. An FDP may 
   have an additional co-tutor. Only one student can be assigned to each final project.

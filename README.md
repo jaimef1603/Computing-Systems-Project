@@ -41,34 +41,37 @@ Once the user has typed his ID code, the application should only show the corres
 which are accessible by the user type.
 To sum up, the application must provide the following capabilities:
 
-    1) To create, modify and delete users. Only available for administrators.
-    2) To create, modify and delete resources (courses, seminars, and FDPs). Only available for administrators.
-    3) To modify existing resources. Available for administrators and involved professors.
-    4) To show information of registered users and their type (student, professor or admin).
-    5) To show the information of the resources registered in the system.
-    6) The professors can grade the students of the courses they are involved with.
-    7) To allow students to enroll and drop the different resources available in the system, taking into consideration the corresponding restrictions.
-    8) To store the system information in files when the application is closed, and load it on start.
+   1) To create, modify and delete users. Only available for administrators.
+   2) To create, modify and delete resources (courses, seminars, and FDPs). Only available for administrators.
+   3) To modify existing resources. Available for administrators and involved professors.
+   4) To show information of registered users and their type (student, professor or admin).
+   5) To show the information of the resources registered in the system.
+   6) The professors can grade the students of the courses they are involved with.
+   7) To allow students to enroll and drop the different resources available in the system, taking into consideration the corresponding restrictions.
+   8) To store the system information in files when the application is closed, and load it on start.
 
 Extra features: these capabilities are not mandatory, but may improve overall application experience and will be considered to raise the final mark.
-    1. An access control system that uses the corresponding user ID and a password, which may be changed by the user at any time.
-    2. Add a schedule to each course. When a student decides to enroll in a course, his timetable must be checked to make sure the new course hours do not overlap with any other.
-    3. Filtered listing of the following system elements:
-    1. Users by type.
-    2. Resources by degree.
-    3. Resources by status.
-    4. For each course, passing and failing students.
 
-Rules
-    1. Projects will be done in pairs, being both students of the same group. 1 or 3-students groups are not allowed. The students are free to form groups. In case anyone needs help finding a mate, the lab professor should be contacted.
-    2. The main function should look something similar to the following code snippet:
-    
-        #include “virtual_campus.h”
-        int main(){
-          VirtualCampus vc([may include parameters]);
-          vc.start();
-          return 0;
-        }
-        
-    3. The design of the solution must make use of the Object-Oriented Programming concepts studied during the course (inheritance, polymorphism, files, dynamic memory, etc).
-    4. The project will be presented in the university lab computers, using the available Linux environment. The project will be compiled from scratch in the provided PC and should contain the required files to load the information of the Virtual Campus, so that the correct performance of the application can be evaluated.
+   1. An access control system that uses the corresponding user ID and a password, which may be changed by the user at any time.
+   2. Add a schedule to each course. When a student decides to enroll in a course, his timetable must be checked to make sure the new course hours do not overlap with any other.
+   3. Filtered listing of the following system elements:
+          1. Users by type.
+          2. Resources by degree.
+          3. Resources by status.
+          4. For each course, passing and failing students.
+
+Rules: 
+
+   1. Projects will be done in pairs, being both students of the same group. 1 or 3-students groups are not allowed. The students are free to form groups. In case anyone needs help finding a mate, the lab professor should be contacted.
+      
+   2. The main function should look something similar to the following code snippet:
+     
+          #include “virtual_campus.h”
+          int main(){
+            VirtualCampus vc([may include parameters]);
+            vc.start();
+            return 0;
+          }
+
+   3. The design of the solution must make use of the Object-Oriented Programming concepts studied during the course (inheritance, polymorphism, files, dynamic memory, etc).
+   4. The project will be presented in the university lab computers, using the available Linux environment. The project will be compiled from scratch in the provided PC and should contain the required files to load the information of the Virtual Campus, so that the correct performance of the application can be evaluated.

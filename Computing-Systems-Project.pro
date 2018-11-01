@@ -14,7 +14,8 @@ SOURCES += \
     Professor.cpp \
     Resource.cpp \
     Seminar.cpp \
-    Student.cpp
+    Student.cpp \
+    VirtualCampus.cpp
 
 HEADERS += \
     Administrator.h \
@@ -26,4 +27,5 @@ HEADERS += \
     Professor.h \
     Resource.h \
     Seminar.h \
-    Student.h
+    Student.h \
+    VirtualCampus.h

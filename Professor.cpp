@@ -1,11 +1,14 @@
-#include "Professor.h"
+﻿#include "Professor.h"
 #include <string>
 Professor::Professor(){
 
 }
-string Professor::getID(){
-    return ID;
+Professor::Professor(string ident){
+    identifier=ident;
 }
-void Professor::setID(string ident){
-    ID=ident;
+string Professor::getidentifier(){
+    return identifier;
+}
+void Professor::setidentifier(string ident){
+    identifier=ident;
 }

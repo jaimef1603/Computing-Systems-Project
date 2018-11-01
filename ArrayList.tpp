@@ -1,14 +1,24 @@
-﻿
-
-
-template <typename A> ArrayList<A>::ArrayList()
+﻿template <typename A> ArrayList<A>::ArrayList()
 {
     size=0;
     head=nullptr;
     tail=nullptr;
 }
 
- template <typename A> int ArrayList <A> ::getsize(){
+template <typename A> ArrayList<A>::~ArrayList(){
+    Node <A> *next;
+    for (int i=size; i>0; i--){
+        if(head!=nullptr){
+            next=head->getprevious();
+            head->remove();
+            head=next;
+        }else{
+            tail=nullptr;
+        }
+    }
+}
+
+template <typename A> int ArrayList <A> ::getsize(){
     return size;
 }
 template <typename A> int ArrayList<A>::length(){
@@ -64,7 +74,7 @@ template <typename A> int ArrayList<A>::remove(const A &d){
     return 0;
 }
 
-template <typename A> A ArrayList<A>::operator[](int index){
+template <typename A> A ArrayList<A>::operator[](int index)const{
     Node <A>*target=tail;
     for (int i=0; i<index; i++){
         target=target->getnext();
@@ -72,4 +82,28 @@ template <typename A> A ArrayList<A>::operator[](int index){
     return target->getdata();
 }
 
-//void ArrayList::remove(const int d){}
+
+template <typename A> ArrayList<A>& ArrayList<A>::operator=(const ArrayList<A>& list){
+    Node <A> *next;
+
+        if ((head!=nullptr || tail!=nullptr) && size>0){
+        for (int i=size; i>0; i--){
+            if(head!=nullptr){
+                next=head->getprevious();
+                head->remove();
+                head=next;
+            }else{
+                tail=nullptr;
+            }
+
+        }
+    }
+        head=nullptr;
+        tail=nullptr;
+        for(int i=0; i<list.size; i++){
+            this->pushFront(list[i]);
+        }
+        return *this;
+}
+
+    //void ArrayList::remove(const int d){}

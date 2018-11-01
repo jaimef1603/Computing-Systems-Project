@@ -1,28 +1,24 @@
 ﻿#ifndef ADMINISTRATOR_H
 #define ADMINISTRATOR_H
-#include "Student.h"
 #include "Professor.h"
-#include "Student.h"
-#include "Course.h"
 #include "Seminar.h"
 #include "FDP.h"
+#include "Degree.h"
 class Administrator: public Professor{
 
-
+private:
     Administrator *AdminPtr;
     Professor *profesorPtr;
-    Student *studentPtr;
-    Course *coursePtr;
+    Degree *degreePtr;
     Seminar *seminarPtr;
     FDP *fdpPtr;
-
+    void createUser();
+    void createResource();
 public:
-
-
     Administrator();
     Administrator(string ident, const Administrator &admin);
-    void createUser();
-
+    //Polymorphism starts
+    void menu();
 };
 
 #endif // ADMINISTRATOR_H

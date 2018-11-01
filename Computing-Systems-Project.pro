@@ -15,7 +15,10 @@ SOURCES += \
     Resource.cpp \
     Seminar.cpp \
     Student.cpp \
-    VirtualCampus.cpp
+    VirtualCampus.cpp \
+    ArrayList.tpp \
+    Link_us_res.cpp \
+    User.cpp
 
 HEADERS += \
     Administrator.h \
@@ -28,4 +31,7 @@ HEADERS += \
     Resource.h \
     Seminar.h \
     Student.h \
-    VirtualCampus.h
+    VirtualCampus.h \
+    ArrayList.h \
+    Link_us_res.h \
+    User.h

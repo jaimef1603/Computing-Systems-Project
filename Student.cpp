@@ -1,4 +1,8 @@
-﻿#include "Student.h"
+﻿#include <iostream>
+#include <string>
+#include <sstream>
+#include "Student.h"
+using namespace std;
 Student::Student(int id):mycourses(), myseminars(){
     SIN=id;
     mydegree=nullptr;
@@ -47,6 +51,11 @@ void Student::setSIN(int s){
 }
 
 string Student::getidentifier(){
+    string ident = "";
+
+    ident = static_cast<ostringstream*>(&(ostringstream() << SIN))->str();
+
+    return ident;
     //convertir a string el SIN (es int) y retornar el resultado
 }
 

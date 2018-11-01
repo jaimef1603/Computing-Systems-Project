@@ -10,6 +10,7 @@ private:
     int year;
 public:
     Date();
+    Date(int d, int m, int y);
     int getday();
     void setday(int d);
     int getmonth();

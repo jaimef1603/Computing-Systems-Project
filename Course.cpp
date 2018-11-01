@@ -68,5 +68,5 @@ void Course::addUser(User *newUser){
     //and add to courselist of student.
     //studentlist.pushFront(newLink);
     //newLink->connectCourseUser();
-    //return studentlist[studentlist.length()];
+
 }

@@ -18,7 +18,8 @@ SOURCES += \
     VirtualCampus.cpp \
     ArrayList.tpp \
     Link_us_res.cpp \
-    User.cpp
+    User.cpp \
+    Node.tpp
 
 HEADERS += \
     Administrator.h \
@@ -34,4 +35,5 @@ HEADERS += \
     VirtualCampus.h \
     ArrayList.h \
     Link_us_res.h \
-    User.h
+    User.h \
+    Node.h

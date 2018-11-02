@@ -83,7 +83,7 @@ void Student::addFDP(Link_us_res *link){
 void Student::enroll(Resource *res){
 
     Link_us_res link = res->addUser(this);
-    mycourses.pushFront(res->addUser(this));
+    //mycourses.pushFront(res->addUser(this));
 
 
     //Link_us_res *Link = new Link_us_res(this, res);

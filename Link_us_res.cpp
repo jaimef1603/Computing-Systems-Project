@@ -21,11 +21,14 @@ void Link_us_res::connectCourseUser(){
 bool Link_us_res::checkUserKind(){
     char *identifier=this->userPtr->getidentifier().c_str();
 
-    if(identifier<48 || identifier>57){
-        return false;
-    }else{
-        return true;
+    for(int i=0;i<userPtr->getidentifier().length();i++){
+        if(identifier<48 || identifier>57){
+            return false;
+        }else{
+            return true;
+        }
     }
+
     //check if id belongs to a student (has only numbers)
     //returns true if student
     //returns false if professor or admin

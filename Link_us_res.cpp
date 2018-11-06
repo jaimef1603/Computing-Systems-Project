@@ -7,27 +7,24 @@ Link_us_res::Link_us_res(User *u, Resource *r){
     userPtr=u;
     resourcePtr=r;
 }
-Date Link_us_res::getdate(){
-    return dlink;
-}
-void Link_us_res::setdate(Date d3){
-    d3=dlink;
-}
 
 void Link_us_res::connectCourseUser(){
    userPtr->addCourse(this);
 }
 
 bool Link_us_res::checkUserKind(){
-    char *identifier=this->userPtr->getidentifier().c_str();
+    char *identifier= nullptr;
+    int tamaño = static_cast<int> (userPtr->getidentifier().length());
+    identifier =new char [tamaño+1];
 
-    for(int i=0;i<userPtr->getidentifier().length();i++){
-        if(identifier<48 || identifier>57){
+    strcpy(identifier, this->userPtr->getidentifier().c_str());
+
+    for(int i=0;i<tamaño;i++){
+        if(identifier[i]<'0' || identifier[i]>'9'){
             return false;
-        }else{
-            return true;
         }
     }
+    return true;
 
     //check if id belongs to a student (has only numbers)
     //returns true if student

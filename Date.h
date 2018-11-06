@@ -1,4 +1,4 @@
-#ifndef DATE_H
+﻿#ifndef DATE_H
 #define DATE_H
 using namespace std;
 
@@ -9,8 +9,9 @@ private:
     int month;
     int year;
 public:
-    Date();
-    Date(int d, int m, int y);
+    Date(int d=1, int m=1, int y=1);
+    Date(Date &other);
+    Date& operator = (const Date &d);
     int getday();
     void setday(int d);
     int getmonth();

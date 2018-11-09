@@ -7,8 +7,7 @@ int main()
 {
      VirtualCampus v1;
 
-        //system("clear");
-        v1.run();
+     do{}while(v1.run());
 
     return 0;
 }

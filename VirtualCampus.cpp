@@ -31,37 +31,50 @@ VirtualCampus::~VirtualCampus()
         delete [] projectlist;
     }
     if (currentuser!=nullptr){
-        delete degreelist;
+        delete currentuser;
     }
 }
 
 
 
-void VirtualCampus::run()
+int VirtualCampus::run()
 {
-
-    currentuser->menu();
+    int r;
+    r=currentuser->menu();
     system("clear");
-
+    fflush(stdout);
     if (degreelist!=nullptr){
-        cout<<degreelist[0].getname();
-        degreelist[0].showcourses();
-        cout<<endl;
+        cout<<"DEGREES & COURSES"<<endl;
+        for(int i=0; i<degree_number; i++){
+            cout<<degreelist[i].getname();
+            degreelist[i].showcourses();
+            cout<<endl;
+        }
     }
     if (projectlist!=nullptr){
-        cout<<projectlist[0].getIdentification()<<endl;
+        cout<<"FDP's"<<endl;
+        for(int i=0; i<fdp_number; i++){
+            cout<<projectlist[i].getIdentification()<<endl;
+        }
     }
     if (seminalist!=nullptr){
-        cout<<seminalist[0].getIdentification()<<endl;
+         cout<<"Seminars"<<endl;
+        for(int i=0; i<seminar_number; i++){
+            cout<<i+1<<": "<<seminalist[i].getIdentification()<<endl;
+            cout<<"Seats: "<<seminalist[i].getmaxseats();
+            //cout<<"\tDate: "<<seminalist[i].getdate();
+        }
     }
 
     getchar();
+    return r;
 }
 
 
 
 void VirtualCampus::addDegree()
 {
+    system("clear");
     string name;
     cout<<"Enter the name of the degree: ";
     cin>>ws>>name;
@@ -96,7 +109,7 @@ void VirtualCampus::addDegree()
 
 void VirtualCampus::addFDP()
 {
-
+    system("clear");
     string id;
     //string namedegree, studentid;
     //int degreeid;
@@ -147,6 +160,7 @@ void VirtualCampus::addFDP()
 void VirtualCampus::addseminar()
 {
 
+    system("clear");
     string id;
     cout<<"Enter the name of the seminar: ";
     cin>>ws>>id;
@@ -180,6 +194,7 @@ void VirtualCampus::addseminar()
 
 void VirtualCampus::addCourse()
 {
+    system("clear");
     string degreeid;
     cout<<"Enter the name of the degree the course will belong to: ";
     cin>>ws>>degreeid;
@@ -190,4 +205,90 @@ void VirtualCampus::addCourse()
         }
 
     }
+}
+
+
+
+void VirtualCampus::editDegree()
+{
+    system("clear");
+    int selection;
+    string newname;
+    cout<<"Select the degree you want to edit (1-"<<degree_number+1<<")"<<endl;
+    for (int i=0; i<degree_number; i++){
+        cout<<i+1<<": "<<degreelist[i].getname()<<endl;
+    }
+    cin>>selection;
+    system("clear");
+    cout<<"Enter the new name"<<endl;
+    cin>>newname;
+    degreelist[selection-1].setname(newname);
+}
+
+
+
+void VirtualCampus::editcourse()
+{
+    system("clear");
+    int selection;
+    string newname;
+    cout<<"Select the degree you want to edit (1-"<<degree_number+1<<")"<<endl;
+    for (int i=0; i<degree_number; i++){
+        cout<<i+1<<": "<<degreelist[i].getname()<<endl;
+    }
+    cin>>selection;
+    degreelist[selection-1].editcourse();
+}
+
+
+
+void VirtualCampus::editFDP()
+{
+    system("clear");
+    int selection;
+    string newname;
+    cout<<"Select the FDP you want to edit (1-"<<fdp_number+1<<")"<<endl;
+    for (int i=0; i<fdp_number; i++){
+        cout<<i+1<<": "<<projectlist[i].getIdentification()<<endl;
+    }
+    cin>>selection;
+    system("clear");
+    cout<<"Enter the new id"<<endl;
+    cin>>newname;
+    projectlist[selection-1].setIdentification(newname);
+}
+
+
+
+void VirtualCampus::editseminar(){
+    system("clear");
+    int seminar, field, newseats, day, month, year;
+    string newid;
+    cout<<"Select the seminar you want to edit (1-"<<seminar_number+1<<")"<<endl;
+    for (int i=0; i<seminar_number; i++){
+        cout<<i+1<<": "<<seminalist[i].getIdentification()<<endl;
+    }
+    cin>>seminar;
+    system("clear");
+    cout<<"Select the field you want to edit (1-3)\n1: id\n2: maximum seats\n3: date\n"<<endl;
+    cin>>field;
+    system("clear");
+    switch (field) {
+    case 1:
+        cout<<"Enter the new id: ";
+        cin>>newid;
+        seminalist[seminar-1].setIdentification(newid);
+        break;
+    case 2:
+        cout<<"Enter the new value for maximum seats: ";
+        cin>>newseats;
+        seminalist[seminar-1].setmaxseats(newseats);
+        break;
+    case 3:
+        cout<<"Enter values for day month and year separated by spaces: ";
+        cin>>day>>month>>year;
+        seminalist[seminar-1].setdate(Date(day,month,year));
+        break;
+    }
+
 }

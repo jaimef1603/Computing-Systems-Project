@@ -9,14 +9,18 @@ class Administrator: public Professor{
 
 private:
     VirtualCampus *mycampus;
-    void createUser();
+
+    void manageUser();
+    void manageResource();
     void createResource();
-    void createDegree();
+    void editResource();
+    void manageDegree();
 public:
     Administrator(string id= "xxxxxx", VirtualCampus *vc=nullptr);
     Administrator(string ident, const Administrator &admin);
+
     //Polymorphism starts
-    void menu();
+    int menu();
 };
 
 #endif // ADMINISTRATOR_H

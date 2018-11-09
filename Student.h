@@ -29,7 +29,7 @@ public:
     void setSIN(int s);
     string getidentifier();
     void enroll(Resource *res);
-    void menu();
+    int menu();
 
     friend ostream& operator<<(ostream& os, const Student& stu);
 };

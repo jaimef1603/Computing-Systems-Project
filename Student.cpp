@@ -59,7 +59,7 @@ string Student::getidentifier(){
     //convertir a string el SIN (es int) y retornar el resultado
 }
 
-void Student::menu(){
+int Student::menu(){
 
 }
 

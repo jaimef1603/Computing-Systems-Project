@@ -8,19 +8,19 @@ using namespace std;
 
 
 Degree::Degree():name(){
-   student_number=course_number=0;
-   stulist=nullptr;
-   courselist=nullptr;
+    student_number=course_number=0;
+    stulist=nullptr;
+    courselist=nullptr;
 
 }
 
 
 
 Degree::Degree(string n){
-   student_number=course_number=0;
-   name=n;
-   stulist=nullptr;
-   courselist=nullptr;
+    student_number=course_number=0;
+    name=n;
+    stulist=nullptr;
+    courselist=nullptr;
 }
 
 
@@ -71,7 +71,7 @@ void Degree::addCourse(){
     Course *temp;
     if (courselist==nullptr){
         courselist = new Course[1];
-        courselist[0]= Course(id, this);
+        courselist[0]= Course(id, this, credits);
         course_number=1;
         std::cerr<<"Course added\n";
         getchar();
@@ -87,13 +87,42 @@ void Degree::addCourse(){
                 courselist[i]=temp[i];
             }
             delete [] temp;
-            courselist[course_number]= Course(id, this);
+            courselist[course_number]= Course(id, this, credits);
             course_number+=1;
         }else{
             cerr<<"Degree::addCourse(); Invalid value for course_number, new value is 0.\n"<<endl;
             course_number=0;
         }
     }
+}
+
+
+
+void Degree::editcourse()
+{
+    int selection,field, newcredits;
+    string newid;
+    cout<<"Select the course you want to edit (1-"<<course_number+1<<")"<<endl;
+    for (int i=0; i<course_number; i++){
+        cout<<i+1<<": "<<courselist[i].getIdentification()<<endl;
+    }
+    cin>>selection;
+    system("clear");
+    cout<<"Select the field you want to edit (1-2)\n1: id\n2: credits\n"<<endl;
+    cin>>field;
+    switch (field) {
+    case 1:
+        cout<<"Enter the new id: ";
+        cin>>newid;
+        courselist[selection-1].setIdentification(newid);
+        break;
+    case 2:
+        cout<<"Enter the new value for credits: ";
+        cin>>newcredits;
+        courselist[selection-1].setcredits(newcredits);
+        break;
+    }
+
 }
 
 
@@ -136,7 +165,11 @@ void Degree::showstudents(){
 
 
 void Degree::showcourses(){
-    for (int i=0; i< course_number; i++){
-        cout<<courselist[i].getIdentification();
+    if (courselist!=nullptr){
+        cout<<"\t\nCourses:"<<endl;
+        for (int i=0; i< course_number; i++){
+            cout<<"\tid: "<<courselist[i].getIdentification();
+            cout<<"\tCredits: "<<courselist[i].getcredits();
+        }
     }
 }

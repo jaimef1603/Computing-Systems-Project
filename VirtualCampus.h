@@ -25,12 +25,16 @@ private:
 public:
     VirtualCampus();
     ~VirtualCampus();
+    void editDegree();
     void addDegree();
+    void editFDP();
     void addFDP();
+    void editseminar();
     void addseminar();
+    void editcourse();
     void addCourse();
     void start();
-    void run();
+    int run();
     void end();
 };
 

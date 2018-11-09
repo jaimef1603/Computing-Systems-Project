@@ -3,9 +3,7 @@
 User::~User(){
 
 }
-void menu(){
 
-}
 //void User::addCourse(Link_us_res *link){
 //    std::cerr<<"This object can't add Course"<<std::endl;
 //}

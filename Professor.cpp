@@ -17,6 +17,6 @@ void Professor::setidentifier(string ident){
     identifier=ident;
 }
 
-void Professor::menu(){
+int Professor::menu(){
 
 }

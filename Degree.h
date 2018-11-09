@@ -26,6 +26,7 @@ public:
     int getstudent_number();
     void setname(string n);
     void addCourse();
+    void editcourse();
     void addStudent();
     void addFDP();
     void showstudents();

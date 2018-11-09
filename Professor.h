@@ -26,7 +26,7 @@ public:
     Professor(string ident);
     void setidentifier(string ident);
     string getidentifier();
-    virtual void menu(); //must be virtual to be overriden by admin's menu.
+    virtual int menu(); //must be virtual to be overriden by admin's menu.
 };
 
 #endif // PROFESSOR_H

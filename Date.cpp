@@ -73,7 +73,7 @@ Date::Date(int d, int m, int y){
 
 
 
-Date::Date(Date &other){
+Date::Date(const Date &other){
     int d=other.day, m=other.month, y=other.year;
     if((m>0 && m<13) && y>0){
 

@@ -17,17 +17,17 @@ private:
     ArrayList <Link_us_res*> studentlist;
     Degree *degree;
     Link_us_res   *teachers[2];
-    ArrayList <Mark> class_marks;
 
 public:
-    Course(string id="undefined", string s="unknown", int c=6, Degree *d=nullptr, Link_us_res **t=nullptr);
+    Course(string id="undefined", Degree *d=nullptr, int c=6, string s="unknown", Link_us_res **t=nullptr);
     Course(const Course&);
     Course& operator= (const Course&);
     int getcredits();
     void setcredits(int c);
+    void addteacher(Link_us_res *newteacher);
+    void addstudent(Link_us_res *newstudent);
 
-    //polymorphism starts
-    void addUser(User *newUser);
+
 };
 
 #endif

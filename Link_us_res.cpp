@@ -9,17 +9,27 @@ Link_us_res::Link_us_res(User *u, Resource *r){
 }
 
 void Link_us_res::connectCourseUser(){
-   userPtr->addCourse(this);
+  // userPtr->addCourse(this);
+}
+
+int Link_us_res::checkHealth(){
+    if(userPtr==nullptr && resourcePtr==nullptr){
+            return -2;
+    }else if(userPtr!=nullptr && resourcePtr!=nullptr){
+        return 0;
+    }else{
+        return -1;
+    }
 }
 
 bool Link_us_res::checkUserKind(){
     char *identifier= nullptr;
-    int tamaño = static_cast<int> (userPtr->getidentifier().length());
-    identifier =new char [tamaño+1];
+    int tamano = static_cast<int> (userPtr->getidentifier().length());
+    identifier =new char [tamano+1];
 
     strcpy(identifier, this->userPtr->getidentifier().c_str());
 
-    for(int i=0;i<tamaño;i++){
+    for(int i=0;i<tamano;i++){
         if(identifier[i]<'0' || identifier[i]>'9'){
             return false;
         }

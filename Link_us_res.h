@@ -17,6 +17,7 @@ public:
     Date getdate();
     Link_us_res& operator=(const Link_us_res& otherlink);
     //hacer el destructor para que sea esta clase la que se encargue de borrarse de los arrays de user y resources.
+    int checkHealth();
     void connectCourseUser();
     bool checkUserKind();
 };

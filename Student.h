@@ -31,6 +31,7 @@ public:
     void enroll(Resource *res);
     void menu();
 
+    friend ostream& operator<<(ostream& os, const Student& stu);
 };
 
 #endif // STUDENT_H

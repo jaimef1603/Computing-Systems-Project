@@ -10,6 +10,13 @@ Resource::Resource(const Resource& r)
         std::cerr<<"Resource cpyconstructor: (Warning) some atribute of original object is invalid.\n";
     }
 }
+
+
+Resource::~Resource(){
+
+}
+
+
 Resource& Resource::operator= (const Resource& r){
     if (r.identification.c_str()==nullptr || r.status.c_str()==nullptr){
         std::cerr<<"Resource::operator= : (Error) Some atribute of original object is invalid. Object not copied.\n";
@@ -25,12 +32,16 @@ string Resource::getIdentification(){
 }
 
 
+
 string Resource::getstatus(){
+    //comprobar que el estado sea correcto
      return status;
 }
 
 
 void Resource::setIdentification(string id){
+
+    //Comprobar que id cumple las condiciones para ser asignado
      identification=id;
 }
 

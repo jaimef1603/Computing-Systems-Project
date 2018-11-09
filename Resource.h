@@ -4,7 +4,7 @@
 using namespace std;
 
 class User;
-
+class Link_us_res;
 class Resource
 {
 protected:
@@ -19,7 +19,10 @@ public:
     string getIdentification();
     void setstatus(string s);
     string getstatus();
-    virtual void addUser(User *newUser)=0;
+
+    //--------
+    virtual void addteacher(Link_us_res *newteacher)=0;
+    virtual void addstudent(Link_us_res *newstudent)=0;
 };
 
 #endif // RESOURCE_H

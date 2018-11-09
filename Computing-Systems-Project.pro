@@ -19,7 +19,8 @@ SOURCES += \
     ArrayList.tpp \
     Link_us_res.cpp \
     User.cpp \
-    Node.tpp
+    Node.tpp \
+    Utilities.cpp
 
 HEADERS += \
     Administrator.h \
@@ -36,4 +37,5 @@ HEADERS += \
     ArrayList.h \
     Link_us_res.h \
     User.h \
-    Node.h
+    Node.h \
+    Utilities.h

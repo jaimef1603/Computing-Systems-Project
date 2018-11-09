@@ -1,21 +1,19 @@
 ﻿#ifndef ADMINISTRATOR_H
 #define ADMINISTRATOR_H
 #include "Professor.h"
-#include "Seminar.h"
-#include "FDP.h"
-#include "Degree.h"
+//#include "VirtualCampus.h"
+
+class VirtualCampus;
 class Administrator: public Professor{
 
+
 private:
-    Administrator *AdminPtr;
-    Professor *profesorPtr;
-    Degree *degreePtr;
-    Seminar *seminarPtr;
-    FDP *fdpPtr;
+    VirtualCampus *mycampus;
     void createUser();
     void createResource();
+    void createDegree();
 public:
-    Administrator();
+    Administrator(string id= "xxxxxx", VirtualCampus *vc=nullptr);
     Administrator(string ident, const Administrator &admin);
     //Polymorphism starts
     void menu();

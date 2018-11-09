@@ -16,17 +16,20 @@ private:
     Student *stulist;
     int course_number;
     Course *courselist;
-    int fdp_number;
-    FDP *projectlist;
 
 public:
     Degree();
     Degree(string n);
+    ~Degree();
     string getname();
+    Student* searchStudentbyid(string id);
+    int getstudent_number();
     void setname(string n);
     void addCourse();
     void addStudent();
     void addFDP();
+    void showstudents();
+    void showcourses();
 };
 
 #endif // DEGREE_H

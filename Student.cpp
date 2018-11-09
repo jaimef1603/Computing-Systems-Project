@@ -82,7 +82,7 @@ void Student::addFDP(Link_us_res *link){
 
 void Student::enroll(Resource *res){
 
-    Link_us_res link = res->addUser(this);
+    //Link_us_res link = res->addUser(this);
     //mycourses.pushFront(res->addUser(this));
 
 
@@ -92,5 +92,11 @@ void Student::enroll(Resource *res){
 
     //return
 
+}
+
+
+ostream& operator<<(ostream& os, const Student& stu){
+    os<<stu.SIN<<endl;
+    return os;
 }
 

@@ -14,13 +14,13 @@ class Professor: public User
 {
 protected:
     string identifier;
-    ArrayList<Link_us_res*> coursePtrlist;
-    ArrayList<Link_us_res*> fdpPtrlist;
-    ArrayList<Link_us_res*> seminarPtrlist;
+    ArrayList<Link_us_res*> courselist;
+    ArrayList<Link_us_res*> fdplist;
+    ArrayList<Link_us_res*> seminarlist;
     //Polymorphism starts
-    void addCourse(Link_us_res *link);
-    void addSeminar(Link_us_res *link);
-    void addFDP(Link_us_res *link);
+    //void addCourse(Link_us_res *link);
+    //void addSeminar(Link_us_res *link);
+    //void addFDP(Link_us_res *link);
 public:
     Professor();
     Professor(string ident);

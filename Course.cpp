@@ -2,7 +2,7 @@
 
 
 
-Course::Course(string id, Degree *d, int c, string s, Link_us_res **t)
+Course::Course(string id, Degree *d, int c, string s, Link_prof_res **t)
     :Resource(id, s)
 {
     degree=d;
@@ -79,14 +79,14 @@ void Course::setcredits(int c)
 
 
 
-void Course::addteacher(Link_us_res *newteacher)
+void Course::addteacher(Link_prof_res *newteacher)
 {
 
 }
 
 
 
-void Course::addstudent(Link_us_res *newstudent)
+void Course::addstudent(Link_stu_res *newstudent)
 {
 
 }

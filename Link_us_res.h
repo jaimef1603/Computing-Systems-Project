@@ -3,6 +3,7 @@
 #include "User.h"
 #include "Resource.h"
 #include "Date.h"
+
 class Link_us_res
 {
 protected:

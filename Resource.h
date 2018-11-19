@@ -1,6 +1,9 @@
 ﻿#ifndef RESOURCE_H
 #define RESOURCE_H
 #include <string>
+#include "Link_prof_res.h"
+#include "Link_stu_res.h"
+
 using namespace std;
 
 class User;
@@ -21,8 +24,8 @@ public:
     string getstatus();
 
     //--------
-    virtual void addteacher(Link_us_res *newteacher)=0;
-    virtual void addstudent(Link_us_res *newstudent)=0;
+    virtual void addteacher(Link_prof_res *newteacher)=0;
+    virtual void addstudent(Link_stu_res *newstudent)=0;
 };
 
 #endif // RESOURCE_H

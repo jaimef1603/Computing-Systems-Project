@@ -14,7 +14,7 @@ Seminar::Seminar(string id, string s, int seatsValue, Date when, User *spe, User
         maxseats=1;
     }
     freeseats=maxseats;
-    students=new Link_us_res [maxseats];
+    students=new Link_stu_res [maxseats];//students=new Link_us_res [maxseats];
     eventDate=when;
     setspeaker(spe);
     setcoordinator(coord);
@@ -34,7 +34,7 @@ Seminar::Seminar(string id, string s, int seatsValue, User *spe, User *coord)
         maxseats=1;
     }
     freeseats=maxseats;
-    students=new Link_us_res [maxseats];
+    students=new Link_stu_res [maxseats]; //students=new Link_us_res [maxseats];
     setspeaker(spe);
     setcoordinator(coord);
 
@@ -72,7 +72,7 @@ void Seminar::setdate(Date when)
 
 void Seminar::setspeaker(User *spe)
 {
-    Link_us_res *newLink=new Link_us_res(spe, this);
+    Link_prof_res *newLink=new Link_prof_res(spe, this);//Link_us_res *newLink=new Link_us_res(spe, this);
     if (newLink->checkHealth()==0){
         if (!newLink->checkUserKind()){
             speaker=newLink;
@@ -87,7 +87,7 @@ void Seminar::setspeaker(User *spe)
 
 
 
-Link_us_res& Seminar::getspeaker()const
+Link_prof_res& Seminar::getspeaker()const
 {
     return *speaker;
 }
@@ -96,7 +96,7 @@ Link_us_res& Seminar::getspeaker()const
 
 void Seminar::setcoordinator(User *coord)
 {
-    Link_us_res *newLink=new Link_us_res(coord, this);
+    Link_prof_res *newLink=new Link_prof_res(coord, this);
     if (newLink->checkHealth()==0){
         if (!newLink->checkUserKind()){
             coordinator=newLink;
@@ -111,14 +111,14 @@ void Seminar::setcoordinator(User *coord)
 
 
 
-Link_us_res& Seminar::getcoordinator()const
+Link_prof_res& Seminar::getcoordinator()const
 {
     return *coordinator;
 }
 
 
 
-void Seminar::addteacher(Link_us_res *newteacher)
+void Seminar::addteacher(Link_prof_res *newteacher)
 {
 
 }
@@ -126,7 +126,7 @@ void Seminar::addteacher(Link_us_res *newteacher)
 
 
 
-void Seminar::addstudent(Link_us_res *newstudent)
+void Seminar::addstudent(Link_stu_res *newstudent)
 {
 
 }

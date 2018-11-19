@@ -68,13 +68,13 @@ int Student::menu(){
  *
  *
  */
-void Student::addCourse(Link_us_res *link){
+void Student::addCourse(Link_stu_res *link){
     mycourses.pushFront(link);
 }
-void Student::addSeminar(Link_us_res *link){
+void Student::addSeminar(Link_stu_res *link){
    myseminars.pushFront(link);
 }
-void Student::addFDP(Link_us_res *link){
+void Student::addFDP(Link_stu_res *link){
     if(myfdp==nullptr){
         myfdp=link;
     }

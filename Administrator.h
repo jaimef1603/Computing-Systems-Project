@@ -21,6 +21,7 @@ public:
 
     //Polymorphism starts
     int menu();
+
 };
 
 #endif // ADMINISTRATOR_H

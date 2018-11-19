@@ -3,6 +3,7 @@
 #include "Link_us_res.h"
 #include "Student.h"
 #include "Mark.h"
+#include "Resource.h"
 
 class Link_stu_res : public Link_us_res
 {

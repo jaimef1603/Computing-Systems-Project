@@ -1,9 +1,15 @@
 ﻿#include <cstring>
 #include <iostream>
 #include "Link_us_res.h"
+
+
+
 using namespace std;
 
-Link_us_res::Link_us_res(Resource *r){
+
+
+Link_us_res::Link_us_res(Resource *r)
+{
     if (r!=nullptr){
         resourcePtr=r;
     }else {
@@ -12,14 +18,34 @@ Link_us_res::Link_us_res(Resource *r){
     }
 }
 
-Link_us_res::Link_us_res(const Link_us_res& other){
+
+
+Link_us_res::Link_us_res(const Link_us_res& other)
+{
     this->resourcePtr=other.resourcePtr;
 }
 
-Link_us_res& Link_us_res::operator=(const Link_us_res& other){
+
+
+Link_us_res::~Link_us_res()
+{
+
+}
+
+
+
+Link_us_res& Link_us_res::operator=(const Link_us_res& other)
+{
     this->resourcePtr=other.resourcePtr;
     return *this;
 }
+
+
+
+Resource& Link_us_res::getResource(){
+    return *resourcePtr;
+}
+
 
 void Link_us_res::connectCourseUser(){
   // userPtr->addCourse(this);

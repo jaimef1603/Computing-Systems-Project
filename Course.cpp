@@ -88,8 +88,16 @@ void Course::addteacher(Link_prof_res *newteacher)
 
 void Course::addstudent(Link_stu_res *newstudent)
 {
-
+    studentlist.pushFront(newstudent);
 }
+
+
+
+void Course::removestudent(Link_stu_res *link){
+    studentlist.remove(link);
+}
+
+
 
 //void Course::addUser(User *newUser){
 //link_us_res *newLink= new(newUser, this)

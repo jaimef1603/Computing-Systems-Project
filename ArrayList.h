@@ -20,6 +20,7 @@ public:
     Node<A>& pushFront(const A&);
     Node<A>& pushBack(const A&);
     int remove(const A&);
+    void removebyindex(int index);
     A operator[] (int index)const;
     ArrayList<A>& operator=(const ArrayList<A>& );
 

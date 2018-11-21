@@ -1,5 +1,6 @@
 ﻿#include "FDP.h"
 #include <iostream>
+#include "Link_stu_res.h"
 
 FDP::FDP(string id, Link_stu_res *stu, string s, Link_prof_res *t, Link_prof_res *c_t)
     :Resource(id, s)
@@ -80,7 +81,7 @@ Link_stu_res& FDP::getstudent()const
 void FDP::setstudent(Link_stu_res* stu)
 {
     if (stu!=nullptr && !stu->checkHealth()){
-        tutor=stu;
+       student=stu;
     }else{
         std::cerr<<"FDP::setstudent(Link_stu_res*); incomplete or null link passed, student will not be modified.\n";
     }
@@ -97,11 +98,17 @@ void FDP::addteacher(Link_prof_res *newteacher)
 
 void FDP::addstudent(Link_stu_res *newstudent)
 {
-
+    student=newstudent;
 }
 
 
 
-
+void FDP::removestudent(Link_stu_res *link){
+    if (student==link && student != nullptr){
+        student=nullptr;
+    }else{
+        cerr<<"FDP::removestudent(Link_stu_res *); Link passed does not correspond to this FDP or there isn´t a student asigned.\n";
+    }
+}
 
 

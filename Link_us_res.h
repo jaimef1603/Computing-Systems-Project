@@ -1,9 +1,9 @@
 ﻿#ifndef LINK_US_RES_H
 #define LINK_US_RES_H
 #include "User.h"
-#include "Resource.h"
-#include "Date.h"
 
+#include "Date.h"
+class Resource;
 class Link_us_res
 {
 protected:
@@ -14,8 +14,10 @@ public:
     virtual ~Link_us_res();
     Link_us_res& operator=(const Link_us_res& other);
     //hacer el destructor para que sea esta clase la que se encargue de borrarse de los arrays de user y resources.
+    Resource& getResource();
     virtual int checkHealth()=0;
     void connectCourseUser();
+    virtual void destroy()=0;
     //bool checkUserKind();
 };
 

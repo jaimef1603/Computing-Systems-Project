@@ -2,6 +2,9 @@
 #include <string>
 #include <sstream>
 #include "Student.h"
+#include "Course.h"
+#include "Seminar.h"
+#include "FDP.h"
 using namespace std;
 Student::Student(int id):mycourses(), myseminars(){
     SIN=id;
@@ -41,14 +44,18 @@ Student& Student::operator=(const Student &s){
 }
 
 
+
 int Student::getSIN(){
     return SIN;
 }
 
 
+
 void Student::setSIN(int s){
     SIN=s;
 }
+
+
 
 string Student::getidentifier(){
     string ident = "";
@@ -58,6 +65,41 @@ string Student::getidentifier(){
     return ident;
     //convertir a string el SIN (es int) y retornar el resultado
 }
+
+
+
+void Student::Drop(Course *c)
+{
+   Link_stu_res link (this, c);
+   for (int i=0; i<mycourses.getsize(); i++){
+       if (*mycourses[i]==link){
+           mycourses[i]->destroy();
+       }
+   }
+}
+
+
+
+void Student::Drop(Seminar *s)
+{
+    Link_stu_res link (this, s);
+    for (int i=0; i<myseminars.getsize(); i++){
+        if (*myseminars[i]==link){
+            myseminars[i]->destroy();
+        }
+    }
+}
+
+
+
+void Student::Dropfdp()
+{
+    if (myfdp!= nullptr){
+        myfdp->destroy();
+    }
+}
+
+
 
 int Student::menu(){
 
@@ -79,6 +121,15 @@ void Student::addFDP(Link_stu_res *link){
         myfdp=link;
     }
 }
+
+
+
+void Student::removeCourse(Link_stu_res *link)
+{
+    mycourses.remove(link);
+}
+
+
 
 void Student::enroll(Resource *res){
 

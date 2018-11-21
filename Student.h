@@ -22,8 +22,11 @@ private:
     //void addSeminar(Link_us_res *link);
     //void addFDP(Link_us_res *link);
     void addCourse(Link_stu_res *link);
+    void removeCourse(Link_stu_res *link);
     void addSeminar(Link_stu_res *link);
+    void removeSeminar(Link_stu_res *link);
     void addFDP(Link_stu_res *link);
+    void removeFDP();
 public:
     Student(int sin=0);
     Student(int sin, Degree &d);
@@ -32,6 +35,9 @@ public:
     int getSIN();
     void setSIN(int s);
     string getidentifier();
+    void Drop(Course *c);
+    void Drop(Seminar *c);
+    void Dropfdp();
     void enroll(Resource *res);
     int menu();
 

@@ -13,6 +13,7 @@ class Link_stu_res : public Link_us_res
 public:
     Link_stu_res(Student *s=nullptr, Resource *r=nullptr);
     Link_stu_res(const Link_stu_res& other);
+    ~Link_stu_res();
     Link_stu_res& operator= (const Link_stu_res &other);
     bool operator== (const Link_stu_res &other);
     int checkHealth();

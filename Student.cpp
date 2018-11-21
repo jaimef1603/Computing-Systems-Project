@@ -5,22 +5,33 @@
 #include "Course.h"
 #include "Seminar.h"
 #include "FDP.h"
+
+
+
 using namespace std;
-Student::Student(int id):mycourses(), myseminars(){
+
+
+
+Student::Student(int id):mycourses(), myseminars()
+{
     SIN=id;
     mydegree=nullptr;
     myfdp=nullptr;
 }
 
 
-Student::Student(int id, Degree &d):mycourses(), myseminars(){
+
+Student::Student(int id, Degree &d):mycourses(), myseminars()
+{
     SIN=id;
     mydegree=&d;
     myfdp=nullptr;
 }
 
 
-Student::Student (const Student &s){
+
+Student::Student (const Student &s)
+{
     mycourses=s.mycourses;  //cambiar cuando el constructor de copia de ArrayList este hecho.
     myseminars=s.myseminars; // " " "
     SIN=s.SIN;
@@ -29,7 +40,24 @@ Student::Student (const Student &s){
 }
 
 
-Student& Student::operator=(const Student &s){
+
+Student::~Student()
+{
+    for (int i = mycourses.getsize()-1; i>=0; i-- ){
+       delete mycourses[i];
+    }
+    for (int i = myseminars.getsize()-1; i>=0; i--){
+        delete myseminars[i];
+    }
+    if (myfdp!=nullptr){
+        delete myfdp;
+    }
+}
+
+
+
+Student& Student::operator=(const Student &s)
+{
     if(s.SIN==0 || s.mydegree==nullptr){
         cerr<<"Student::operator=: Some of the atributes are invalid\n";
     }
@@ -51,13 +79,15 @@ int Student::getSIN(){
 
 
 
-void Student::setSIN(int s){
+void Student::setSIN(int s)
+{
     SIN=s;
 }
 
 
 
-string Student::getidentifier(){
+string Student::getidentifier()
+{
     string ident = "";
 
     ident = static_cast<ostringstream*>(&(ostringstream() << SIN))->str();
@@ -73,7 +103,7 @@ void Student::Drop(Course *c)
    Link_stu_res link (this, c);
    for (int i=0; i<mycourses.getsize(); i++){
        if (*mycourses[i]==link){
-           mycourses[i]->destroy();
+           delete mycourses[i];
        }
    }
 }
@@ -85,7 +115,7 @@ void Student::Drop(Seminar *s)
     Link_stu_res link (this, s);
     for (int i=0; i<myseminars.getsize(); i++){
         if (*myseminars[i]==link){
-            myseminars[i]->destroy();
+            delete myseminars[i];
         }
     }
 }
@@ -95,7 +125,7 @@ void Student::Drop(Seminar *s)
 void Student::Dropfdp()
 {
     if (myfdp!= nullptr){
-        myfdp->destroy();
+        delete myfdp;
     }
 }
 
@@ -124,9 +154,15 @@ void Student::addFDP(Link_stu_res *link){
 
 
 
-void Student::removeCourse(Link_stu_res *link)
+void Student::removeResource(Link_stu_res *link)
 {
-    mycourses.remove(link);
+    int flag = mycourses.remove(link) + myseminars.remove(link);
+    if (myfdp==link){
+        myfdp=nullptr;
+    }else if(flag==0){
+        cerr<<"Student::removeResource(Link_stu_res*); Nothing to remove.\n";
+    }
+
 }
 
 

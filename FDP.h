@@ -15,7 +15,15 @@ private:
     Link_prof_res *co_tutor; //Link_us_res *co_tutor;
     Link_stu_res *student; //Link_us_res *student;
 
+    //---------------
+    void addteacher(Link_prof_res *newteacher); //void addteacher(Link_us_res *newteacher);
+    void addstudent(Link_stu_res *newstudent); //void addstudent(Link_us_res *newstudent);
+    void removestudent(Link_stu_res *student);
+
 public:
+    friend class Link_stu_res;
+    friend class Link_prof_res;
+
 
     FDP(string id="undefined", Link_stu_res *stu=nullptr, string s="unknown",  Link_prof_res *t =nullptr, Link_prof_res *c_t=nullptr);
     FDP(const FDP &other);
@@ -27,11 +35,6 @@ public:
     Link_stu_res& getstudent()const; //Link_us_res& getstudent()const;
     void setstudent(Link_stu_res* stu); //void setstudent(Link_us_res* stu);
 
-
-    //---------------
-    void addteacher(Link_prof_res *newteacher); //void addteacher(Link_us_res *newteacher);
-    void addstudent(Link_stu_res *newstudent); //void addstudent(Link_us_res *newstudent);
-    void removestudent(Link_stu_res *student);
 };
 
 #endif // FDP_H

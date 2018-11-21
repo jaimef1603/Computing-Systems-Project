@@ -17,7 +17,14 @@ private:
     int maxseats;
     int freeseats;
     Link_stu_res **students; //Link_us_res *students;
+
+    //----------
+    void addteacher(Link_prof_res *newteacher);//void addteacher(Link_us_res *newteacher);
+    void addstudent(Link_stu_res *newstudent);//void addstudent(Link_us_res *newstudent);
+    void removestudent(Link_stu_res *student);
 public:
+    friend class Link_stu_res;
+    friend class Link_prof_res;
     Seminar(string id="undefined", string s="unknown", int seatsValue=0,Professor *spe =nullptr, Professor *coord=nullptr);
     Seminar(string id, string s, int seatsValue, Date when, Professor *spe, Professor *coord);
     void setmaxseats(int s);
@@ -29,10 +36,7 @@ public:
     void setcoordinator(Professor *coord);
     Link_prof_res& getcoordinator()const; //Link_us_res& getcoordinator()const;
 
-    //----------
-    void addteacher(Link_prof_res *newteacher);//void addteacher(Link_us_res *newteacher);
-    void addstudent(Link_stu_res *newstudent);//void addstudent(Link_us_res *newstudent);
-    void removestudent(Link_stu_res *student);
+
 };
 
 #endif // SEMINAR_H

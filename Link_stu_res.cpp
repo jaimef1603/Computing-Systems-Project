@@ -1,6 +1,7 @@
 ﻿#include "Link_stu_res.h"
 #include <iostream>
 #include "Resource.h"
+#include "Student.h"
 Link_stu_res::Link_stu_res(Student *s, Resource *r)
     :Link_us_res (r)
 {
@@ -21,7 +22,10 @@ Link_stu_res::Link_stu_res(const Link_stu_res& other)
     //falta por iniciar las notas
 }
 
-
+Link_stu_res::~Link_stu_res()
+{
+    this->destroy();
+}
 
 Link_stu_res& Link_stu_res::operator= (const Link_stu_res &other){
     this->Link_us_res::operator=(other);
@@ -123,5 +127,5 @@ Mark* Link_stu_res::getpartiaMark(){
 
 void Link_stu_res::destroy(){
    resourcePtr->removestudent(this);
-   //stuPtr->removeresource(this);
+   stuPtr->removeResource(this);
 }

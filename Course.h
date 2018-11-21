@@ -18,17 +18,21 @@ private:
     Degree *degree;
     Link_prof_res   *teachers[2]; //Link_us_res   *teachers[2];
 
+    //--------------------------------------
+    void addteacher(Link_prof_res *newteacher);
+    void addstudent(Link_stu_res *newstudent);
+    void removestudent(Link_stu_res *student);
+
 public:
+    friend class Link_stu_res;
+    friend class Link_prof_res;
     Course(string id="undefined", Degree *d=nullptr, int c=6, string s="unknown", Link_prof_res **t=nullptr);
     Course(const Course&);
     Course& operator= (const Course&);
     int getcredits();
     void setcredits(int c);
 
-    //--------------------------------------
-    void addteacher(Link_prof_res *newteacher);
-    void addstudent(Link_stu_res *newstudent);
-    void removestudent(Link_stu_res *student);
+
 };
 
 #endif

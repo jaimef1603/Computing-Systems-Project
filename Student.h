@@ -18,19 +18,17 @@ private:
     ArrayList <Link_stu_res*> mycourses;//ArrayList <Link_us_res*> mycourses; //triple!!! investigar si todo funciona correcto.
     ArrayList <Link_stu_res*> myseminars;//ArrayList <Link_us_res*> myseminars;
     Link_stu_res *myfdp; //Link_us_res *myfdp;
-    //void addCourse(Link_us_res *link);
-    //void addSeminar(Link_us_res *link);
-    //void addFDP(Link_us_res *link);
+
     void addCourse(Link_stu_res *link);
-    void removeCourse(Link_stu_res *link);
+    void removeResource(Link_stu_res *link);
     void addSeminar(Link_stu_res *link);
-    void removeSeminar(Link_stu_res *link);
     void addFDP(Link_stu_res *link);
-    void removeFDP();
 public:
+    friend class Link_stu_res;
     Student(int sin=0);
     Student(int sin, Degree &d);
     Student (const Student &);
+    ~Student();
     Student& operator=(const Student&);
     int getSIN();
     void setSIN(int s);

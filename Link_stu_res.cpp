@@ -55,62 +55,37 @@ int Link_stu_res::checkHealth(){
 
 
 void Link_stu_res::setfinalMark(float value, Date when){
-//    date(when);
-//    if(value>=0 && value<=10 || value==-1){
-//        final=value;
-//    }else{
-//        std:cerr<<"Link_stu_res::setfinalMark(float value, Date when); Value not valid, assigning -1";
-//        final=-1;
-//    }
+    final=Mark(value, when);
 }
 
 
 
 void Link_stu_res::setfinalMark(Mark value){
-//    if(value>=0 && value<=10 || value==-1){
-//        final=value;
-//    }else{
-//        std:cerr<<"Link_stu_res::setfinalMark(Mark value); Value not valid, assigning -1";
-//        final=-1;
-//    }
+    final=Mark(value);
 }
 
 
 
 void Link_stu_res::setpartialMark(float value, Date when, int position){
-//    Date(when);
-//    for(int i=0;i<position;i++){
-//        if(value>=0 && value<=10 || value==-1){
-//             final=value;
-//        }else{
-//             std:cerr<<"Link_stu_res::setfinalMark(float value, Date when, int position); Value not valid, assigning -1";
-//             final=-1;
-//        }
-//    }
+    for(int i=0;i<position;i++){
+        partial[i]=Mark(value, when);
+    }
 }
 
 
 
 void Link_stu_res::setpartialMark(Mark value, int position){
-//    for(int i=0;i<position;i++){
-//      if(value>=0 && value<=10 || value==-1){
-//        final=value;
-//      }else{
-//        std:cerr<<"Link_stu_res::setfinalMark(float value, int position); Value not valid, assigning -1";
-//        final=-1;
-//      }
-//    }
+    for(int i=0;i<position;i++){
+        partial[i]=Mark(value);
+    }
 }
 
 
 
 void Link_stu_res::setpartialMark(Mark value[]){
-//    if(value>=0 && value<=10 || value==-1){
-//        final=value;
-//    }else{
-//        std:cerr<<"Link_stu_res::setfinalMark(Mark value[]); Value not valid, assigning -1";
-//        final=-1;
-//    }
+    for(int i=0;i<4;i++){
+        partial[i]=value[i];
+    }
 }
 
 

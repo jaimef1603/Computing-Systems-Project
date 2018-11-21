@@ -1,4 +1,6 @@
-﻿template <typename A> ArrayList<A>::ArrayList()
+﻿#include "ArrayList.h"
+
+template <typename A> ArrayList<A>::ArrayList()
 {
     size=0;
     head=nullptr;
@@ -73,6 +75,18 @@ template <typename A> int ArrayList<A>::remove(const A &d){
     }
     return 0;
 }
+
+
+
+template <typename A> void ArrayList<A>::removebyindex(int index){
+    Node<A> *target=tail;
+    for (int i=0; i<index; i++){
+        target=target->getnext();
+    }
+    target->remove();
+}
+
+
 
 template <typename A> A ArrayList<A>::operator[](int index)const{
     Node <A>*target=tail;

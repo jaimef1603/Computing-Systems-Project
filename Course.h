@@ -14,20 +14,25 @@ class Degree;
 class Course: public Resource{
 private:
     int credits;
-    ArrayList <Link_us_res*> studentlist;
+    ArrayList <Link_stu_res*> studentlist; //ArrayList <Link_us_res*> studentlist;
     Degree *degree;
-    Link_us_res   *teachers[2];
-    ArrayList <Mark> class_marks;
+    Link_prof_res   *teachers[2]; //Link_us_res   *teachers[2];
+
+    //--------------------------------------
+    void addteacher(Link_prof_res *newteacher);
+    void addstudent(Link_stu_res *newstudent);
+    void removestudent(Link_stu_res *student);
 
 public:
-    Course(string id="undefined", string s="unknown", int c=6, Degree *d=nullptr, Link_us_res **t=nullptr);
+    friend class Link_stu_res;
+    friend class Link_prof_res;
+    Course(string id="undefined", Degree *d=nullptr, int c=6, string s="unknown", Link_prof_res **t=nullptr);
     Course(const Course&);
     Course& operator= (const Course&);
     int getcredits();
     void setcredits(int c);
 
-    //polymorphism starts
-    void addUser(User *newUser);
+
 };
 
 #endif

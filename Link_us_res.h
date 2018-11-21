@@ -1,24 +1,24 @@
 ﻿#ifndef LINK_US_RES_H
 #define LINK_US_RES_H
 #include "User.h"
-#include "Resource.h"
-#include "Mark.h"
+
 #include "Date.h"
+class Resource;
 class Link_us_res
 {
-private:
-    User  *userPtr;
+protected:
     Resource *resourcePtr;
-    Date dlink;
-    Mark partial[4];
-    Mark final;
 public:
-    Link_us_res(User *u=nullptr, Resource *r=nullptr);
-    void setdate(Date d3);
-    Date getdate();
+    Link_us_res(Resource *r=nullptr);
+    Link_us_res(const Link_us_res& other);
+    virtual ~Link_us_res();
+    Link_us_res& operator=(const Link_us_res& other);
     //hacer el destructor para que sea esta clase la que se encargue de borrarse de los arrays de user y resources.
+    Resource& getResource();
+    virtual int checkHealth()=0;
     void connectCourseUser();
-    bool checkUserKind();
+    virtual void destroy()=0;
+    //bool checkUserKind();
 };
 
 

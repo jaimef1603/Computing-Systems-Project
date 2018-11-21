@@ -6,6 +6,7 @@
 #include "FDP.h"
 #include "User.h"
 #include "Link_us_res.h"
+
 using namespace std;
 
 class Course;
@@ -14,19 +15,24 @@ class Professor: public User
 {
 protected:
     string identifier;
-    ArrayList<Link_us_res*> coursePtrlist;
-    ArrayList<Link_us_res*> fdpPtrlist;
-    ArrayList<Link_us_res*> seminarPtrlist;
+    //ArrayList<Link_us_res*> courselist;
+    //ArrayList<Link_us_res*> fdplist;
+    //ArrayList<Link_us_res*> seminarlist;
+    ArrayList<Link_prof_res*> courselist;
+    ArrayList<Link_prof_res*> fdplist;
+    ArrayList<Link_prof_res*> seminarlist;
+
+
     //Polymorphism starts
-    void addCourse(Link_us_res *link);
-    void addSeminar(Link_us_res *link);
-    void addFDP(Link_us_res *link);
+    //void addCourse(Link_us_res *link);
+    //void addSeminar(Link_us_res *link);
+    //void addFDP(Link_us_res *link);
 public:
     Professor();
     Professor(string ident);
     void setidentifier(string ident);
     string getidentifier();
-    virtual void menu(); //must be virtual to be overriden by admin's menu.
+    virtual int menu(); //must be virtual to be overriden by admin's menu.
 };
 
 #endif // PROFESSOR_H

@@ -1,9 +1,13 @@
 ﻿#include <iostream>
+#include "VirtualCampus.h"
 
 using namespace std;
 
 int main()
 {
-    cout <<"prueba"<< endl;
+     VirtualCampus v1;
+
+     do{}while(v1.run());
+
     return 0;
 }

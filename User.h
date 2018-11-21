@@ -9,13 +9,12 @@ class User
 private:
 
 public:
-    User();
     virtual ~User();
-    virtual void menu()=0;
+    virtual int menu()=0;
     virtual std::string getidentifier()=0;
-    virtual void addCourse(Link_us_res *link);
-    virtual void addSeminar(Link_us_res *link);
-    virtual void addFDP(Link_us_res *link);
+    //virtual void addCourse(Link_us_res *link);
+    //virtual void addSeminar(Link_us_res *link);
+    //virtual void addFDP(Link_us_res *link);
 };
 
 #endif // USER_H

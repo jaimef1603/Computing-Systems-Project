@@ -397,44 +397,44 @@ void Degree::manageStudents()
     case 3:
         do {
             system("clear");
-            cout<<"COURSES:\n";
-            showcourses();
-            cout<<"What course do you want to delete?\n";
+            cout<<"STUDENTS:\n";
+            showstudents();
+            cout<<"What student do you want to delete?\n";
             cin>>ws>>stu;
-            if (stu<1 || stu >course_number){
-                cout<<"Select a valid number. (0-"<<course_number<<")\n";
+            if (stu<1 || stu >student_number){
+                cout<<"Select a valid number. (0-"<<student_number<<")\n";
             }
-        }while(stu<1 || stu >course_number);
+        }while(stu<1 || stu >student_number);
         system("clear");
-        deleteCourse(stu);
+        deleteStudent(stu);
         break;
     case 4:
         do {
             system("clear");
-            showcourses();
-            cout<<"What course do you want to show details of?\n";
+            showstudents();
+            cout<<"What student do you want to show details of?\n";
             cin>>ws>>stu;
-            if (stu<1 || stu >course_number){
-                cout<<"Select a valid number. (0-"<<course_number<<")\n";
+            if (stu<1 || stu >student_number){
+                cout<<"Select a valid number. (0-"<<student_number<<")\n";
             }
-        }while(stu<1 || stu >course_number);
+        }while(stu<1 || stu >student_number);
         system("clear");
-        courselist[stu].showdetails();
+        stulist[stu].showdetails();
 
         break;
     case 5:
 
         do {
             system("clear");
-            showcourses();
-            cout<<"What course do you want to show details of?\n";
+            showstudents();
+            cout<<"What student do you want to show details of?\n";
             cin>>ws>>stu;
-            if (stu<1 || stu >course_number){
-                cout<<"Select a valid number. (0-"<<course_number<<")\n";
+            if (stu<1 || stu >student_number){
+                cout<<"Select a valid number. (0-"<<student_number<<")\n";
             }
-        }while(stu<1 || stu >course_number);
+        }while(stu<1 || stu >student_number);
         system("clear");
-        courselist[stu].options();
+        stulist[stu].options();
 
         break;
     }

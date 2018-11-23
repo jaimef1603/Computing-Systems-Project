@@ -1,6 +1,8 @@
 ﻿#include "Course.h"
-
-
+#include "Utilities.h"
+#include "Degree.h"
+#include "Student.h"
+#include "VirtualCampus.h"
 
 Course::Course(string id, Degree *d, int c, string s, Link_prof_res **t)
     :Resource(id, s)
@@ -75,6 +77,101 @@ int Course::getcredits()
 void Course::setcredits(int c)
 {
     credits=c;
+}
+
+
+
+void Course::edit()
+{
+    int selection;
+    do{
+        system("clear");
+        cout<<"1: Edit ID 2:Edit credits 3: exit\n";
+        cin>>selection;
+    }while(selection !=1 && selection != 2);
+    switch (selection) {
+    case 1:{
+        string newname;
+        bool valid=false;
+        system("clear");
+        cout<<"Enter the new ID CCCIIII (C=char, I=number) or a single char to exit\n"<<endl;
+        do {
+            system("clear");
+            cin>>ws>>newname;
+            if (newname.length()==1){
+                break;
+            }
+            if (!(valid=checkResId(newname))){
+                cout<<"Enter a valid ID CCCIIII (C=char, I=number)\n"<<endl;
+            }
+        }while (!valid);
+        if (valid){
+            this->setIdentification(newname);
+        }
+        break;
+    }
+    case 2:
+    {
+        int newc;
+        cout<<"Enter the new value for credits.\n"<<endl;
+        cin>>newc;
+        setcredits(newc);
+    }break;
+    case 3: return;
+    }
+}
+
+
+
+void Course::options()
+{
+    int selection;
+    cout<<"1: Add Student \n2: Remove student \n3: Back\n";
+    do {
+        cin>>selection;
+        if (selection <1 || selection >3){
+            system("clear");
+            cout<<"1: Add Student \n2: Remove student \n3: Back\n";
+            cout<<"Select a valid number (1-3) or -1 to exit"<<endl;
+        }
+    }while((selection <1 && selection !=-1) || selection >3);
+    switch (selection) {
+    case 1:{
+        string identification;
+        int index=-1;
+        do{
+            degree->showstudents();
+            cout<<"Enter the identification of the student you want to add or \"cancel\" to exit: ";
+            cin>>identification;
+            if(identification=="cancel"){
+                break;
+            }else{
+                index=degree->findStudent(identification);
+            }
+        }while(index==-1);
+        if (index!=-1){
+            degree->getStudents()[index].enroll(this);
+        }
+            break;
+    }
+    case 2: {
+        int selection =-1;
+        do {
+        for (int i=0; i<studentlist.getsize(); i++){
+            cout<<i+1<<": "<<studentlist[i]->getStudent().getidentifier()<<endl;
+        }
+        cout << "Select the student you want to remove (1-"<<studentlist.getsize()<<") or -1 to cancel: ";
+        cin>>selection;
+        }while((selection<0 && selection !=-1)||selection>studentlist.getsize());
+        if (selection!=-1){
+             delete studentlist[selection-1];
+        }
+
+    }
+        break;
+    case 3: break;
+    }
+    return;
 }
 
 

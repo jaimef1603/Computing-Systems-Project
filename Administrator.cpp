@@ -40,43 +40,104 @@ void Administrator::manageResource()
 
 void Administrator::manageDegree()
 {
+
     system("clear");
-    int selection;
-    cout<<"1: Create\n2: Edit\n";
+    int selection, deg;
+    mycampus->showAllDeg();
+    cout<<"1: Create 2: Edit 3: Delete 4:Details 5: Select 6:Back\n";
     cin>>selection;
     switch(selection){
     case 1:
         mycampus->addDegree();
         break;
     case 2:
-        mycampus->editDegree();
-        break;
-    }
- //case 1: mycampus->addDegree();
-}
-
-int Administrator::menu(){
-    fflush(stdout);
-    system("clear");
-    int selection;
-    cout<<"1: User\n2: Degree\n3: Resource\n4: Exit\n";
-    cin>>selection;
-    switch (selection) {
-    case 1:
-        manageUser();
-        break;
-    case 2:
-        manageDegree();
+        do {
+            system("clear");
+            cout<<"DEGREES:\n";
+            mycampus->showAllDeg();
+            cout<<"What degree do you want to edit?\n";
+            cin>>ws>>deg;
+            if (deg<1 || deg >mycampus->degree_number){
+                cout<<"Select a valid number. (0-"<<mycampus->degree_number<<")\n";
+            }
+        }while(deg<1 || deg >mycampus->degree_number);
+        system("clear");
+        mycampus->degreelist[deg].edit();
         break;
     case 3:
-        manageResource();
+        do {
+            system("clear");
+            cout<<"DEGREES:\n";
+            mycampus->showAllDeg();
+            cout<<"What degree do you want to delete?\n";
+            cin>>ws>>deg;
+            if (deg<1 || deg >mycampus->degree_number){
+                cout<<"Select a valid number. (0-"<<mycampus->degree_number<<")\n";
+            }
+        }while(deg<1 || deg >mycampus->degree_number);
+        system("clear");
+        mycampus->deleteDegree(deg);
         break;
     case 4:
-        return 0;
+        do {
+            system("clear");
+            mycampus->showAllDeg();
+            cout<<"What degree do you want to show details of?\n";
+            cin>>ws>>deg;
+            if (deg<1 || deg >mycampus->degree_number){
+                cout<<"Select a valid number. (0-"<<mycampus->degree_number<<")\n";
+            }
+        }while(deg<1 || deg >mycampus->degree_number);
+        system("clear");
+        mycampus->degreelist[deg].showdetails();
+
+        break;
+    case 5:
+        do {
+            system("clear");
+            mycampus->showAllDeg();
+            cout<<"What degree do you want to show details of?\n";
+            cin>>ws>>deg;
+            if (deg<1 || deg >mycampus->degree_number){
+                cout<<"Select a valid number. (0-"<<mycampus->degree_number<<") or -1 to exit\n";
+            }
+        }while((deg<1 && deg!=-1)|| deg >mycampus->degree_number);
+        system("clear");
+        if (deg!=-1){
+            mycampus->degreelist[deg].options();
+        }
+        break;
+    case 6: break;
     }
-    return 1;
+
 }
 
+//int Administrator::menu(){
+//    fflush(stdout);
+//    system("clear");
+//    int selection;
+//    cout<<"1: User\n2: Degree\n3: Resource\n4: Exit\n";
+//    cin>>selection;
+//    switch (selection) {
+//    case 1:
+//        manageUser();
+//        break;
+//    case 2:
+//        manageDegree();
+//        break;
+//    case 3:
+//        manageResource();
+//        break;
+//    case 4:
+//        return 0;
+//    }
+//    return 1;
+//}
+
+
+int Administrator::menu(){
+
+}
 
 
 void Administrator::createResource()

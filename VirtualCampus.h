@@ -23,16 +23,20 @@ private:
     FDP *projectlist;
 
 public:
+    friend class Administrator;
     VirtualCampus();
     ~VirtualCampus();
-    void editDegree();
+    void addTeacher();
+    void deleteTeacher();
+    int findTeacher(string identification);
+    Professor* getTeachers();
     void addDegree();
+    void deleteDegree(int index);
+    void showAllDeg();
     void editFDP();
     void addFDP();
     void editseminar();
     void addseminar();
-    void editcourse();
-    void addCourse();
     void start();
     int run();
     void end();

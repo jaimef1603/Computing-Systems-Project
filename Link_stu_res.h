@@ -17,6 +17,7 @@ public:
     Link_stu_res& operator= (const Link_stu_res &other);
     bool operator== (const Link_stu_res &other);
     int checkHealth();
+    Student& getStudent();
     void setfinalMark(float value, Date when);
     void setfinalMark(Mark value);
     void setpartialMark(float value, Date when, int position);

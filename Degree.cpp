@@ -11,16 +11,18 @@ Degree::Degree():name(){
     student_number=course_number=0;
     stulist=nullptr;
     courselist=nullptr;
+    vc=nullptr;
 
 }
 
 
 
-Degree::Degree(string n){
+Degree::Degree(string n, VirtualCampus *mycampus){
     student_number=course_number=0;
     name=n;
     stulist=nullptr;
     courselist=nullptr;
+    vc = mycampus;
 }
 
 
@@ -43,6 +45,12 @@ string Degree::getname(){
 }
 
 
+VirtualCampus& Degree::getVc()
+{
+    return *vc;
+}
+
+
 
 Student* Degree::searchStudentbyid(string id){
     for (int i=0; i<student_number; i++){
@@ -59,7 +67,26 @@ void Degree::setname(string n){
     name=n;
 }
 
+void Degree::edit()
+{
+    int selection;
+    do{
+        system("clear");
+        cout<<"1: Edit name 2: exit\n";
+        cin>>selection;
+    }while(selection !=1 && selection != 2);
+    switch (selection) {
+    case 1:{
+        string newname;
+        cout<<"Enter the new name"<<endl;
+        cin>>newname;
+        this->setname(newname);
+    }; break;
+    case 2: return;
+    }
 
+
+}
 
 void Degree::addCourse(){
     string id;
@@ -127,6 +154,28 @@ void Degree::editcourse()
 
 
 
+void Degree::deleteCourse(int index)
+{
+    Course *temp = new Course [course_number-1];
+    int j=0;
+
+    for (int i = 0; i<course_number; i++){
+        if (i != index){
+            temp[j]=courselist[i];
+            j++;
+        }
+    }
+    course_number -=1;
+    delete [] courselist;
+    courselist = new Course [course_number];
+    for (int i=0; i<course_number; i++){
+        courselist[i]=temp[i];
+    }
+    delete [] temp;
+}
+
+
+
 void Degree::addStudent(){
     int id;
     cout<<"Write new student id"<<endl;
@@ -164,6 +213,28 @@ void Degree::showstudents(){
 
 
 
+Student* Degree::getStudents()
+{
+    return stulist;
+}
+
+
+
+int Degree::findStudent(string identification){
+    if(stulist!=nullptr){
+        for (int i=0; i<student_number; i++){
+            if (identification==stulist[i].getidentifier()){
+                return i;
+            }
+        }
+    }
+    return -1;
+}
+
+
+
+
+
 void Degree::showcourses(){
     if (courselist!=nullptr){
         cout<<"\t\nCourses:"<<endl;
@@ -172,4 +243,200 @@ void Degree::showcourses(){
             cout<<"\tCredits: "<<courselist[i].getcredits();
         }
     }
+}
+
+
+
+Course* Degree::getCourses()
+{
+    return courselist;
+}
+
+
+
+int Degree::findCourse(string identification){
+    if(courselist!=nullptr){
+        for (int i=0; i<course_number; i++){
+            if (identification==courselist[i].getIdentification()){
+                return i;
+            }
+        }
+    }
+    return -1;
+}
+
+
+
+void Degree::showdetails(){
+    cout<<"Name: "<<name<<endl;
+    cout<<"Students: "<<student_number<<endl;
+    cout<<"Courses: "<<course_number<<endl;
+}
+
+
+void Degree::options(){
+    int selection;
+    cout<<"1: Courses\n2: Students\n3: Back\n";
+    do {
+        cin>>selection;
+        if (selection <1 || selection >3){
+            system("clear");
+            cout<<"1: Courses\n2: Students\n3: Back\n";
+            cout<<"Select a valid number (1-3)"<<endl;
+        }
+    }while(selection <1 || selection >3);
+    switch (selection) {
+    case 1: manageCourses(); break;
+    case 2: manageStudents(); break;
+    case 3: break;
+    }
+    return;
+}
+
+
+void Degree::manageCourses ()
+{
+
+    system("clear");
+    int selection, cour;
+    showcourses();
+    cout<<"1: Create 2: Edit 3: Delete 4:Details 5: Select\n";
+    cin>>selection;
+    switch(selection){
+    case 1:
+        addCourse();
+        break;
+    case 2:
+        do {
+            system("clear");
+            cout<<"COURSES:\n";
+            showcourses();
+            cout<<"What course do you want to edit?\n";
+            cin>>ws>>cour;
+            if (cour<1 || cour >course_number){
+                cout<<"Select a valid number. (0-"<<course_number<<")\n";
+            }
+        }while(cour<1 || cour >course_number);
+        system("clear");
+        courselist[cour].edit();
+        break;
+    case 3:
+        do {
+            system("clear");
+            cout<<"COURSES:\n";
+            showcourses();
+            cout<<"What course do you want to delete?\n";
+            cin>>ws>>cour;
+            if (cour<1 || cour >course_number){
+                cout<<"Select a valid number. (0-"<<course_number<<")\n";
+            }
+        }while(cour<1 || cour >course_number);
+        system("clear");
+        deleteCourse(cour);
+        break;
+    case 4:
+        do {
+            system("clear");
+            showcourses();
+            cout<<"What course do you want to show details of?\n";
+            cin>>ws>>cour;
+            if (cour<1 || cour >course_number){
+                cout<<"Select a valid number. (0-"<<course_number<<")\n";
+            }
+        }while(cour<1 || cour >course_number);
+        system("clear");
+        courselist[cour].showdetails();
+
+        break;
+    case 5:
+
+        do {
+            system("clear");
+            showcourses();
+            cout<<"What course do you want to show details of?\n";
+            cin>>ws>>cour;
+            if (cour<1 || cour >course_number){
+                cout<<"Select a valid number. (0-"<<course_number<<")\n";
+            }
+        }while(cour<1 || cour >course_number);
+        system("clear");
+        courselist[cour].options();
+
+        break;
+    }
+
+}
+
+
+void Degree::manageStudents()
+{
+
+    system("clear");
+    int selection, stu;
+    showcourses();
+    cout<<"1: Create 2: Edit 3: Delete 4:Details 5: Select\n";
+    cin>>selection;
+    switch(selection){
+    case 1:
+        addStudent();
+        break;
+    case 2:
+        do {
+            system("clear");
+            cout<<"STUDENTS:\n";
+            showstudents();
+            cout<<"What student do you want to edit?\n";
+            cin>>ws>>stu;
+            if (stu<1 || stu >student_number){
+                cout<<"Select a valid number. (0-"<<student_number<<")\n";
+            }
+        }while(stu<1 || stu >student_number);
+        system("clear");
+        courselist[stu].edit();
+        break;
+    case 3:
+        do {
+            system("clear");
+            cout<<"COURSES:\n";
+            showcourses();
+            cout<<"What course do you want to delete?\n";
+            cin>>ws>>stu;
+            if (stu<1 || stu >course_number){
+                cout<<"Select a valid number. (0-"<<course_number<<")\n";
+            }
+        }while(stu<1 || stu >course_number);
+        system("clear");
+        deleteCourse(stu);
+        break;
+    case 4:
+        do {
+            system("clear");
+            showcourses();
+            cout<<"What course do you want to show details of?\n";
+            cin>>ws>>stu;
+            if (stu<1 || stu >course_number){
+                cout<<"Select a valid number. (0-"<<course_number<<")\n";
+            }
+        }while(stu<1 || stu >course_number);
+        system("clear");
+        courselist[stu].showdetails();
+
+        break;
+    case 5:
+
+        do {
+            system("clear");
+            showcourses();
+            cout<<"What course do you want to show details of?\n";
+            cin>>ws>>stu;
+            if (stu<1 || stu >course_number){
+                cout<<"Select a valid number. (0-"<<course_number<<")\n";
+            }
+        }while(stu<1 || stu >course_number);
+        system("clear");
+        courselist[stu].options();
+
+        break;
+    }
+
 }

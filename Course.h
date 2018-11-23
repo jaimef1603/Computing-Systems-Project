@@ -31,6 +31,9 @@ public:
     Course& operator= (const Course&);
     int getcredits();
     void setcredits(int c);
+    void edit();
+    void options();
+    void showdetails();
 
 
 };

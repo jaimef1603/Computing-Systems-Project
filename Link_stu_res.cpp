@@ -53,6 +53,11 @@ int Link_stu_res::checkHealth(){
 }
 
 
+Student& Link_stu_res::getStudent()
+{
+    return *stuPtr;
+}
+
 
 void Link_stu_res::setfinalMark(float value, Date when){
     final=Mark(value, when);

@@ -72,6 +72,61 @@ int VirtualCampus::run()
 
 
 
+void VirtualCampus::addTeacher()
+{
+    system("clear");
+    string id;
+    cout<<"Enter the ID of the teacher: ";
+    cin>>ws>>id;
+    Professor *temp;
+    if (proflist==nullptr){
+        proflist = new Professor[1];
+        proflist[0] = Professor(id);
+        prof_number=1;
+        getchar();
+    }else{
+        if (proflist!=nullptr){
+            temp=new Professor [prof_number];
+            for(int i=0; i<prof_number; i++){
+                temp[i]=proflist[i];
+            }
+            delete [] proflist;
+            proflist = new Professor[prof_number+1];
+            for(int i=0; i<prof_number; i++){
+                proflist[i]=temp[i];
+            }
+            delete [] temp;
+            proflist[prof_number] = Professor(id);
+            prof_number+=1;
+        }else{
+            cerr<<"VirtualCampus::addTeacher(); Invalid size for prof_number.\n"<<endl;
+        }
+    }
+}
+
+
+
+void VirtualCampus::deleteTeacher(int index)
+{
+    Professor *temp = new Professor [prof_number-1];
+    int j=0;
+
+    for (int i = 0; i<prof_number; i++){
+        if (i != index){
+            temp[j]=proflist[i];
+            j++;
+        }
+    }
+    prof_number -=1;
+    delete [] proflist;
+    proflist = new Professor [prof_number];
+    for (int i=0; i<prof_number; i++){
+        proflist[i]=temp[i];
+    }
+    delete [] temp;
+}
+
+
 
 int VirtualCampus::findTeacher(string identification)
 {
@@ -98,13 +153,15 @@ Professor* VirtualCampus::getTeachers()
 void VirtualCampus::addDegree()
 {
     system("clear");
-    string name;
+    string name, id;
     cout<<"Enter the name of the degree: ";
     cin>>ws>>name;
+    cout<<"Enter the three letter identification: ";
+    cin>>ws>>id;
     Degree *temp;
     if (degreelist==nullptr){
         degreelist = new Degree[1];
-        degreelist[0] = Degree(name, this);
+        degreelist[0] = Degree(name, id.c_str(),  this);
         degree_number=1;
         std::cerr<<"Degree added\n";
         getchar();
@@ -120,7 +177,7 @@ void VirtualCampus::addDegree()
                 degreelist[i]=temp[i];
             }
             delete [] temp;
-            degreelist[degree_number] = Degree(name, this);
+            degreelist[degree_number] = Degree(name, id.c_str(), this);
             degree_number+=1;
         }else{
             cerr<<"VirtualCampus::addDegree(); Invalid size for degree_number.\n"<<endl;
@@ -155,6 +212,13 @@ void VirtualCampus::showAllDeg(){
     for(int i=0;i<degree_number;i++){
 
         cout<<i+1<<": "<<degreelist[i].getname()<<endl;
+    }
+}
+
+void VirtualCampus::showAllTeach(){
+    for(int i=0;i<prof_number;i++){
+
+        cout<<i+1<<": "<<proflist[i].getidentifier()<<endl;
     }
 }
 

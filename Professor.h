@@ -30,8 +30,12 @@ protected:
 public:
     Professor();
     Professor(string ident);
+    Professor(const Professor &other);
     void setidentifier(string ident);
+    void removeResource(Link_prof_res *link);
     string getidentifier();
+    void showdetails();
+    void edit();
     virtual int menu(); //must be virtual to be overriden by admin's menu.
 };
 

@@ -176,6 +176,15 @@ void Course::options()
 
 
 
+
+void Course::showdetails()
+{
+    cout<<"ID: "<<identification<<endl;
+    cout<<"Credits: "<<credits<<endl;
+}
+
+
+
 void Course::addteacher(Link_prof_res *newteacher)
 {
 
@@ -194,6 +203,21 @@ void Course::removestudent(Link_stu_res *link){
     studentlist.remove(link);
 }
 
+
+
+void Course::removeprofessor(Link_prof_res *professor){
+    for (int i=0; i<2; i++){
+        if (teachers[i]==professor){
+            for (; i<2; i++){
+                if (i!=1){
+                    teachers[i]=teachers[i+1];
+                }else{
+                    teachers[i]=nullptr;
+                }
+            }
+        }
+    }
+}
 
 
 //void Course::addUser(User *newUser){

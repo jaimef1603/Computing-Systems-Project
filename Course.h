@@ -22,6 +22,7 @@ private:
     void addteacher(Link_prof_res *newteacher);
     void addstudent(Link_stu_res *newstudent);
     void removestudent(Link_stu_res *student);
+    void removeprofessor(Link_prof_res *professor);
 
 public:
     friend class Link_stu_res;

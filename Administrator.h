@@ -11,13 +11,12 @@ private:
     VirtualCampus *mycampus;
 
     void manageUser();
-    void manageResource();
+    void manageTeacher();
     void createResource();
     void editResource();
     void manageDegree();
 public:
     Administrator(string id= "xxxxxx", VirtualCampus *vc=nullptr);
-    Administrator(string ident, const Administrator &admin);
 
     //Polymorphism starts
     int menu();

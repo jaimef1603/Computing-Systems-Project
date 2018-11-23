@@ -12,6 +12,7 @@ class Degree
 {
 private:
     string name;
+    char id[4];
     VirtualCampus *vc;
     int student_number;
     Student *stulist;
@@ -22,13 +23,16 @@ private:
     void deleteCourse(int index);
     void editcourse();
     void addStudent();
+    void deleteStudent(int index);
+    void editstudent();
 
 
 public:
     Degree();
-    Degree(string n, VirtualCampus *mycampus);
+    Degree(string n, const char *id,  VirtualCampus *mycampus);
     ~Degree();
     string getname();
+    char& getid();
     VirtualCampus& getVc();
     Student* searchStudentbyid(string id);
     int getstudent_number();

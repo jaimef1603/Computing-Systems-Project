@@ -1,7 +1,6 @@
 ﻿#include "Seminar.h"
 #include <iostream>
-
-
+#include "Link_prof_res.h"
 
 Seminar::Seminar(string id, string s, int seatsValue, Date when, Professor *spe, Professor *coord)
 {
@@ -78,10 +77,11 @@ void Seminar::setdate(Date when)
 
 void Seminar::setspeaker(Professor *spe)
 {
-    Link_prof_res *newLink=new Link_prof_res(spe, this);//Link_us_res *newLink=new Link_us_res(spe, this);
+
+    Link_prof_res *newLink=new Link_prof_res(spe, this, role::speaker);//Link_us_res *newLink=new Link_us_res(spe, this);
     if (newLink->checkHealth()==0){
         //if (!newLink->checkUserKind()){
-        speaker=newLink;
+        teachers[0]= newLink;
         //}else{
         //delete newLink;
         //std::cerr<<"Seminar::setspeaker(User*); User passed is not valid for speaker. Only teachers can be speaker.\n";
@@ -93,19 +93,25 @@ void Seminar::setspeaker(Professor *spe)
 
 
 
-Link_prof_res& Seminar::getspeaker()const
+Link_prof_res* Seminar::getspeaker()const
 {
-    return *speaker;
+    for (int i=0; i<2; i++){
+        if (teachers[i]->getRole()==role::speaker){
+            return teachers[i];
+        }
+
+    }
+    return nullptr;
 }
 
 
 
 void Seminar::setcoordinator(Professor *coord)
 {
-    Link_prof_res *newLink=new Link_prof_res(coord, this);
+    Link_prof_res *newLink=new Link_prof_res(coord, this, role::coordinator);
     if (newLink->checkHealth()==0){
         //if (!newLink->checkUserKind()){
-        coordinator=newLink;
+        teachers[1]=newLink;
         //}else{
         //delete newLink;
         //std::cerr<<"Seminar::setcoordinator(User*); User passed is not valid for coordnator. Only teachers can be coordinator.\n";
@@ -117,9 +123,16 @@ void Seminar::setcoordinator(Professor *coord)
 
 
 
-Link_prof_res& Seminar::getcoordinator()const
+Link_prof_res* Seminar::getcoordinator()const
 {
-    return *coordinator;
+
+    for (int i=0; i<2; i++){
+        if (teachers[i]->getRole()==role::coordinator){
+            return teachers[i];
+        }
+
+    }
+    return nullptr;
 }
 
 
@@ -158,7 +171,11 @@ void Seminar::removestudent(Link_stu_res *link){
         if (students[i]==link){
             flag = true;
             for(;i<maxseats; i++){
-                students[i]=students[i+1];
+                if (i!=maxseats-1){
+                    students[i]=students[i+1];
+                }else{
+                    students[i]=nullptr;
+                }
             }
             freeseats+=1;
             break;
@@ -169,4 +186,27 @@ void Seminar::removestudent(Link_stu_res *link){
         }
     }
 
+}
+
+
+void Seminar::removeprofessor(Link_prof_res *link){
+    int i;
+    bool flag = false;
+    for (i=0; i<2; i++){
+        if (teachers[i]==link){
+            flag = true;
+            for(;i<2; i++){
+                if (i!=1){
+                    teachers[i]=teachers[i+1];
+                }else{
+                    teachers[i]=nullptr;
+                }
+            }
+            break;
+        }
+
+        if (!flag){
+            cerr<<"Seminar::removeprofessor(Link_prof_res*); No teacher removed.\n";
+        }
+    }
 }

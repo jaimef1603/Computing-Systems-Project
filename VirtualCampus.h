@@ -27,12 +27,13 @@ public:
     VirtualCampus();
     ~VirtualCampus();
     void addTeacher();
-    void deleteTeacher();
+    void deleteTeacher(int index);
     int findTeacher(string identification);
     Professor* getTeachers();
     void addDegree();
     void deleteDegree(int index);
     void showAllDeg();
+    void showAllTeach();
     void editFDP();
     void addFDP();
     void editseminar();

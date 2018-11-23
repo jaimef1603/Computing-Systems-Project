@@ -17,7 +17,7 @@ protected:
     virtual void addteacher(Link_prof_res *newteacher)=0;
     virtual void addstudent(Link_stu_res *newstudent)=0;
     virtual void removestudent(Link_stu_res *student)=0;
-
+    virtual void removeprofessor(Link_prof_res *profesor)=0;
 public:
     friend class Link_stu_res;
     friend class Link_prof_res;

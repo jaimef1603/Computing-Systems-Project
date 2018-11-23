@@ -1,7 +1,8 @@
 ﻿#include "Degree.h"
 #include <iostream>
 #include <string>
-
+#include "Utilities.h"
+#include <cstring>
 
 using namespace std;
 
@@ -17,11 +18,13 @@ Degree::Degree():name(){
 
 
 
-Degree::Degree(string n, VirtualCampus *mycampus){
+Degree::Degree(string n, const char *id, VirtualCampus *mycampus){
     student_number=course_number=0;
     name=n;
     stulist=nullptr;
     courselist=nullptr;
+    strncpy(this->id, id, 3);
+    this->id[3]='\0';
     vc = mycampus;
 }
 
@@ -44,6 +47,9 @@ string Degree::getname(){
     return name;
 }
 
+char& Degree::getid(){
+    return *id;
+}
 
 VirtualCampus& Degree::getVc()
 {
@@ -177,12 +183,10 @@ void Degree::deleteCourse(int index)
 
 
 void Degree::addStudent(){
-    int id;
-    cout<<"Write new student id"<<endl;
-    cin>>ws>>id;
     Student *temp;
     if (stulist==nullptr){
-        stulist = new Student(id, *this);
+        stulist = new Student [1];
+        stulist[0]=Student(*this);
         student_number=1;
     }else{
         if (student_number>0){
@@ -196,11 +200,55 @@ void Degree::addStudent(){
                 stulist[i]=temp[i];
             }
             delete [] temp;
+            stulist[student_number]=Student(*this);
             student_number+=1;
         }else{
             cerr<<"Degree::addStudent(); Invalid size for student_number.\n"<<endl;
         }
     }
+}
+
+
+
+//void Degree::editstudent()
+//{
+//    int selection;
+//    string newid;
+//    cout<<"Select the student you want to edit (1-"<<student_number+1<<")"<<endl;
+//    for (int i=0; i<student_number; i++){
+//        cout<<i+1<<": "<<stulist[i].getidentifier()<<endl;
+//    }
+//    cin>>selection;
+//    system("clear");
+//    do{
+//        cout<<"You can only edit the identification.\n"<<endl;
+//        cout<<"Enter the new id: ";
+//        cin>>newid;
+//    }while();
+//    courselist[selection-1].setIdentification(newid);
+
+//}
+
+
+
+void Degree::deleteStudent(int index)
+{
+    Student *temp = new Student [student_number-1];
+    int j=0;
+
+    for (int i = 0; i<student_number; i++){
+        if (i != index){
+            temp[j]=stulist[i];
+            j++;
+        }
+    }
+    student_number -=1;
+    delete [] stulist;
+    stulist = new Student [student_number];
+    for (int i=0; i<student_number; i++){
+        stulist[i]=temp[i];
+    }
+    delete [] temp;
 }
 
 
@@ -374,27 +422,13 @@ void Degree::manageStudents()
     system("clear");
     int selection, stu;
     showcourses();
-    cout<<"1: Create 2: Edit 3: Delete 4:Details 5: Select\n";
+    cout<<"1: Create 2: Delete 3: Details 4: Back\n";
     cin>>selection;
     switch(selection){
     case 1:
         addStudent();
         break;
     case 2:
-        do {
-            system("clear");
-            cout<<"STUDENTS:\n";
-            showstudents();
-            cout<<"What student do you want to edit?\n";
-            cin>>ws>>stu;
-            if (stu<1 || stu >student_number){
-                cout<<"Select a valid number. (0-"<<student_number<<")\n";
-            }
-        }while(stu<1 || stu >student_number);
-        system("clear");
-        courselist[stu].edit();
-        break;
-    case 3:
         do {
             system("clear");
             cout<<"STUDENTS:\n";
@@ -408,7 +442,7 @@ void Degree::manageStudents()
         system("clear");
         deleteStudent(stu);
         break;
-    case 4:
+    case 3:
         do {
             system("clear");
             showstudents();
@@ -419,24 +453,12 @@ void Degree::manageStudents()
             }
         }while(stu<1 || stu >student_number);
         system("clear");
-        stulist[stu].showdetails();
+        stulist[stu].showDetails();
 
         break;
-    case 5:
 
-        do {
-            system("clear");
-            showstudents();
-            cout<<"What student do you want to show details of?\n";
-            cin>>ws>>stu;
-            if (stu<1 || stu >student_number){
-                cout<<"Select a valid number. (0-"<<student_number<<")\n";
-            }
-        }while(stu<1 || stu >student_number);
-        system("clear");
-        stulist[stu].options();
+    case 4: break;
 
-        break;
     }
 
 }

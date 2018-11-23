@@ -2,7 +2,7 @@
 #include <cstring>
 using namespace std;
 
-bool checkonlyletters (const char str[]){
+bool checkletters (const char str[]){
 
     for (int i=0; i<static_cast<int>(strlen(str)); i++){
         if (!((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z') || (str[i] == ' '))){
@@ -13,7 +13,7 @@ bool checkonlyletters (const char str[]){
 }
 
 
-bool checkonlyletters (const string str){
+bool checkletters (const string str){
 
     char *aux = new char [str.size()];
     strcpy(aux, str.c_str());
@@ -65,6 +65,28 @@ void cleanWord (string str){
     delete [] aux;
 }
 
+
+
+bool checkStuId(string id)
+{
+    char *identifier= nullptr;
+        int tamano = static_cast<int> (id.length());
+        identifier =new char [tamano+1];
+
+        strcpy(identifier, id.c_str());
+
+        for(int i=0;i<tamano;i++){
+            if(identifier[i]<'0' || identifier[i]>'9'){
+                return false;
+            }
+        }
+        return true;
+
+        //check if id belongs to a student (has only numbers)
+        //returns true if student
+        //returns false if professor or admin
+
+}
 
 bool checkResId(string identification)
 {

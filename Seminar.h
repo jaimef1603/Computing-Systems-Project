@@ -11,8 +11,7 @@ using namespace std;
 class Seminar: public Resource
 {
 private:
-    Link_prof_res *coordinator;  //Link_us_res *coordinator;
-    Link_prof_res *speaker; //Link_us_res *speaker;
+    Link_prof_res *teachers[2];
     Date eventDate;
     int maxseats;
     int freeseats;
@@ -21,7 +20,8 @@ private:
     //----------
     void addteacher(Link_prof_res *newteacher);//void addteacher(Link_us_res *newteacher);
     void addstudent(Link_stu_res *newstudent);//void addstudent(Link_us_res *newstudent);
-    void removestudent(Link_stu_res *student);
+    void removestudent(Link_stu_res *link);
+    void removeprofessor(Link_prof_res *link);
 public:
     friend class Link_stu_res;
     friend class Link_prof_res;
@@ -32,9 +32,9 @@ public:
     void setdate(Date when);
     Date getdate()const;
     void setspeaker(Professor *spe);
-    Link_prof_res& getspeaker()const; //Link_us_res& getspeaker()const;
+    Link_prof_res* getspeaker()const; //Link_us_res& getspeaker()const;
     void setcoordinator(Professor *coord);
-    Link_prof_res& getcoordinator()const; //Link_us_res& getcoordinator()const;
+    Link_prof_res* getcoordinator()const; //Link_us_res& getcoordinator()const;
 
 
 };

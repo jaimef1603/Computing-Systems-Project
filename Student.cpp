@@ -10,22 +10,24 @@
 
 using namespace std;
 
+int Student::count;
 
-
-Student::Student(int id):mycourses(), myseminars()
+Student::Student():mycourses(), myseminars()
 {
-    SIN=id;
+    SIN=1000000 + count;
     mydegree=nullptr;
     myfdp=nullptr;
+    count+=1;
 }
 
 
 
-Student::Student(int id, Degree &d):mycourses(), myseminars()
+Student::Student(Degree &d):mycourses(), myseminars()
 {
-    SIN=id;
+    SIN=1000000 + count;
     mydegree=&d;
     myfdp=nullptr;
+    count+=1;
 }
 
 
@@ -73,6 +75,20 @@ Student& Student::operator=(const Student &s)
 
 
 
+void Student::setCount(int c)
+{
+    count = c;
+}
+
+
+
+int Student::getCount()
+{
+    return count;
+}
+
+
+
 int Student::getSIN(){
     return SIN;
 }
@@ -91,10 +107,31 @@ string Student::getidentifier()
     string ident = "";
 
     ident = static_cast<ostringstream*>(&(ostringstream() << SIN))->str();
+    if (ident.length()!=7){
 
+        for(int i=0; i<(7-ident.length()); i++){
+            ident="0"+ident;
+        }
+    }
     return ident;
     //convertir a string el SIN (es int) y retornar el resultado
 }
+
+
+
+void Student::showDetails()
+{
+   cout<<"SIN: "<<getidentifier();
+   cout<<"Courses enrolled: "<<mycourses.getsize();
+   cout<<"Seminars enrolled: "<<myseminars.getsize();
+   cout<<"Has FDP: ";
+   if(myfdp!=nullptr){
+       cout<<"YES"<<endl;
+   }else{
+       cout<<"NO"<<endl;
+   }
+}
+
 
 
 
@@ -135,11 +172,8 @@ int Student::menu(){
 
 }
 
-/*
- *
- *
- *
- */
+
+
 void Student::addCourse(Link_stu_res *link){
     mycourses.pushFront(link);
 }
@@ -167,7 +201,8 @@ void Student::removeResource(Link_stu_res *link)
 
 
 
-void Student::enroll(Resource *res){
+void Student::enroll(Resource *res)
+{
 
     //Link_us_res link = res->addUser(this);
     //mycourses.pushFront(res->addUser(this));

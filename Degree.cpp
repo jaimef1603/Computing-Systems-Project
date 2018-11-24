@@ -37,6 +37,7 @@ Degree::~Degree(){
 }
 
 
+
 int Degree::getstudent_number(){
     return student_number;
 }
@@ -47,9 +48,13 @@ string Degree::getname(){
     return name;
 }
 
+
+
 char& Degree::getid(){
     return *id;
 }
+
+
 
 VirtualCampus& Degree::getVc()
 {
@@ -58,7 +63,8 @@ VirtualCampus& Degree::getVc()
 
 
 
-Student* Degree::searchStudentbyid(string id){
+Student* Degree::searchStudentbyid(string id)
+{
     for (int i=0; i<student_number; i++){
         if (stulist[i].getidentifier()== id){
             return stulist+i;
@@ -72,6 +78,8 @@ Student* Degree::searchStudentbyid(string id){
 void Degree::setname(string n){
     name=n;
 }
+
+
 
 void Degree::edit()
 {
@@ -93,6 +101,8 @@ void Degree::edit()
 
 
 }
+
+
 
 void Degree::addCourse(){
     string id;
@@ -211,27 +221,6 @@ void Degree::addStudent(){
 
 
 
-//void Degree::editstudent()
-//{
-//    int selection;
-//    string newid;
-//    cout<<"Select the student you want to edit (1-"<<student_number+1<<")"<<endl;
-//    for (int i=0; i<student_number; i++){
-//        cout<<i+1<<": "<<stulist[i].getidentifier()<<endl;
-//    }
-//    cin>>selection;
-//    system("clear");
-//    do{
-//        cout<<"You can only edit the identification.\n"<<endl;
-//        cout<<"Enter the new id: ";
-//        cin>>newid;
-//    }while();
-//    courselist[selection-1].setIdentification(newid);
-
-//}
-
-
-
 void Degree::deleteStudent(int index)
 {
     Student *temp = new Student [student_number-1];
@@ -262,6 +251,7 @@ void Degree::showstudents(){
 
 
 
+
 Student* Degree::getStudents()
 {
     return stulist;
@@ -269,7 +259,8 @@ Student* Degree::getStudents()
 
 
 
-int Degree::findStudent(string identification){
+int Degree::findStudent(string identification)
+{
     if(stulist!=nullptr){
         for (int i=0; i<student_number; i++){
             if (identification==stulist[i].getidentifier()){
@@ -282,9 +273,8 @@ int Degree::findStudent(string identification){
 
 
 
-
-
-void Degree::showcourses(){
+void Degree::showcourses()
+{
     if (courselist!=nullptr){
         cout<<"\t\nCourses:"<<endl;
         for (int i=0; i< course_number; i++){
@@ -304,7 +294,8 @@ Course* Degree::getCourses()
 
 
 
-int Degree::findCourse(string identification){
+int Degree::findCourse(string identification)
+{
     if(courselist!=nullptr){
         for (int i=0; i<course_number; i++){
             if (identification==courselist[i].getIdentification()){
@@ -317,14 +308,17 @@ int Degree::findCourse(string identification){
 
 
 
-void Degree::showdetails(){
+void Degree::showdetails()
+{
     cout<<"Name: "<<name<<endl;
     cout<<"Students: "<<student_number<<endl;
     cout<<"Courses: "<<course_number<<endl;
 }
 
 
-void Degree::options(){
+
+void Degree::options()
+{
     int selection;
     cout<<"1: Courses\n2: Students\n3: Back\n";
     do {
@@ -348,6 +342,7 @@ void Degree::options(){
     }
     return;
 }
+
 
 
 void Degree::manageCourses ()
@@ -452,6 +447,8 @@ void Degree::manageCourses ()
 }
 
 
+
+
 void Degree::manageStudents()
 {
 
@@ -466,6 +463,8 @@ void Degree::manageStudents()
         case 1:
             addStudent();
             this->stulist->showDetails();
+            cin.ignore(1,'\n');
+            getchar();
             break;
         case 2:
             do {
@@ -496,6 +495,8 @@ void Degree::manageStudents()
             }while((stu<1 && stu!=-1) || stu >student_number);
             system("clear");
             stulist[stu-1].showDetails();
+            cin.ignore(1, '\n');
+            getchar();
             break;
 
         case 4: return;

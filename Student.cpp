@@ -201,18 +201,33 @@ void Student::removeResource(Link_stu_res *link)
 
 
 
-void Student::enroll(Resource *res)
+void Student::enroll(Course *cour)
 {
 
-    //Link_us_res link = res->addUser(this);
-    //mycourses.pushFront(res->addUser(this));
+    Link_stu_res *newLink = new Link_stu_res(this, cour);
+
+    newLink->connectStutoCourse();
+    newLink->connectResource();
+
+}
 
 
-    //Link_us_res *Link = new Link_us_res(this, res);
 
-     //Provisional!!!! hay que hacer comprobaciones previas y manejar excepciones
+void Student::enroll(Seminar *setminar)
+{
+    Link_stu_res *newLink = new Link_stu_res(this, setminar);
 
-    //return
+    newLink->connectStutoSeminar();
+    newLink->connectResource();
+}
+
+
+void Student::enroll(FDP *project)
+{
+    Link_stu_res *newLink = new Link_stu_res(this, project);
+
+    newLink->connectStutoFDP();
+    newLink->connectResource();
 
 }
 

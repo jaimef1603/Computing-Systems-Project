@@ -47,9 +47,7 @@ Resource& Link_us_res::getResource(){
 }
 
 
-void Link_us_res::connectCourseUser(){
-  // userPtr->addCourse(this);
-}
+
 
 
 

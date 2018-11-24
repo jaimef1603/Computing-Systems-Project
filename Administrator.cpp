@@ -13,7 +13,7 @@ void Administrator::manageTeacher()
     int selection;
     do{
         system("clear");
-        cout<<"1: Create teacher 2: Edit teacher 3: Delete teacher 4: Details 5: Back"<<endl;
+        cout<<"1: Create teacher 2: Edit teacher 3: Delete teacher 4: Details 5: Select 6: Back"<<endl;
         cin>>selection;
         switch (selection) {
         case 1: mycampus->addTeacher(); break;
@@ -78,7 +78,7 @@ void Administrator::manageTeacher()
                 if (id=="cancel"){
                     break;
                 }else{
-                    teach=mycampus->findTeacher(id); 
+                    teach=mycampus->findTeacher(id);
                 }
                 if(teach==-1){
                     system("clear");
@@ -91,9 +91,37 @@ void Administrator::manageTeacher()
                 mycampus->proflist[teach].showdetails();
             }
         }break;
-        case 5: return;
+
+        case 5:
+        {
+            string id;
+            int teach=-1;
+            system("clear");
+            cout<<"Enter the id of the teacher you want to select.\n";
+
+            do {
+                cin>>ws>>id;
+                if (id=="cancel"){
+                    break;
+                }else{
+                    teach=mycampus->findTeacher(id);
+                }
+                if(teach==-1){
+                    system("clear");
+                    cout<<"Invalid ID\n";
+                    cout<<"Enter the id of the teacher you want to show details.\n";
+                }
+            }while(teach==-1);
+            system("clear");
+            if (teach!=-1){
+                mycampus->proflist[teach].options();
+            }
+        }
+            break;
+
+        case 6: return;
         default:
-            cout<<"Enter a valid number(1-5)."<<endl;
+            cout<<"Enter a valid number(1-6)."<<endl;
         }
     }while(true);
 }

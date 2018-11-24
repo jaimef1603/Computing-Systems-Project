@@ -36,6 +36,7 @@ public:
     string getidentifier();
     void showdetails();
     void edit();
+    void options();
     virtual int menu(); //must be virtual to be overriden by admin's menu.
 };
 

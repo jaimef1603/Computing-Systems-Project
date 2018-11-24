@@ -8,11 +8,14 @@ Professor::Professor()
 
 }
 
+
+
 Professor::Professor(string ident)
     :User(), courselist(), fdplist(), seminarlist()
 {
     identifier=ident;
 }
+
 
 
 Professor::Professor(const Professor& other)
@@ -23,6 +26,7 @@ Professor::Professor(const Professor& other)
     this->fdplist=other.fdplist;
     this->seminarlist=other.seminarlist;
 }
+
 
 
 string Professor::getidentifier(){
@@ -54,6 +58,7 @@ void Professor::showdetails()
 }
 
 
+
 void Professor::edit()
 {
     string ident;
@@ -75,6 +80,63 @@ void Professor::edit()
 
 }
 
+
+
+void Professor::options()
+{
+
+        int selection;
+        cout<<"1: Add to Resource \n2: Remove from Resource \n3: Back\n";
+        do {
+            cin>>selection;
+            if (selection <1 || selection >3){
+                system("clear");
+                cout<<"1: Add to Resource \n2: Remove from Resource \n3: Back\n";
+                cout<<"Select a valid number (1-3) or -1 to exit"<<endl;
+            }
+        }while((selection <1 && selection !=-1) || selection >3);
+        switch (selection) {
+        case 1:
+
+        case 2:
+
+        case 3: break;
+        }
+        return;
+}
+
+
+
 int Professor::menu(){
 
 }
+
+
+
+
+
+//void Professor::exitResource(){
+//    bool valid;
+//    for(int i=0; i<courselist.getsize(); i++){
+//        cout<<"Courses of"<<this->getidentifier()<<": "<<endl;
+//        cout<<"ID: "<<courselist[i]->getResource().getIdentification()<<endl;
+//    }
+
+//    for(int i=0; i<seminarlist.getsize(); i++){
+//        cout<<"Seminars of"<<this->getidentifier()<<": "<<endl;
+//        cout<<"ID: "<<seminarlist[i]->getResource().getIdentification()<<endl;
+//    }
+
+
+//    for(int i=0; i<fdplist.getsize(); i++){
+//        cout<<"FDPs of"<<this->getidentifier()<<": "<<endl;
+//        cout<<"ID: "<<fdplist[i]->getResource().getIdentification()<<endl;
+//    }
+
+//    do {
+//        cout<<"Enter the ID of the resource you want to exit:"<<endl;
+
+
+//    }
+
+//}

@@ -13,6 +13,7 @@ class Resource
 protected:
     string identification;
     string status;
+
     //--------
     virtual void addteacher(Link_prof_res *newteacher)=0;
     virtual void addstudent(Link_stu_res *newstudent)=0;

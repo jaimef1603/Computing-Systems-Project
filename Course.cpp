@@ -135,6 +135,7 @@ void Course::options()
             cout<<"Select a valid number (1-3) or -1 to exit"<<endl;
         }
     }while((selection <1 && selection !=-1) || selection >3);
+
     switch (selection) {
     case 1:{
         string identification;
@@ -181,12 +182,44 @@ void Course::showdetails()
 {
     cout<<"ID: "<<identification<<endl;
     cout<<"Credits: "<<credits<<endl;
+    cout<<"Teachers: "<<endl;
+    for (int i=0; i<2; i++){
+    if(teachers[i]!=nullptr){
+        cout<<"\t"<<teachers[i]->getteacher()->getidentifier()<<": "<<teachers[i]->getRoleName()<<endl;
+    }
+    }
+    cout<<"Number of students: "<<studentlist.getsize()<<endl;
+
 }
 
 
 
 void Course::addteacher(Link_prof_res *newteacher)
 {
+
+    if (newteacher->getRole()==role::named_chair){
+        if(teachers[0]!=nullptr){
+
+                delete teachers[0];
+                teachers[0]=newteacher;
+                return;
+
+        }else{
+            teachers[0]=newteacher;
+            return;
+        }
+    }else{
+        if(teachers[1]!=nullptr){
+
+                delete teachers[1];
+                teachers[1]=newteacher;
+                return;
+
+        }else{
+            teachers[1]=newteacher;
+            return;
+        }
+    }
 
 }
 

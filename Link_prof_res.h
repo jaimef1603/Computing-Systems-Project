@@ -7,7 +7,7 @@ class Professor;
 enum class role{
    speaker,
    coordinator,
-   intern,
+   named_chair,
    associated,
    tutor,
    cotutor,
@@ -25,9 +25,11 @@ public:
     ~Link_prof_res();
     bool operator== (const Link_prof_res &other);
     int checkHealth();
+    Professor* getteacher();
     void setRole(role r);
     role getRole();
     std::string getRoleName();
+    void connectResource();
     void destroy();
 };
 

@@ -83,6 +83,7 @@ void VirtualCampus::addTeacher()
         proflist = new Professor[1];
         proflist[0] = Professor(id);
         prof_number=1;
+        std::cerr<<"Teacher added\n";
         getchar();
     }else{
         if (proflist!=nullptr){
@@ -156,33 +157,39 @@ void VirtualCampus::addDegree()
     string name, id;
     cout<<"Enter the name of the degree: ";
     cin>>ws>>name;
-    cout<<"Enter the three letter identification: ";
-    cin>>ws>>id;
+    do{
+        cout<<"Enter the three letter identification: ";
+        cin>>ws>>id;
+    }while(id.length()!=3);
+
     Degree *temp;
-    if (degreelist==nullptr){
-        degreelist = new Degree[1];
-        degreelist[0] = Degree(name, id.c_str(),  this);
-        degree_number=1;
-        std::cerr<<"Degree added\n";
-        getchar();
-    }else{
-        if (degree_number>0){
-            temp=new Degree [degree_number];
-            for(int i=0; i<degree_number; i++){
-                temp[i]=degreelist[i];
-            }
-            delete [] degreelist;
-            degreelist = new Degree[degree_number+1];
-            for(int i=0; i<degree_number; i++){
-                degreelist[i]=temp[i];
-            }
-            delete [] temp;
-            degreelist[degree_number] = Degree(name, id.c_str(), this);
-            degree_number+=1;
+
+        if (degreelist==nullptr){
+            degreelist = new Degree[1];
+            degreelist[0] = Degree(name, id.c_str(),  this);
+            degree_number=1;
+            std::cerr<<"Degree added\n";
+            getchar();
         }else{
-            cerr<<"VirtualCampus::addDegree(); Invalid size for degree_number.\n"<<endl;
+            if (degree_number>0){
+                temp=new Degree [degree_number];
+                for(int i=0; i<degree_number; i++){
+                    temp[i]=degreelist[i];
+                }
+                delete [] degreelist;
+                degreelist = new Degree[degree_number+1];
+                for(int i=0; i<degree_number; i++){
+                    degreelist[i]=temp[i];
+                }
+                delete [] temp;
+                degreelist[degree_number] = Degree(name, id.c_str(), this);
+                degree_number+=1;
+            }else{
+                cerr<<"VirtualCampus::addDegree(); Invalid size for degree_number.\n"<<endl;
+            }
         }
-    }
+
+
 }
 
 

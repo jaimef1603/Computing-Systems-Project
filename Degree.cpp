@@ -97,7 +97,7 @@ void Degree::edit()
 void Degree::addCourse(){
     string id;
     int credits;
-    cout<<"Write new course id:\n"<<endl;
+    cout<<"Write new course id:\n";
     cin>>ws>>id;
     cout<<"Write the number of credits:\n";
     cin>>ws>>credits;
@@ -127,6 +127,7 @@ void Degree::addCourse(){
             course_number=0;
         }
     }
+    system("clear");
 }
 
 
@@ -289,6 +290,7 @@ void Degree::showcourses(){
         for (int i=0; i< course_number; i++){
             cout<<"\tid: "<<courselist[i].getIdentification();
             cout<<"\tCredits: "<<courselist[i].getcredits();
+            cout<<"\n";
         }
     }
 }
@@ -334,8 +336,14 @@ void Degree::options(){
         }
     }while(selection <1 || selection >3);
     switch (selection) {
-    case 1: manageCourses(); break;
-    case 2: manageStudents(); break;
+    case 1:
+        system("clear");
+        manageCourses();
+        break;
+    case 2:
+        system("clear");
+        manageStudents();
+        break;
     case 3: break;
     }
     return;
@@ -345,120 +353,156 @@ void Degree::options(){
 void Degree::manageCourses ()
 {
 
-    system("clear");
+
     int selection, cour;
-    showcourses();
-    cout<<"1: Create 2: Edit 3: Delete 4:Details 5: Select\n";
-    cin>>selection;
-    switch(selection){
-    case 1:
-        addCourse();
-        break;
-    case 2:
-        do {
-            system("clear");
-            cout<<"COURSES:\n";
-            showcourses();
-            cout<<"What course do you want to edit?\n";
-            cin>>ws>>cour;
-            if (cour<1 || cour >course_number){
-                cout<<"Select a valid number. (0-"<<course_number<<")\n";
-            }
-        }while(cour<1 || cour >course_number);
+    do{
         system("clear");
-        courselist[cour].edit();
-        break;
-    case 3:
-        do {
+        cout<<"COURSES of "<<this->getname()<<":\n";
+        showcourses();
+        cout<<"\n";
+        cout<<"1: Create 2: Edit 3: Delete 4:Details 5: Select 6:Back\n";
+        cin>>selection;
+        switch(selection){
+        case 1:
             system("clear");
-            cout<<"COURSES:\n";
-            showcourses();
-            cout<<"What course do you want to delete?\n";
-            cin>>ws>>cour;
-            if (cour<1 || cour >course_number){
-                cout<<"Select a valid number. (0-"<<course_number<<")\n";
-            }
-        }while(cour<1 || cour >course_number);
-        system("clear");
-        deleteCourse(cour);
-        break;
-    case 4:
-        do {
+            addCourse();
+            break;
+        case 2:
+            do {
+                system("clear");
+                cout<<"COURSES:\n";
+                showcourses();
+                cout<<"What course do you want to edit?\n";
+                cin>>ws>>cour;
+                if ((cour<1 && cour!=-1 )|| cour >course_number){
+                    cout<<"Select a valid number. (1-"<<course_number<<") or -1 to exit.\n \tPress any key to retry.";
+                    getchar();
+                }
+            }while((cour<1 && cour!=-1)|| cour >course_number);
             system("clear");
-            showcourses();
-            cout<<"What course do you want to show details of?\n";
-            cin>>ws>>cour;
-            if (cour<1 || cour >course_number){
-                cout<<"Select a valid number. (0-"<<course_number<<")\n";
+            if(cour!=-1){
+                courselist[cour-1].edit();
             }
-        }while(cour<1 || cour >course_number);
-        system("clear");
-        courselist[cour].showdetails();
-
-        break;
-    case 5:
-
-        do {
+            break;
+        case 3:
+            do {
+                system("clear");
+                cout<<"COURSES:\n";
+                showcourses();
+                cout<<"What course do you want to delete?\n";
+                cin>>ws>>cour;
+                if ((cour<1 && cour!=-1 )|| cour >course_number){
+                    cout<<"Select a valid number. (1-"<<course_number<<") or -1 to exit.\n \tPress any key to retry.";
+                    getchar();
+                }
+            }while((cour<1 && cour!=-1 ) || cour >course_number);
             system("clear");
-            showcourses();
-            cout<<"What course do you want to show details of?\n";
-            cin>>ws>>cour;
-            if (cour<1 || cour >course_number){
-                cout<<"Select a valid number. (0-"<<course_number<<")\n";
+            if(cour!=-1){
+                deleteCourse(cour-1);
             }
-        }while(cour<1 || cour >course_number);
-        system("clear");
-        courselist[cour].options();
+            break;
+        case 4:
+            do {
+                system("clear");
+                cout<<"COURSES:\n";
+                showcourses();
+                cout<<"What course do you want to show details of?\n";
+                cin>>ws>>cour;
+                if ((cour<1 && cour!=-1 )|| cour >course_number){
+                    cout<<"Select a valid number. (1-"<<course_number<<") or -1 to exit.\n \tPress any key to retry.";
+                    getchar();
+                }
+            }while((cour<1 && cour!=-1 ) || cour >course_number);
+            system("clear");
 
-        break;
-    }
+            if(cour!=-1){
+                cout<<"Details of Course "<<cour<<"of "<<this->getname()<<".\n";
+                courselist[cour-1].showdetails();
+                cout<<"\tPress any key to close.\n";
+                cin.ignore(1, '\n');
+                getchar();
+            }
 
+            break;
+        case 5:
+            do {
+                system("clear");
+                cout<<"COURSES:\n";
+                showcourses();
+                cout<<"What course do you want to select?\n";
+                cin>>ws>>cour;
+                if ((cour<1 && cour!=-1 )|| cour >course_number){
+                    cout<<"Select a valid number. (1-"<<course_number<<") or -1 to exit.\n \tPress any key to retry.";
+                    getchar();
+                }
+            }while((cour<1 && cour!=-1 ) || cour >course_number);
+            system("clear");
+            if(cour!=-1){
+                courselist[cour-1].options();
+            }
+            break;
+
+        case 6: return;
+
+        default: cout<<"Enter a valid number(1-5).\n\tPress any key to retry.\n"<<endl;
+            getchar();
+            break;
+        }
+    }while (true);
 }
 
 
 void Degree::manageStudents()
 {
 
-    system("clear");
     int selection, stu;
-    showcourses();
-    cout<<"1: Create 2: Delete 3: Details 4: Back\n";
-    cin>>selection;
-    switch(selection){
-    case 1:
-        addStudent();
-        break;
-    case 2:
-        do {
-            system("clear");
-            cout<<"STUDENTS:\n";
-            showstudents();
-            cout<<"What student do you want to delete?\n";
-            cin>>ws>>stu;
-            if (stu<1 || stu >student_number){
-                cout<<"Select a valid number. (0-"<<student_number<<")\n";
-            }
-        }while(stu<1 || stu >student_number);
+    do {
         system("clear");
-        deleteStudent(stu);
-        break;
-    case 3:
-        do {
+        cout<<"STUDENTS of "<<this->getname()<<":\n";
+        showstudents();
+        cout<<"1: Create 2: Delete 3: Details 4: Back\n";
+        cin>>selection;
+        switch(selection){
+        case 1:
+            addStudent();
+            this->stulist->showDetails();
+            break;
+        case 2:
+            do {
+                system("clear");
+                cout<<"STUDENTS:\n";
+                showstudents();
+                cout<<"What student do you want to delete?\n";
+                cin>>ws>>stu;
+                if ((stu<1 && stu!=-1) || stu >student_number){
+                    cout<<"Select a valid number. (1-"<<student_number<<") or -1 to exit.\n \tPress any key to retry.";
+                    getchar();
+                }
+            }while((stu<1 && stu!=-1) || stu >student_number);
             system("clear");
-            showstudents();
-            cout<<"What student do you want to show details of?\n";
-            cin>>ws>>stu;
-            if (stu<1 || stu >student_number){
-                cout<<"Select a valid number. (0-"<<student_number<<")\n";
-            }
-        }while(stu<1 || stu >student_number);
-        system("clear");
-        stulist[stu].showDetails();
+            deleteStudent(stu-1);
+            break;
+        case 3:
+            do {
+                system("clear");
+                cout<<"STUDENTS:\n";
+                showstudents();
+                cout<<"What student do you want to show details of?\n";
+                cin>>ws>>stu;
+                if ((stu<1 && stu!=-1) || stu >student_number){
+                    cout<<"Select a valid number. (1-"<<student_number<<") or -1 to exit.\n \tPress any key to retry.";
+                    getchar();
+                }
+            }while((stu<1 && stu!=-1) || stu >student_number);
+            system("clear");
+            stulist[stu-1].showDetails();
+            break;
 
-        break;
-
-    case 4: break;
-
-    }
+        case 4: return;
+        default: cout<<"Enter a valid number(1-4).\n\tPress any key to retry."<<endl;
+            getchar();
+            break;
+        }
+    }while(true);
 
 }

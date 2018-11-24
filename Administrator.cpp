@@ -12,6 +12,7 @@ void Administrator::manageTeacher()
 {
     int selection;
     do{
+        system("clear");
         cout<<"1: Create teacher 2: Edit teacher 3: Delete teacher 4: Details 5: Back"<<endl;
         cin>>selection;
         switch (selection) {
@@ -62,9 +63,8 @@ void Administrator::manageTeacher()
             }while(teach==-1);
             system("clear");
             if (teach!=-1){
-                mycampus->proflist[teach].edit();
+                 mycampus->deleteTeacher(teach);
             }
-            mycampus->deleteTeacher(teach);
         }
             break;
         case 4: {
@@ -78,7 +78,7 @@ void Administrator::manageTeacher()
                 if (id=="cancel"){
                     break;
                 }else{
-                    teach=mycampus->findTeacher(id);
+                    teach=mycampus->findTeacher(id); 
                 }
                 if(teach==-1){
                     system("clear");
@@ -119,16 +119,20 @@ void Administrator::manageTeacher()
 void Administrator::manageDegree()
 {
 
-    system("clear");
-    int selection, deg;
+    char selection;
+    int deg;
+
+    do{
+        system("clear");
     mycampus->showAllDeg();
     cout<<"1: Create 2: Edit 3: Delete 4:Details 5: Select 6:Back\n";
     cin>>selection;
     switch(selection){
-    case 1:
+    case '1':
         mycampus->addDegree();
+        system("clear");
         break;
-    case 2:
+    case '2':
         do {
             system("clear");
             cout<<"DEGREES:\n";
@@ -142,7 +146,7 @@ void Administrator::manageDegree()
         system("clear");
         mycampus->degreelist[deg-1].edit();
         break;
-    case 3:
+    case '3':
         do {
             system("clear");
             cout<<"DEGREES:\n";
@@ -156,7 +160,7 @@ void Administrator::manageDegree()
         system("clear");
         mycampus->deleteDegree(deg-1);
         break;
-    case 4:
+    case '4':
         do {
             system("clear");
             mycampus->showAllDeg();
@@ -168,13 +172,13 @@ void Administrator::manageDegree()
         }while(deg<1 || deg >mycampus->degree_number);
         system("clear");
         mycampus->degreelist[deg-1].showdetails();
-
+        //system("clear");
         break;
-    case 5:
+    case '5':
         do {
             system("clear");
             mycampus->showAllDeg();
-            cout<<"What degree do you want to show details of?\n";
+            cout<<"What degree do you want to select?\n";
             cin>>ws>>deg;
             if (deg<1 || deg >mycampus->degree_number){
                 cout<<"Select a valid number. (0-"<<mycampus->degree_number<<") or -1 to exit\n";
@@ -185,8 +189,14 @@ void Administrator::manageDegree()
             mycampus->degreelist[deg-1].options();
         }
         break;
-    case 6: break;
+    case '6': return;
+
+    default: cout<<"Enter a valid number(1-5).\n\tPress any key to retry.\n"<<endl;
+        getchar();
+        break;
+
     }
+    }while(true);
 
 }
 
@@ -215,17 +225,18 @@ void Administrator::manageDegree()
 
 
 int Administrator::menu(){
-    int selection;
+    char selection;
     do{
+        system("clear");
         cout<<"1: Manage Degrees 2: Manage Teachers 3: Exit";
-        cin>>selection;
+        cin>>ws>>selection;
         switch (selection) {
-        case 1: this->manageDegree(); break;
-        case 2: this->manageTeacher(); break;
-
-        case 3: return 1;
-        default:
-            cout<<"Enter a valid number.(1-3)\n"; break;
+        case '1': this->manageDegree(); break;
+        case '2': this->manageTeacher(); break;
+        case '3': return 1;
+        default: cout<<"Enter a valid number(1-3).\n\tPress any key to retry.\n"<<endl;
+        getchar();
+            break;
         }
     }while (true);
 

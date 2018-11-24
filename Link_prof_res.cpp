@@ -51,6 +51,24 @@ role Link_prof_res::getRole()
 }
 
 
+string Link_prof_res::getRoleName()
+{
+    switch (papel) {
+
+    case role::speaker: return "Speaker";
+    case role::coordinator: return "Coordinator";
+    case role::named_chair: return "Named Chair";
+    case role::associated: return "Associated";
+    case role::tutor: return "Tutor";
+    case role::cotutor: return "Cotutor";
+    case role::undefined: return "Undefined";
+    }
+}
+
+
+
+
+
 int Link_prof_res::checkHealth(){
     if(profPtr==nullptr && resourcePtr==nullptr){
             return -2;
@@ -61,6 +79,18 @@ int Link_prof_res::checkHealth(){
     }
 }
 
+
+
+Professor* Link_prof_res::getteacher()
+{
+    return profPtr;
+}
+
+
+
+void Link_prof_res::connectResource(){
+    resourcePtr->addteacher(this);
+}
 
 
 void Link_prof_res::destroy(){

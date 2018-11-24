@@ -16,9 +16,8 @@ public:
     //hacer el destructor para que sea esta clase la que se encargue de borrarse de los arrays de user y resources.
     Resource& getResource();
     virtual int checkHealth()=0;
-    void connectCourseUser();
     virtual void destroy()=0;
-    //bool checkUserKind();
+    virtual void connectResource()=0;
 };
 
 

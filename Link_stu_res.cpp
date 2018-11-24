@@ -2,6 +2,9 @@
 #include <iostream>
 #include "Resource.h"
 #include "Student.h"
+
+
+
 Link_stu_res::Link_stu_res(Student *s, Resource *r)
     :Link_us_res (r)
 {
@@ -22,12 +25,17 @@ Link_stu_res::Link_stu_res(const Link_stu_res& other)
     //falta por iniciar las notas
 }
 
+
+
 Link_stu_res::~Link_stu_res()
 {
     this->destroy();
 }
 
-Link_stu_res& Link_stu_res::operator= (const Link_stu_res &other){
+
+
+Link_stu_res& Link_stu_res::operator= (const Link_stu_res &other)
+{
     this->Link_us_res::operator=(other);
     //falta por copiar las notas
     return *this;
@@ -59,7 +67,9 @@ Student& Link_stu_res::getStudent()
 }
 
 
-void Link_stu_res::setfinalMark(float value, Date when){
+
+void Link_stu_res::setfinalMark(float value, Date when)
+{
     final=Mark(value, when);
 }
 
@@ -71,7 +81,8 @@ void Link_stu_res::setfinalMark(Mark value){
 
 
 
-void Link_stu_res::setpartialMark(float value, Date when, int position){
+void Link_stu_res::setpartialMark(float value, Date when, int position)
+{
     for(int i=0;i<position;i++){
         partial[i]=Mark(value, when);
     }
@@ -79,7 +90,8 @@ void Link_stu_res::setpartialMark(float value, Date when, int position){
 
 
 
-void Link_stu_res::setpartialMark(Mark value, int position){
+void Link_stu_res::setpartialMark(Mark value, int position)
+{
     for(int i=0;i<position;i++){
         partial[i]=Mark(value);
     }
@@ -87,25 +99,57 @@ void Link_stu_res::setpartialMark(Mark value, int position){
 
 
 
-void Link_stu_res::setpartialMark(Mark value[]){
+void Link_stu_res::setpartialMark(Mark value[])
+{
     for(int i=0;i<4;i++){
         partial[i]=value[i];
     }
 }
 
 
-Mark& Link_stu_res::getfinalMark(){
+Mark& Link_stu_res::getfinalMark()
+{
     return final;
 }
 
 
-Mark* Link_stu_res::getpartiaMark(){
+Mark* Link_stu_res::getpartiaMark()
+{
     return partial;
 }
 
 
 
-void Link_stu_res::destroy(){
+void Link_stu_res::connectStutoCourse()
+{
+    stuPtr->addCourse(this);
+}
+
+
+
+void Link_stu_res::connectStutoSeminar()
+{
+    stuPtr->addSeminar(this);
+}
+
+
+
+void Link_stu_res::connectStutoFDP()
+{
+    stuPtr->addFDP(this);
+}
+
+
+
+void Link_stu_res::connectResource()
+{
+    resourcePtr->addstudent(this);
+}
+
+
+
+void Link_stu_res::destroy()
+{
    resourcePtr->removestudent(this);
    stuPtr->removeResource(this);
 }

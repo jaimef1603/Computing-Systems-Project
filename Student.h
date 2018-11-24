@@ -41,7 +41,9 @@ public:
     void Drop(Course *c);
     void Drop(Seminar *c);
     void Dropfdp();
-    void enroll(Resource *res);
+    void enroll(Course *cour);
+    void enroll(Seminar *setminar);
+    void enroll(FDP *project);
     void options();
     int menu();
 

@@ -162,7 +162,7 @@ void Course::options()
         }
         cout << "Select the student you want to remove (1-"<<studentlist.getsize()<<") or -1 to cancel: ";
         cin>>selection;
-        }while((selection<0 && selection !=-1)||selection>studentlist.getsize());
+        }while((selection<1 && selection !=-1)||selection>studentlist.getsize());
         if (selection!=-1){
              delete studentlist[selection-1];
         }

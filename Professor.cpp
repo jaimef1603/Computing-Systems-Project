@@ -59,7 +59,7 @@ void Professor::edit()
     string ident;
     bool valid = false;
     cout<<"You can only edit the ID.\n ";
-    cout<<"Enter the new ID or \"cancel\" to exit: ";
+    cout<<"Enter the new ID (7 chars) or \"cancel\" to exit: ";
     do{
         cin>>ident;
         if (ident=="cancel"){

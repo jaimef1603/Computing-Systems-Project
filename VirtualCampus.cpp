@@ -316,11 +316,6 @@ void VirtualCampus::addseminar()
 
 
 
-
-
-
-
-
 void VirtualCampus::editFDP()
 {
     system("clear");
@@ -340,34 +335,43 @@ void VirtualCampus::editFDP()
 
 
 void VirtualCampus::editseminar(){
+
     system("clear");
     int seminar, field, newseats, day, month, year;
     string newid;
-    cout<<"Select the seminar you want to edit (1-"<<seminar_number+1<<")"<<endl;
-    for (int i=0; i<seminar_number; i++){
-        cout<<i+1<<": "<<seminalist[i].getIdentification()<<endl;
-    }
-    cin>>seminar;
-    system("clear");
-    cout<<"Select the field you want to edit (1-3)\n1: id\n2: maximum seats\n3: date\n"<<endl;
-    cin>>field;
-    system("clear");
-    switch (field) {
-    case 1:
-        cout<<"Enter the new id: ";
-        cin>>newid;
-        seminalist[seminar-1].setIdentification(newid);
-        break;
-    case 2:
-        cout<<"Enter the new value for maximum seats: ";
-        cin>>newseats;
-        seminalist[seminar-1].setmaxseats(newseats);
-        break;
-    case 3:
-        cout<<"Enter values for day month and year separated by spaces: ";
-        cin>>day>>month>>year;
-        seminalist[seminar-1].setdate(Date(day,month,year));
-        break;
-    }
 
+    do{
+        cout<<"Select the seminar you want to edit (1-"<<seminar_number+1<<")"<<endl;
+        for (int i=0; i<seminar_number; i++){
+            cout<<i+1<<": "<<seminalist[i].getIdentification()<<endl;
+        }
+        cin>>seminar;
+        system("clear");
+        cout<<"Select the field you want to edit (1-3)\n1: ID\n2: Maximum seats\n3: Date\n4: Back"<<endl;
+        cin>>field;
+        system("clear");
+        switch (field) {
+        case 1:
+            cout<<"Enter the new id: ";
+            cin>>newid;
+            seminalist[seminar-1].setIdentification(newid);
+            break;
+        case 2:
+            cout<<"Enter the new value for maximum seats: ";
+            cin>>newseats;
+            seminalist[seminar-1].setmaxseats(newseats);
+            break;
+        case 3:
+            cout<<"Enter values for day month and year separated by spaces: ";
+            cin>>day>>month>>year;
+            seminalist[seminar-1].setdate(Date(day,month,year));
+            break;
+        case 4:
+            return;
+        default:
+            cout<<"Enter a valid number(1-4).\n\tPress any key to retry."<<endl;
+            getchar();
+            break;
+        }
+    }while(true);
 }

@@ -4,7 +4,6 @@
 #include "Student.h"
 
 
-
 Link_stu_res::Link_stu_res(Student *s, Resource *r)
     :Link_us_res (r)
 {
@@ -50,7 +49,8 @@ bool Link_stu_res::operator== (const Link_stu_res &other)
 
 
 
-int Link_stu_res::checkHealth(){
+int Link_stu_res::checkHealth()
+{
     if(stuPtr==nullptr && resourcePtr==nullptr){
             return -2;
     }else if(stuPtr!=nullptr && resourcePtr!=nullptr){
@@ -59,6 +59,7 @@ int Link_stu_res::checkHealth(){
         return -1;
     }
 }
+
 
 
 Student& Link_stu_res::getStudent()

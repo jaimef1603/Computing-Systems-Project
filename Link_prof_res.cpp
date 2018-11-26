@@ -16,6 +16,8 @@ Link_prof_res::Link_prof_res(Professor *p, Resource *r, role ro)
     }
 }
 
+
+
 Link_prof_res::Link_prof_res(const Link_prof_res& other)
     :Link_us_res (other)
 {
@@ -45,10 +47,13 @@ bool Link_prof_res::operator== (const Link_prof_res &other)
     return (resourcePtr==other.resourcePtr && profPtr==other.profPtr )? true:false;
 }
 
+
+
 role Link_prof_res::getRole()
 {
     return papel;
 }
+
 
 
 string Link_prof_res::getRoleName()
@@ -64,8 +69,6 @@ string Link_prof_res::getRoleName()
     case role::undefined: return "Undefined";
     }
 }
-
-
 
 
 
@@ -88,13 +91,15 @@ Professor* Link_prof_res::getteacher()
 
 
 
-void Link_prof_res::connectResource(){
+void Link_prof_res::connectResource()
+{
     resourcePtr->addteacher(this);
 }
 
 
-void Link_prof_res::destroy(){
 
+void Link_prof_res::destroy()
+{
     resourcePtr->removeprofessor(this);
     profPtr->removeResource(this);
 

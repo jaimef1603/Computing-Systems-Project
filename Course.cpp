@@ -62,7 +62,6 @@ Course& Course::operator= (const Course &c)
     }
 
     return *this;
-
 }
 
 
@@ -85,40 +84,46 @@ void Course::edit()
 {
     int selection;
     do{
+        //do{
         system("clear");
-        cout<<"1: Edit ID 2:Edit credits 3: exit\n";
+        cout<<"1: Edit ID 2:Edit credits 3: Back\n";
         cin>>selection;
-    }while(selection !=1 && selection != 2);
-    switch (selection) {
-    case 1:{
-        string newname;
-        bool valid=false;
-        system("clear");
-        cout<<"Enter the new ID CCCIIII (C=char, I=number) or a single char to exit\n"<<endl;
-        do {
+        // }while(selection !=1 && selection != 2);
+        switch (selection) {
+        case 1:{
+            string newname;
+            bool valid=false;
             system("clear");
-            cin>>ws>>newname;
-            if (newname.length()==1){
-                break;
+            cout<<"Enter the new ID CCCIIII (C=char, I=number) or a single char to exit\n"<<endl;
+            do {
+                system("clear");
+                cin>>ws>>newname;
+                if (newname.length()==1){
+                    break;
+                }
+                if (!(valid=checkResId(newname))){
+                    cout<<"Enter a valid ID CCCIIII (C=char, I=number)\n"<<endl;
+                }
+            }while (!valid);
+            if (valid){
+                this->setIdentification(newname);
             }
-            if (!(valid=checkResId(newname))){
-                cout<<"Enter a valid ID CCCIIII (C=char, I=number)\n"<<endl;
-            }
-        }while (!valid);
-        if (valid){
-            this->setIdentification(newname);
+            break;
         }
-        break;
-    }
-    case 2:
-    {
-        int newc;
-        cout<<"Enter the new value for credits.\n"<<endl;
-        cin>>newc;
-        setcredits(newc);
-    }break;
-    case 3: return;
-    }
+        case 2:
+        {
+            int newc;
+            cout<<"Enter the new value for credits.\n"<<endl;
+            cin>>newc;
+            setcredits(newc);
+        }break;
+        case 3: return;
+        default:
+            cout<<"Enter a valid number(1-3).\n\tPress any key to retry."<<endl;
+            getchar();
+            break;
+        }
+    }while(true);
 }
 
 
@@ -153,28 +158,27 @@ void Course::options()
         if (index!=-1){
             degree->getStudents()[index].enroll(this);
         }
-            break;
+        break;
     }
     case 2: {
         int selection =-1;
         do {
-        for (int i=0; i<studentlist.getsize(); i++){
-            cout<<i+1<<": "<<studentlist[i]->getStudent().getidentifier()<<endl;
-        }
-        cout << "Select the student you want to remove (1-"<<studentlist.getsize()<<") or -1 to cancel: ";
-        cin>>selection;
+            for (int i=0; i<studentlist.getsize(); i++){
+                cout<<i+1<<": "<<studentlist[i]->getStudent().getidentifier()<<endl;
+            }
+            cout << "Select the student you want to remove (1-"<<studentlist.getsize()<<") or -1 to cancel: ";
+            cin>>selection;
         }while((selection<1 && selection !=-1)||selection>studentlist.getsize());
         if (selection!=-1){
-             delete studentlist[selection-1];
+            delete studentlist[selection-1];
         }
 
     }
         break;
-    case 3: break;
+    case 3: return;
     }
     return;
 }
-
 
 
 
@@ -184,9 +188,9 @@ void Course::showdetails()
     cout<<"Credits: "<<credits<<endl;
     cout<<"Teachers: "<<endl;
     for (int i=0; i<2; i++){
-    if(teachers[i]!=nullptr){
-        cout<<"\t"<<teachers[i]->getteacher()->getidentifier()<<": "<<teachers[i]->getRoleName()<<endl;
-    }
+        if(teachers[i]!=nullptr){
+            cout<<"\t"<<teachers[i]->getteacher()->getidentifier()<<": "<<teachers[i]->getRoleName()<<endl;
+        }
     }
     cout<<"Number of students: "<<studentlist.getsize()<<endl;
 

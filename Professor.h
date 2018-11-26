@@ -15,9 +15,6 @@ class Professor: public User
 {
 protected:
     string identifier;
-    //ArrayList<Link_us_res*> courselist;
-    //ArrayList<Link_us_res*> fdplist;
-    //ArrayList<Link_us_res*> seminarlist;
     ArrayList<Link_prof_res*> courselist;
     ArrayList<Link_prof_res*> fdplist;
     ArrayList<Link_prof_res*> seminarlist;

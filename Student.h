@@ -16,9 +16,9 @@ private:
 
     int SIN;
     const Degree *mydegree;
-    ArrayList <Link_stu_res*> mycourses;//ArrayList <Link_us_res*> mycourses; //triple!!! investigar si todo funciona correcto.
-    ArrayList <Link_stu_res*> myseminars;//ArrayList <Link_us_res*> myseminars;
-    Link_stu_res *myfdp; //Link_us_res *myfdp;
+    ArrayList <Link_stu_res*> mycourses;//triple!!! investigar si todo funciona correcto.
+    ArrayList <Link_stu_res*> myseminars;
+    Link_stu_res *myfdp;
 
     void addCourse(Link_stu_res *link);
     void removeResource(Link_stu_res *link);
@@ -39,7 +39,7 @@ public:
     string getidentifier();
     void showDetails();
     void Drop(Course *c);
-    void Drop(Seminar *c);
+    void Drop(Seminar *s);
     void Dropfdp();
     void enroll(Course *cour);
     void enroll(Seminar *setminar);

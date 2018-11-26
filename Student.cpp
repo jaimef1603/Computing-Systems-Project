@@ -122,9 +122,9 @@ string Student::getidentifier()
 void Student::showDetails()
 {
    cout<<"SIN: "<<getidentifier();
-   cout<<"Courses enrolled: "<<mycourses.getsize();
-   cout<<"Seminars enrolled: "<<myseminars.getsize();
-   cout<<"Has FDP: ";
+   cout<<"  Courses enrolled: "<<mycourses.getsize();
+   cout<<"  Seminars enrolled: "<<myseminars.getsize();
+   cout<<"  Has FDP: ";
    if(myfdp!=nullptr){
        cout<<"YES"<<endl;
    }else{

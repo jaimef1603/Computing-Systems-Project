@@ -129,6 +129,8 @@ void FDP::removestudent(Link_stu_res *link){
     }
 }
 
+
+
 void FDP::removeprofessor(Link_prof_res* link)
 {
     int i;

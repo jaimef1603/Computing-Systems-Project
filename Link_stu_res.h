@@ -1,8 +1,8 @@
 ﻿#ifndef LINK_STU_RES_H
 #define LINK_STU_RES_H
 #include "Link_us_res.h"
-
 #include "Mark.h"
+
 class Student;
 
 class Link_stu_res : public Link_us_res

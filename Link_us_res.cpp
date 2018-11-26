@@ -2,11 +2,7 @@
 #include <iostream>
 #include "Link_us_res.h"
 
-
-
 using namespace std;
-
-
 
 Link_us_res::Link_us_res(Resource *r)
 {
@@ -45,10 +41,6 @@ Link_us_res& Link_us_res::operator=(const Link_us_res& other)
 Resource& Link_us_res::getResource(){
     return *resourcePtr;
 }
-
-
-
-
 
 
 //bool Link_us_res::checkUserKind(){

@@ -8,7 +8,8 @@ using namespace std;
 
 
 
-Degree::Degree():name(){
+Degree::Degree():name()
+{
     student_number=course_number=0;
     stulist=nullptr;
     courselist=nullptr;
@@ -18,7 +19,8 @@ Degree::Degree():name(){
 
 
 
-Degree::Degree(string n, const char *id, VirtualCampus *mycampus){
+Degree::Degree(string n, const char *id, VirtualCampus *mycampus)
+{
     student_number=course_number=0;
     name=n;
     stulist=nullptr;
@@ -30,7 +32,8 @@ Degree::Degree(string n, const char *id, VirtualCampus *mycampus){
 
 
 
-Degree::~Degree(){
+Degree::~Degree()
+{
     if (stulist!=nullptr){
         delete[] stulist;
     }
@@ -38,19 +41,22 @@ Degree::~Degree(){
 
 
 
-int Degree::getstudent_number(){
+int Degree::getstudent_number()
+{
     return student_number;
 }
 
 
 
-string Degree::getname(){
+string Degree::getname()
+{
     return name;
 }
 
 
 
-char& Degree::getid(){
+char& Degree::getid()
+{
     return *id;
 }
 
@@ -75,7 +81,8 @@ Student* Degree::searchStudentbyid(string id)
 
 
 
-void Degree::setname(string n){
+void Degree::setname(string n)
+{
     name=n;
 }
 
@@ -86,7 +93,7 @@ void Degree::edit()
     int selection;
     do{
         system("clear");
-        cout<<"1: Edit name 2: exit\n";
+        cout<<"1: Edit name 2: Back\n";
         cin>>selection;
     }while(selection !=1 && selection != 2);
     switch (selection) {
@@ -98,13 +105,12 @@ void Degree::edit()
     }; break;
     case 2: return;
     }
-
-
 }
 
 
 
-void Degree::addCourse(){
+void Degree::addCourse()
+{
     string id;
     int credits;
     cout<<"Write new course id:\n";
@@ -142,35 +148,6 @@ void Degree::addCourse(){
 
 
 
-void Degree::editcourse()
-{
-    int selection,field, newcredits;
-    string newid;
-    cout<<"Select the course you want to edit (1-"<<course_number+1<<")"<<endl;
-    for (int i=0; i<course_number; i++){
-        cout<<i+1<<": "<<courselist[i].getIdentification()<<endl;
-    }
-    cin>>selection;
-    system("clear");
-    cout<<"Select the field you want to edit (1-2)\n1: id\n2: credits\n"<<endl;
-    cin>>field;
-    switch (field) {
-    case 1:
-        cout<<"Enter the new id: ";
-        cin>>newid;
-        courselist[selection-1].setIdentification(newid);
-        break;
-    case 2:
-        cout<<"Enter the new value for credits: ";
-        cin>>newcredits;
-        courselist[selection-1].setcredits(newcredits);
-        break;
-    }
-
-}
-
-
-
 void Degree::deleteCourse(int index)
 {
     Course *temp = new Course [course_number-1];
@@ -193,7 +170,8 @@ void Degree::deleteCourse(int index)
 
 
 
-void Degree::addStudent(){
+void Degree::addStudent()
+{
     Student *temp;
     if (stulist==nullptr){
         stulist = new Student [1];
@@ -251,7 +229,6 @@ void Degree::showstudents(){
 
 
 
-
 Student* Degree::getStudents()
 {
     return stulist;
@@ -278,7 +255,7 @@ void Degree::showcourses()
     if (courselist!=nullptr){
         cout<<"\t\nCourses:"<<endl;
         for (int i=0; i< course_number; i++){
-            cout<<"\tid: "<<courselist[i].getIdentification();
+            cout<<"\tID: "<<courselist[i].getIdentification();
             cout<<"\tCredits: "<<courselist[i].getcredits();
             cout<<"\n";
         }
@@ -338,7 +315,7 @@ void Degree::options()
         system("clear");
         manageStudents();
         break;
-    case 3: break;
+    case 3: return;
     }
     return;
 }
@@ -347,8 +324,6 @@ void Degree::options()
 
 void Degree::manageCourses ()
 {
-
-
     int selection, cour;
     do{
         system("clear");
@@ -411,7 +386,7 @@ void Degree::manageCourses ()
             system("clear");
 
             if(cour!=-1){
-                cout<<"Details of Course "<<cour<<"of "<<this->getname()<<".\n";
+                cout<<"Details of Course "<<cour<<" of "<<this->getname()<<".\n";
                 courselist[cour-1].showdetails();
                 cout<<"\tPress any key to close.\n";
                 cin.ignore(1, '\n');
@@ -439,7 +414,8 @@ void Degree::manageCourses ()
 
         case 6: return;
 
-        default: cout<<"Enter a valid number(1-5).\n\tPress any key to retry.\n"<<endl;
+        default:
+            cout<<"Enter a valid number(1-6).\n\tPress any key to retry.\n"<<endl;
             getchar();
             break;
         }
@@ -448,10 +424,8 @@ void Degree::manageCourses ()
 
 
 
-
 void Degree::manageStudents()
 {
-
     int selection, stu;
     do {
         system("clear");
@@ -500,10 +474,45 @@ void Degree::manageStudents()
             break;
 
         case 4: return;
-        default: cout<<"Enter a valid number(1-4).\n\tPress any key to retry."<<endl;
+        default:
+            cout<<"Enter a valid number(1-4).\n\tPress any key to retry."<<endl;
             getchar();
             break;
         }
     }while(true);
 
 }
+
+
+
+//void Degree::editcourse()
+//{
+//    int selection,field, newcredits;
+//    string newid;
+//    cout<<"Select the course you want to edit (1-"<<course_number+1<<")"<<endl;
+//    for (int i=0; i<course_number; i++){
+//        cout<<i+1<<": "<<courselist[i].getIdentification()<<endl;
+//    }
+//    cin>>selection;
+//    do{
+//        system("clear");
+//        cout<<"Select the field you want to edit (1-2)\n1: id\n2: credits\n"<<endl;
+//        cin>>field;
+//        switch (field) {
+//        case 1:
+//            cout<<"Enter the new id: ";
+//            cin>>newid;
+//            courselist[selection-1].setIdentification(newid);
+//            break;
+//        case 2:
+//            cout<<"Enter the new value for credits: ";
+//            cin>>newcredits;
+//            courselist[selection-1].setcredits(newcredits);
+//            break;
+//        default:
+//            cout<<"Enter a valid number(1-5).\n\tPress any key to retry.\n"<<endl;
+//            getchar();
+//            break;
+//        }
+//    }while(true);
+//}

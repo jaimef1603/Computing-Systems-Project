@@ -29,11 +29,15 @@ Professor::Professor(const Professor& other)
 
 
 
-string Professor::getidentifier(){
+string Professor::getidentifier()
+{
     return identifier;
 }
 
-void Professor::setidentifier(string ident){
+
+
+void Professor::setidentifier(string ident)
+{
     identifier=ident;
 }
 
@@ -100,7 +104,7 @@ void Professor::options()
 
         case 2:
 
-        case 3: break;
+        case 3: return;
         }
         return;
 }
@@ -110,9 +114,6 @@ void Professor::options()
 int Professor::menu(){
 
 }
-
-
-
 
 
 //void Professor::exitResource(){

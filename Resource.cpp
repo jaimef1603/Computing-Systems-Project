@@ -1,7 +1,8 @@
 ﻿#include "Resource.h"
 #include <iostream>
-
-Resource::Resource(string id, string s):identification(id), status(s){}
+#include "Utilities.h"
+Resource::Resource(string id, string s):identification(id), status(s){
+}
 
 Resource::Resource(const Resource& r)
     :identification(r.identification), status(r.status)
@@ -28,26 +29,27 @@ Resource& Resource::operator= (const Resource& r){
 }
 
 string Resource::getIdentification(){
-     return identification;
+    return identification;
 }
 
 
 
 string Resource::getstatus(){
     //comprobar que el estado sea correcto
-     return status;
+    return status;
 }
 
 
 void Resource::setIdentification(string id){
 
-    //Comprobar que id cumple las condiciones para ser asignado
-     identification=id;
+        identification=id;
+
 }
 
 
 void Resource::setstatus(string s){
-     status=s;
+    status=s;
 }
+
 
 

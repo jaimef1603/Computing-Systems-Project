@@ -20,9 +20,9 @@ SOURCES += \
     Link_us_res.cpp \
     User.cpp \
     Node.tpp \
-    Utilities.cpp \
     Link_stu_res.cpp \
-    Link_prof_res.cpp
+    Link_prof_res.cpp \
+    Utilities.cpp
 
 HEADERS += \
     Administrator.h \

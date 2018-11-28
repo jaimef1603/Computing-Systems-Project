@@ -29,11 +29,18 @@ public:
     void addTeacher();
     void deleteTeacher(int index);
     int findTeacher(string identification);
+    int findSeminar(string identification);
+    int findDegree(string identification);
+    int findFDP(string identification);
+    int getDegreeNumber();
+    Degree* getDegrees();
+    Seminar* getSeminars();
     Professor* getTeachers();
     void addDegree();
     void deleteDegree(int index);
     void showAllDeg();
     void showAllTeach();
+    void showAllSeminars();
     void editFDP();
     void addFDP();
     void editseminar();

@@ -3,12 +3,10 @@
 #include "Professor.h"
 //#include "VirtualCampus.h"
 
-class VirtualCampus;
 class Administrator: public Professor{
 
 
 private:
-    VirtualCampus *mycampus;
 
     void manageUser();
     void manageTeacher();

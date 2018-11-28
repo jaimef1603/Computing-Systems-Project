@@ -55,9 +55,9 @@ string Degree::getname()
 
 
 
-char& Degree::getid()
+const char* Degree::getid()
 {
-    return *id;
+    return id;
 }
 
 

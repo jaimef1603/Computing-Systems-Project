@@ -2,10 +2,7 @@
 #include "VirtualCampus.h"
 
 
-Administrator::Administrator(string id, VirtualCampus *vc):Professor(id)
-{
-    mycampus=vc;
-}
+Administrator::Administrator(string id, VirtualCampus *vc):Professor(id, vc){}
 
 
 
@@ -22,6 +19,7 @@ void Administrator::manageTeacher()
             string id;
             int teach=-1;
             system("clear");
+             mycampus->showAllTeach();
             cout<<"Enter the id of the teacher you want to show details.\n";
 
             do {
@@ -47,6 +45,7 @@ void Administrator::manageTeacher()
             string id;
             int teach=-1;
             system("clear");
+            mycampus->showAllTeach();
             cout<<"Enter the id of the teacher you want to delete.\n";
 
             do {

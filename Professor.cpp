@@ -1,19 +1,21 @@
 ﻿#include "Professor.h"
 #include <string>
 #include "Utilities.h"
+#include "VirtualCampus.h"
 
 Professor::Professor()
     : User(), identifier("0"), courselist(), fdplist(), seminarlist()
 {
-
+    mycampus=nullptr;
 }
 
 
 
-Professor::Professor(string ident)
+Professor::Professor(string ident, VirtualCampus *vc)
     :User(), courselist(), fdplist(), seminarlist()
 {
     identifier=ident;
+    mycampus=vc;
 }
 
 
@@ -22,6 +24,7 @@ Professor::Professor(const Professor& other)
     :User()
 {
     identifier=other.identifier;
+    mycampus=other.mycampus;
     this->courselist=other.courselist;
     this->fdplist=other.fdplist;
     this->seminarlist=other.seminarlist;
@@ -82,6 +85,10 @@ void Professor::edit()
         }
     }while (!valid);
 
+    if (valid){
+        this->identifier=ident;
+    }
+
 }
 
 
@@ -89,30 +96,237 @@ void Professor::edit()
 void Professor::options()
 {
 
-        int selection;
-        cout<<"1: Add to Resource \n2: Remove from Resource \n3: Back\n";
-        do {
-            cin>>selection;
-            if (selection <1 || selection >3){
-                system("clear");
-                cout<<"1: Add to Resource \n2: Remove from Resource \n3: Back\n";
-                cout<<"Select a valid number (1-3) or -1 to exit"<<endl;
-            }
-        }while((selection <1 && selection !=-1) || selection >3);
+    char selection;
+    do {
+        system ("clear");
+        cout<<"1: Seminars \n2: Courses \n3:FDPs \n4: Back\n";
+        cin>>selection;
         switch (selection) {
-        case 1:
+        case '1': manageSeminars(); break;
+        case '2':
+            manageCourses(); break;
+        case '3':
 
-        case 2:
+        case '4': return;
 
-        case 3: return;
+        default: cout<<"Select a valid number (1-4)\n\tPress any key to retry."<<endl;
+
+            getchar();
+            break;
+
         }
-        return;
+    }while(true);
 }
 
 
 
-int Professor::menu(){
 
+
+
+void Professor::manageSeminars()
+{
+    char selection;
+    do {
+        cout<<"SEMINARS:\n 1:Add 2:Delete 3:Back\n"<<endl;
+        cin>>selection;
+
+        switch (selection) {
+        case '1':
+        {           char r;
+            string identification;
+            int valid=-1;
+            do {
+                system("clear");
+                mycampus->showAllSeminars();
+                cin>>identification;
+                if (identification == "cancel"){
+                    break;
+                }
+                valid=mycampus->findSeminar(identification);
+
+            }while(valid==-1);
+            if (valid!=-1){
+                do {
+                    system("clear");
+                    cout<<"Select Role: 1: Speaker\n2: Coordinator";
+                    cin>>r;
+                    switch (r) {
+                    case '1':
+                        enroll(&mycampus->getSeminars()[valid], role::speaker);
+                        return;
+                    case '2':
+                        enroll(&mycampus->getSeminars()[valid], role::coordinator);
+                        return;
+                    case '3': return;
+                    default: break;
+                    }
+
+                }while(true);
+
+            }
+        }
+            break;
+        case '2':{
+            int index;
+            do{
+                system("clear");
+                cout<<"Seminars of "<<this->getidentifier()<<" :"<<endl;
+                for(int i=0; i<seminarlist.getsize(); i++){
+                    cout<<seminarlist[i]->getResource().getIdentification()<<endl;
+                }
+                cout<<"Enter the id of the seminar you want to remove?\n";
+                cin>>index;
+            }while ((index<0 && index !=-1) || index>=seminarlist.getsize());
+
+            delete seminarlist[index];
+        }
+            break;
+        case '3': return;
+        }
+    }while (true);
+}
+
+
+
+void Professor::manageCourses()
+{
+    char selection;
+    do {
+        cout<<"SEMINARS:\n 1:Add 2:Delete 3:Back\n"<<endl;
+        cin>>selection;
+
+        switch (selection) {
+        case '1':
+            selectCourseAndAdd();
+            break;
+        case '2':{
+            int index;
+            do{
+                system("clear");
+                cout<<"Seminars of "<<this->getidentifier()<<" :"<<endl;
+                for(int i=0; i<seminarlist.getsize(); i++){
+                    cout<<seminarlist[i]->getResource().getIdentification()<<endl;
+                }
+                cout<<"Enter the id of the seminar you want to remove?\n";
+                cin>>index;
+            }while ((index<0 && index !=-1) || index>=seminarlist.getsize());
+
+            delete seminarlist[index];
+        }
+            break;
+        case '3': return;
+        }
+    }while (true);
+}
+
+
+
+void Professor::selectCourseAndAdd(){
+    int index;
+    char r;
+    Degree *current;
+    string identification;
+    int valid=-1;
+
+    do {
+        system("clear");
+        mycampus->showAllDeg();
+        cout<<"Select the Degree to choose a Course: 1- "<<mycampus->getDegreeNumber()<<")"<<endl;
+        cin>>index;
+    }while((index<1 && index!=-1)|| index> mycampus->getDegreeNumber());
+
+    if (index!=-1){
+        current=& (mycampus->getDegrees()[index-1]);
+
+        do {
+            system("clear");
+            current->showcourses();
+
+            cin>>ws>>identification;
+            if (identification == "cancel"){
+                break;
+            }
+            valid=current->findCourse(identification);
+
+        }while(valid==-1);
+        if (valid!=-1){
+            do {
+                system("clear");
+                cout<<"Select Role: 1: Named Chair\n2: Associated";
+                cin>>r;
+                switch (r) {
+                case '1':
+                    enroll(&current->getCourses()[valid], role::named_chair);
+                    return;
+                case '2':
+                    enroll(&current->getCourses()[valid], role::associated);
+                    return;
+                case '3': return;
+                default: break;
+                }
+
+            }while(true);
+
+        }
+    }
+
+}
+
+
+
+
+void Professor::addResource(ArrayList<Link_prof_res*> &list, Link_prof_res* link){
+    list.pushFront(link);
+}
+
+
+
+void Professor:: enroll(Course* c, role r)
+{
+    Link_prof_res *newlink= new Link_prof_res (this, c, r);
+    newlink->connectProftoCourse();
+    newlink->connectResource();
+}
+
+
+void Professor:: enroll(Seminar* s, role r)
+{
+    Link_prof_res *newlink= new Link_prof_res (this, s, r);
+    newlink->connectProftoSeminar();
+    newlink->connectResource();
+}
+
+
+
+void Professor:: enroll(FDP* project, role r)
+{
+    Link_prof_res *newlink= new Link_prof_res (this, project, r);
+    newlink->connectProftoFDP();
+    newlink->connectResource();
+}
+
+
+
+void Professor::addCourse(Link_prof_res *link){
+    this->courselist.pushBack(link);
+}
+
+
+
+void Professor::addSeminar(Link_prof_res *link)
+{
+    this->seminarlist.pushBack(link);
+}
+
+
+
+void Professor::addFDP(Link_prof_res *link)
+{
+    this->fdplist.pushBack(link);
+}
+
+int Professor::menu(){
+return 0;
 }
 
 

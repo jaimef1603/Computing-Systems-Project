@@ -72,6 +72,8 @@ int VirtualCampus::run()
 
 
 
+
+
 void VirtualCampus::addTeacher()
 {
     system("clear");
@@ -81,7 +83,7 @@ void VirtualCampus::addTeacher()
     Professor *temp;
     if (proflist==nullptr){
         proflist = new Professor[1];
-        proflist[0] = Professor(id);
+        proflist[0] = Professor(id, this);
         prof_number=1;
         std::cerr<<"Teacher added\n";
         getchar();
@@ -97,8 +99,9 @@ void VirtualCampus::addTeacher()
                 proflist[i]=temp[i];
             }
             delete [] temp;
-            proflist[prof_number] = Professor(id);
+            proflist[prof_number] = Professor(id, this);
             prof_number+=1;
+            std::cerr<<"Teacher added\n";
         }else{
             cerr<<"VirtualCampus::addTeacher(); Invalid size for prof_number.\n"<<endl;
         }
@@ -140,6 +143,27 @@ int VirtualCampus::findTeacher(string identification)
     }
     return -1;
 
+}
+
+
+
+Seminar* VirtualCampus::getSeminars()
+{
+    return seminalist;
+}
+
+
+
+int VirtualCampus::getDegreeNumber()
+{
+    return degree_number;
+}
+
+
+
+Degree* VirtualCampus::getDegrees()
+{
+    return degreelist;
 }
 
 
@@ -215,19 +239,48 @@ void VirtualCampus::deleteDegree(int index){
 
 
 
-void VirtualCampus::showAllDeg(){
+int VirtualCampus::findDegree(string identification)
+{
+    if(degreelist!=nullptr){
+        for (int i=0; i<degree_number; i++){
+            if (identification.c_str()==degreelist[i].getid()){
+                return i;
+            }
+        }
+    }
+    return -1;
+}
+
+
+
+void VirtualCampus::showAllDeg()
+{
     for(int i=0;i<degree_number;i++){
 
         cout<<i+1<<": "<<degreelist[i].getname()<<endl;
     }
 }
 
-void VirtualCampus::showAllTeach(){
+
+
+void VirtualCampus::showAllTeach()
+{
     for(int i=0;i<prof_number;i++){
 
         cout<<i+1<<": "<<proflist[i].getidentifier()<<endl;
     }
 }
+
+
+
+void VirtualCampus::showAllSeminars()
+{
+    for(int i=0;i<seminar_number;i++){
+
+        cout<<i+1<<": "<<seminalist[i].getIdentification()<<endl;
+    }
+}
+
 
 
 
@@ -281,6 +334,38 @@ void VirtualCampus::addFDP()
 
 
 
+void VirtualCampus::editFDP()
+{
+    system("clear");
+    int selection;
+    string newname;
+    cout<<"Select the FDP you want to edit (1-"<<fdp_number+1<<")"<<endl;
+    for (int i=0; i<fdp_number; i++){
+        cout<<i+1<<": "<<projectlist[i].getIdentification()<<endl;
+    }
+    cin>>selection;
+    system("clear");
+    cout<<"Enter the new id"<<endl;
+    cin>>newname;
+    projectlist[selection-1].setIdentification(newname);
+}
+
+
+
+int VirtualCampus::findFDP(string identification)
+{
+    if(projectlist!=nullptr){
+        for (int i=0; i<fdp_number; i++){
+            if (identification==projectlist[i].getIdentification()){
+                return i;
+            }
+        }
+    }
+    return -1;
+}
+
+
+
 void VirtualCampus::addseminar()
 {
 
@@ -312,24 +397,6 @@ void VirtualCampus::addseminar()
         }
     }
 
-}
-
-
-
-void VirtualCampus::editFDP()
-{
-    system("clear");
-    int selection;
-    string newname;
-    cout<<"Select the FDP you want to edit (1-"<<fdp_number+1<<")"<<endl;
-    for (int i=0; i<fdp_number; i++){
-        cout<<i+1<<": "<<projectlist[i].getIdentification()<<endl;
-    }
-    cin>>selection;
-    system("clear");
-    cout<<"Enter the new id"<<endl;
-    cin>>newname;
-    projectlist[selection-1].setIdentification(newname);
 }
 
 
@@ -374,4 +441,18 @@ void VirtualCampus::editseminar(){
             break;
         }
     }while(true);
+}
+
+
+
+int VirtualCampus::findSeminar(string identification)
+{
+    if(seminalist!=nullptr){
+        for (int i=0; i<seminar_number; i++){
+            if (identification==seminalist[i].getIdentification()){
+                return i;
+            }
+        }
+    }
+    return -1;
 }

@@ -93,10 +93,9 @@ void Course::edit()
         case 1:{
             string newname;
             bool valid=false;
-            system("clear");
-            cout<<"Enter the new ID CCCIIII (C=char, I=number) or a single char to exit\n"<<endl;
             do {
                 system("clear");
+                cout<<"Enter the new ID CCCIIII (C=char, I=number) or a single char to exit\n"<<endl;
                 cin>>ws>>newname;
                 if (newname.length()==1){
                     break;

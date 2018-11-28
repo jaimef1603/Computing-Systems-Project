@@ -91,6 +91,27 @@ Professor* Link_prof_res::getteacher()
 
 
 
+void Link_prof_res::connectProftoCourse()
+{
+    profPtr->addCourse(this);
+}
+
+
+
+void Link_prof_res::connectProftoSeminar()
+{
+    profPtr->addSeminar(this);
+}
+
+
+
+void Link_prof_res::connectProftoFDP()
+{
+    profPtr->addFDP(this);
+}
+
+
+
 void Link_prof_res::connectResource()
 {
     resourcePtr->addteacher(this);

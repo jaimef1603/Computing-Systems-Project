@@ -32,7 +32,7 @@ public:
     Degree(string n, const char *id,  VirtualCampus *mycampus);
     ~Degree();
     string getname();
-    char& getid();
+    const char* getid();
     VirtualCampus& getVc();
     Student* searchStudentbyid(string id);
     int getstudent_number();

@@ -28,7 +28,7 @@ public:
     static int count;
     friend class Link_stu_res;
     Student();
-    Student(Degree *d);
+    Student(string n, Degree *d);
     Student (const Student &);
     ~Student();
     Student& operator=(const Student&);

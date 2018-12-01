@@ -2,7 +2,9 @@
 #include "VirtualCampus.h"
 #include <sstream>
 
-Administrator::Administrator(string id, VirtualCampus *vc):Professor(id, vc){}
+Administrator::Administrator(string n,string id, VirtualCampus *vc):Professor(n, id, vc){
+
+}
 
 
 

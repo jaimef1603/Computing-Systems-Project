@@ -3,7 +3,7 @@
 VirtualCampus::VirtualCampus()
 {
 
-    currentuser=new Administrator("aaaaaa", this);
+    currentuser=new Administrator("undefined","aaaaaa", this);
 
 
 }
@@ -81,11 +81,12 @@ int VirtualCampus::run()
 void VirtualCampus::addTeacher()
 {
     system("clear");
-    string id;
+    string id, name;
     cout<<"Enter the ID of the teacher: ";
     cin>>ws>>id;
-
-    proflist.push_back(new Professor (id, this));
+    cout<<"Enter the name of the teacher: ";
+    cin>>ws>>name;
+    proflist.push_back(new Professor (name, id, this));
 
 
     //    if (proflist==nullptr){

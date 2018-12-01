@@ -4,6 +4,17 @@ User::~User(){
 
 }
 
+void User::setname(string n)
+{
+    name=n;
+}
+
+
+
+string User::getname(){
+    return name;
+}
+
 //void User::addCourse(Link_us_res *link){
 //    std::cerr<<"This object can't add Course"<<std::endl;
 //}

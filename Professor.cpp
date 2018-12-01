@@ -11,9 +11,10 @@ Professor::Professor()
 
 
 
-Professor::Professor(string ident, VirtualCampus *vc)
+Professor::Professor(string n, string ident, VirtualCampus *vc)
     :User(), courselist(), fdplist(), seminarlist()
 {
+    setname(n);
     identifier=ident;
     mycampus=vc;
 }
@@ -59,6 +60,7 @@ void Professor::removeResource(Link_prof_res *link)
 void Professor::showdetails()
 {
     cout<<"ID: "<<identifier<<endl;
+    cout<<"Name: "<<name<<endl;
     cout<<"Courses: "<<courselist.getsize()<<endl;
     cout<<"Seminars: "<<seminarlist.getsize()<<endl;
     cout<<"FDPs: "<<fdplist.getsize()<<endl;
@@ -68,26 +70,64 @@ void Professor::showdetails()
 
 void Professor::edit()
 {
-    string ident;
-    bool valid = false;
-    cout<<"You can only edit the ID.\n ";
-    cout<<"Enter the new ID (7 chars) or \"cancel\" to exit: ";
+    char selection;
+    cout<<"1: Edit name 2: Edit ID 3: Back\n";
     do{
-        cin>>ident;
-        if (ident=="cancel"){
-            return;
-        }
-        if (ident.length()==7 && checkletters(ident)){
-            valid = true;
-        }else{
+        cin>>selection;
+        switch (selection) {
+        case '1':{
+            string newname;
+            bool valid=false;
+            system("clear");
+            cout<<"Enter the new name (letters a-z, A-Z) or \"cancel\" to exit\n"<<endl;
+            do {
+                cin>>ws>>newname;
+                if (newname=="cancel"){
+                    break;
+                }
+                if (!(valid=checkletters(newname))){
+                    cout<<"Enter a valid name (letters a-z, A-Z) or \"cancel\" to exit\n"<<endl;
+                }
+            }while (!valid);
+            if (valid){
+                this->setname(newname);
+            }
+            break;
+            }
+        case'2':{
+            string ident;
+            bool valid=false;
             system("clear");
             cout<<"Enter the new ID (7 chars) or \"cancel\" to exit: ";
-        }
-    }while (!valid);
+            do{
+                cin>>ident;
+                if (ident=="cancel"){
+                    return;
+                }
+                if (ident.length()==7 && checkletters(ident)){
+                    valid = true;
+                }else{
+                    system("clear");
+                    cout<<"Enter the new ID (7 chars) or \"cancel\" to exit: ";
+                }
+            }while (!valid);
 
-    if (valid){
-        this->identifier=ident;
-    }
+            if (valid){
+                this->identifier=ident;
+            }
+
+            break;
+            }
+        case '3':return;
+        default:
+            system("clear");
+            cout<<"1: Edit name 2: Edit ID 3: Back\n";
+            cout<<"Select a valid number\n";
+            break;
+
+        }
+    }while(true);
+
 
 }
 
@@ -102,7 +142,8 @@ void Professor::options()
         cout<<"1: Seminars \n2: Courses \n3:FDPs \n4: Back\n";
         cin>>selection;
         switch (selection) {
-        case '1': manageSeminars(); break;
+        case '1':
+            manageSeminars(); break;
         case '2':
             manageCourses(); break;
         case '3':
@@ -132,18 +173,19 @@ void Professor::manageSeminars()
 
         switch (selection) {
         case '1':
-        {           char r;
+        {
+            char r;
             string identification;
             int valid=-1;
             do {
                 system("clear");
                 mycampus->showAllSeminars();
+                cout<<"Enter the id of the seminar you want to add?\n";
                 cin>>identification;
                 if (identification == "cancel"){
                     break;
                 }
                 valid=mycampus->findSeminar(identification);
-
             }while(valid==-1);
             if (valid!=-1){
                 do {
@@ -188,11 +230,44 @@ void Professor::manageSeminars()
 
 
 
+//void Professor::manageCourses()
+//{
+//    char selection;
+//    do {
+//        cout<<"SEMINARS:\n 1:Add 2:Delete 3:Back\n"<<endl;
+//        cin>>selection;
+
+//        switch (selection) {
+//        case '1':
+//            selectCourseAndAdd();
+//            break;
+//        case '2':{
+//            int index;
+//            do{
+//                system("clear");
+//                cout<<"Seminars of "<<this->getidentifier()<<" :"<<endl;
+//                for(int i=0; i<seminarlist.getsize(); i++){
+//                    cout<<seminarlist[i]->getResource().getIdentification()<<endl;
+//                }
+//                cout<<"Enter the id of the seminar you want to remove?\n";
+//                cin>>index;
+//            }while ((index<0 && index !=-1) || index>=seminarlist.getsize());
+
+//            delete seminarlist[index];
+//        }
+//            break;
+//        case '3': return;
+//        }
+//    }while (true);
+//}
+
+
+
 void Professor::manageCourses()
 {
     char selection;
     do {
-        cout<<"SEMINARS:\n 1:Add 2:Delete 3:Back\n"<<endl;
+        cout<<"COURSES:\n 1:Add 2:Delete 3:Back\n"<<endl;
         cin>>selection;
 
         switch (selection) {
@@ -203,22 +278,21 @@ void Professor::manageCourses()
             int index;
             do{
                 system("clear");
-                cout<<"Seminars of "<<this->getidentifier()<<" :"<<endl;
-                for(int i=0; i<seminarlist.getsize(); i++){
-                    cout<<seminarlist[i]->getResource().getIdentification()<<endl;
+                cout<<"Courses of "<<this->getidentifier()<<" :"<<endl;
+                for(int i=0; i<courselist.getsize(); i++){
+                    cout<<courselist[i]->getResource().getIdentification()<<endl;
                 }
-                cout<<"Enter the id of the seminar you want to remove?\n";
+                cout<<"Enter the id of the course you want to remove?\n";
                 cin>>index;
-            }while ((index<0 && index !=-1) || index>=seminarlist.getsize());
+            }while ((index<0 && index !=-1) || index>=courselist.getsize());
 
-            delete seminarlist[index];
+            delete courselist[index];
         }
             break;
         case '3': return;
         }
     }while (true);
 }
-
 
 
 void Professor::selectCourseAndAdd(){

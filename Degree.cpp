@@ -224,9 +224,11 @@ void Degree::deleteCourse(unsigned index)
 void Degree::addStudent()
 {
 
+    string name;
+    cout<<"Enter the name of the student: ";
+    cin>>name;
 
-
-    stulist.push_back(new Student(this));
+    stulist.push_back(new Student(name,this));
 
 
 

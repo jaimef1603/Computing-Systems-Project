@@ -2,9 +2,9 @@
 #include <iostream>
 #include "Link_prof_res.h"
 
-Seminar::Seminar( string id, string s, int seatsValue, Date when, Professor *spe, Professor *coord)
+Seminar::Seminar(string n, string id, string s, int seatsValue, Date when, Professor *spe, Professor *coord)
 {
-    //setname(n);
+    setname(n);
     setIdentification(id);
     setstatus(s);
     if (seatsValue >0){
@@ -26,9 +26,9 @@ Seminar::Seminar( string id, string s, int seatsValue, Date when, Professor *spe
 
 
 
-Seminar::Seminar( string id, string s, int seatsValue, Professor *spe, Professor *coord)
+Seminar::Seminar(string n, string id, string s, int seatsValue, Professor *spe, Professor *coord)
 {
-    //setname(n);
+    setname(n);
     setIdentification(id);
     setstatus(s);
     if (seatsValue >0){

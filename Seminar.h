@@ -25,8 +25,8 @@ private:
 public:
     friend class Link_stu_res;
     friend class Link_prof_res;
-    Seminar(string id="undefined", string s="unknown", int seatsValue=0,Professor *spe =nullptr, Professor *coord=nullptr);
-    Seminar(string id, string s, int seatsValue, Date when, Professor *spe, Professor *coord);
+    Seminar(string n="unknown", string id="undefined", string s="unknown", int seatsValue=0,Professor *spe =nullptr, Professor *coord=nullptr);
+    Seminar(string n, string id, string s, int seatsValue, Date when, Professor *spe, Professor *coord);
     void setmaxseats(int s);
     int getmaxseats()const;
     void setdate(Date when);

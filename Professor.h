@@ -17,6 +17,7 @@ class Professor: public User
 {
 protected:
     string identifier;
+    string name;
     VirtualCampus *mycampus;
     ArrayList<Link_prof_res*> courselist;
     ArrayList<Link_prof_res*> fdplist;
@@ -29,7 +30,7 @@ protected:
     //void addFDP(Link_us_res *link);
 public:
     Professor();
-    Professor(string ident, VirtualCampus *vc);
+    Professor(string n, string ident, VirtualCampus *vc);
     Professor(const Professor &other);
     void setidentifier(string ident);
     void addResource(ArrayList<Link_prof_res*> &list, Link_prof_res *link);

@@ -14,7 +14,7 @@ private:
     void editResource();
     void manageDegree();
 public:
-    Administrator(string id= "xxxxxx", VirtualCampus *vc=nullptr);
+    Administrator(string n="undefined",string id= "xxxxxx", VirtualCampus *vc=nullptr);
 
     //Polymorphism starts
     int menu();

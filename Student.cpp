@@ -22,8 +22,9 @@ Student::Student():mycourses(), myseminars()
 
 
 
-Student::Student(Degree *d):mycourses(), myseminars()
+Student::Student(string n, Degree *d):mycourses(), myseminars()
 {
+    setname(n);
     SIN=1000000 + count;
     mydegree=d;
     myfdp=nullptr;

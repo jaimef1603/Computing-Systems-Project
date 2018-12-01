@@ -7,7 +7,7 @@ class Link_us_res;
 
 class User
 {
-private:
+protected:
     string name;
 public:
     virtual ~User();

@@ -330,6 +330,7 @@ void Degree::showcourses()
     for (unsigned i=0; i< courselist.size(); i++){
         cout<<i+1<<":\n";
         cout<<"\tID: "<<courselist[i]->getIdentification();
+        cout<<"\tName: "<<courselist[i]->getname();
         cout<<"\tCredits: "<<courselist[i]->getcredits();
         cout<<"\n";
     }
@@ -361,8 +362,8 @@ int Degree::findCourse(string identification)
 
 void Degree::showdetails()
 {
-    cout<<"Name: "<<name<<endl;
     cout<<"ID: "<<id<<endl;
+    cout<<"Name: "<<name<<endl;
     cout<<"Students: "<<stulist.size()<<endl;
     cout<<"Courses: "<<courselist.size()<<endl;
 }

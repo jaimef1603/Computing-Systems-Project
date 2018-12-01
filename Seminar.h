@@ -36,7 +36,7 @@ public:
     void setcoordinator(Professor *coord);
     Link_prof_res* getcoordinator()const;
 
-    //Seminar(string id, int seatsValue, Date when);
+    Seminar(string name, string id, int seatsValue, Date(int d, int m, int y), Professor coord);
 
 };
 

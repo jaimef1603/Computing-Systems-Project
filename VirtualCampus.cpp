@@ -341,8 +341,10 @@ void VirtualCampus::showAllSeminars()
 {
 
     for(unsigned i=0;i<seminalist.size();i++){
-
-        cout<<i+1<<": "<<seminalist[i]->getIdentification()<<endl;
+        cout<<i+1<<": "<<endl;
+        cout<<"   "<<seminalist[i]->getIdentification();
+        //cout<<"   "<<seminalist[i]->getname();
+        //cout<<"   "<<seminalist[i]->getdate();
     }
 
     //    for(int i=0;i<seminar_number;i++){
@@ -357,13 +359,19 @@ void VirtualCampus::showAllSeminars()
 void VirtualCampus::addFDP()
 {
     system("clear");
-    string id;
+    string id, name;
     //string namedegree, studentid;
     //int degreeid;
     //Student *stu;
     //    FDP *temp;
+    do{
     cout<<"Enter the id of the FDP: ";
     cin>>ws>>id;
+    }while(!checkletters(id));
+    do{
+        cout<<"Enter the name of the FDP: ";
+        cin>>ws>>name;
+    }while(!checkletters(name));
 
     //    cout<<"What degree does the student belong to? enter the name of the degree.\n";
     //    cin>>ws>>namedegree;
@@ -378,7 +386,7 @@ void VirtualCampus::addFDP()
     //   stu = degreelist[degreeid].searchStudentbyid(studentid);
 
 
-    projectlist.push_back(new FDP(id));
+    projectlist.push_back(new FDP(name, id));
 
 
     //    if (projectlist==nullptr){
@@ -413,15 +421,63 @@ void VirtualCampus::editFDP()
     system("clear");
     unsigned selection;
     string newname;
+    char option;
+
     cout<<"Select the FDP you want to edit (1-"<<projectlist.size()<<")"<<endl;
     for (unsigned i=0; i<projectlist.size(); i++){
         cout<<i+1<<": "<<projectlist[i]->getIdentification()<<endl;
     }
+
     cin>>selection;
     system("clear");
-    cout<<"Enter the new id"<<endl;
-    cin>>ws>>newname;
-    projectlist[selection-1]->setIdentification(newname);
+    cout<<"1: Edit name 2:Edit ID 3: Back\n";
+    cin>>ws>>option;
+    switch (option) {
+    case '1':{
+        string newname;
+        bool valid=false;
+        system("clear");
+        cout<<"Enter the new name (letters a-z, A-Z) or \"cancel\" to exit\n"<<endl;
+        do {
+            cin>>ws>>newname;
+            if (newname=="cancel"){
+                break;
+            }
+            if (!(valid=checkletters(newname))){
+                cout<<"Enter a valid name or \"cancel\" to exit\n"<<endl;
+            }
+        }while (!valid);
+        if (valid){
+            projectlist[selection-1]->setname(newname);
+        }
+        break;
+    }
+    case '2':{
+        string newId;
+        bool valid=false;
+        system("clear");
+        cout<<"Enter the new ID CCCIIII (C=char, I=number) or \"cancel\" to exit\n"<<endl;
+        do {
+            cin>>ws>>newId;
+            if (newId=="cancel"){
+                break;
+            }
+            if (!(valid=checkResId(newId))){
+                cout<<"Enter a valid ID CCCIIII (C=char, I=number) or \"cancel\" to exit\n"<<endl;
+            }
+        }while (!valid);
+        if (valid){
+            projectlist[selection-1]->setIdentification(newId);
+        }
+        break;
+    }
+    case '3': return;
+    default:
+        cout<<"Enter a valid number(1-3).\n\tPress any key to retry."<<endl;
+        getchar();
+        break;
+    }
+
 }
 
 
@@ -444,18 +500,27 @@ void VirtualCampus::addseminar()
 {
 
     system("clear");
-    string id, coordinator;
+    string id, name;
     int seats, day, month, year;
-    cout<<"Enter the name of the seminar or \"cancel\" to exit: ";
+    Professor coord;
     do{
+        cout<<"Enter the id of the seminar or \"cancel\" to exit: ";
         cin>>ws>>id;
         if(id=="cancel"){
             return;
         }
     }while(!checkResId(id));
 
+    do{
+        cout<<"Enter the name of the seminar or \"cancel\" to exit: ";
+        cin>>ws>>name;
+        if(name=="cancel"){
+            return;
+        }
+    }while(!checkletters(name));
+
     system("clear");
-    cout<<"ID: "<<id<<endl;
+    //cout<<"ID: "<<id<<endl;
     cout<<"Enter the maximum number of seats: ";
     do{
         cin>>seats;
@@ -463,10 +528,10 @@ void VirtualCampus::addseminar()
     cout<<"Enter values for day month and year separated by spaces: ";
     cin>>day>>month>>year;
     cout<<"Enter the name of the coordinator: ";
-    cin>>coordinator;
-    seminalist.push_back(new Seminar(id));
+    cin>>coord;
+    //seminalist.push_back(new Seminar(id));
 
-    //seminalist.push_back(new Seminar(id, seats, Date(day, month,year, coordinator));
+    seminalist.push_back(new Seminar(name, id, seats, Date (day, month, year), coord));
 
 
     //    Seminar *temp;

@@ -238,22 +238,22 @@ void Seminar::removeprofessor(Link_prof_res *link){
 
 
 
-//Seminar::Seminar(string n, string id, int seatsValue, Date when)
-//{
-//    setname(n);
-//    setIdentification(id);
-//    if (seatsValue >0){
-//        maxseats=seatsValue;
-//    }else{
-//        std::cerr<<"Seminar::Seminar(string,int, Date); seatsValue invalid, assigning seats to 1\n";
-//        maxseats=1;
-//    }
-//      freeseats=maxseats;
-//      students=new Link_stu_res* [maxseats];//students=new Link_us_res [maxseats];
-//      for (int i=0; i<maxseats; i++){
-//          students[i]=nullptr;
-//      }
-//
-//    eventDate=when;
-//    setcoordinator(coord);
-//}
+Seminar::Seminar(string n, string id, int seatsValue, Date (int d, int m, int y), Professor coord)
+{
+    setname(n);
+    setIdentification(id);
+    if (seatsValue >0){
+        maxseats=seatsValue;
+    }else{
+        std::cerr<<"Seminar::Seminar(string,int, Date); seatsValue invalid, assigning seats to 1\n";
+        maxseats=1;
+    }
+      freeseats=maxseats;
+      students=new Link_stu_res* [maxseats];//students=new Link_us_res [maxseats];
+      for (int i=0; i<maxseats; i++){
+          students[i]=nullptr;
+      }
+
+    //eventDate=Date();
+    setcoordinator(coord);
+}

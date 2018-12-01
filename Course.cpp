@@ -81,16 +81,91 @@ void Course::setcredits(int c)
 
 
 
+//void Course::edit()
+//{
+//    char selection;
+//    do{
+
+//        system("clear");
+//        cout<<"1: Edit ID 2:Edit credits 3: Back\n";
+//        cin>>ws>>selection;
+//        switch (selection) {
+//        case '1':{
+//            string newname;
+//            bool valid=false;
+//            system("clear");
+//            cout<<"Enter the new ID CCCIIII (C=char, I=number) or \"cancel\" to exit\n"<<endl;
+//            do {
+//                cin>>ws>>newname;
+//                if (newname=="cancel"){
+//                    break;
+//                }
+//                if (!(valid=checkResId(newname))){
+//                    cout<<"Enter a valid ID CCCIIII (C=char, I=number) or \"cancel\" to exit\n"<<endl;
+//                }
+//            }while (!valid);
+//            if (valid){
+//                this->setIdentification(newname);
+//            }
+//            break;
+//        }
+//        case '2':
+//        {
+//            string buffer;
+//            int newc;
+//            system("clear");
+//            cout<<"Enter the new value for credits.\n"<<endl;
+//            do{
+//                cin>>ws>>buffer;
+//                istringstream(buffer)>>newc;
+//                if (newc <=0){
+//                    system("clear");
+//                    cout<<"Enter a valid value for credits\n";
+//                }
+//            }while(newc<=0);
+//            setcredits(newc);
+//        }break;
+//        case '3': return;
+//        default:
+//            cout<<"Enter a valid number(1-3).\n\tPress any key to retry."<<endl;
+//            getchar();
+//            break;
+//        }
+//    }while(true);
+//}
+
+
+
+
 void Course::edit()
 {
     char selection;
     do{
 
         system("clear");
-        cout<<"1: Edit ID 2:Edit credits 3: Back\n";
+        cout<<"1: Edit name 2:Edit ID 3: Edit credits 4: Back\n";
         cin>>ws>>selection;
         switch (selection) {
         case '1':{
+            string name;
+            bool valid=false;
+            system("clear");
+            cout<<"Enter the new name (letters a-z, A-Z) or \"cancel\" to exit\n"<<endl;
+            do {
+                cin>>ws>>name;
+                if (name=="cancel"){
+                    break;
+                }
+                if (!(valid=checkletters(name))){
+                    cout<<"Enter a valid name or \"cancel\" to exit\n"<<endl;
+                }
+            }while (!valid);
+            if (valid){
+                this->setname(name);
+            }
+            break;
+        }
+        case '2':{
             string newname;
             bool valid=false;
             system("clear");
@@ -109,7 +184,7 @@ void Course::edit()
             }
             break;
         }
-        case '2':
+        case '3':
         {
             string buffer;
             int newc;
@@ -125,15 +200,14 @@ void Course::edit()
             }while(newc<=0);
             setcredits(newc);
         }break;
-        case '3': return;
+        case '4': return;
         default:
-            cout<<"Enter a valid number(1-3).\n\tPress any key to retry."<<endl;
+            cout<<"Enter a valid number(1-4).\n\tPress any key to retry."<<endl;
             getchar();
             break;
         }
     }while(true);
 }
-
 
 
 void Course::options()
@@ -196,6 +270,7 @@ void Course::options()
 void Course::showdetails()
 {
     cout<<"ID: "<<identification<<endl;
+    cout<<"Name: "<<name<<endl;
     cout<<"Credits: "<<credits<<endl;
     cout<<"Teachers: "<<endl;
     for (int i=0; i<2; i++){

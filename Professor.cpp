@@ -150,8 +150,8 @@ void Professor::options()
 
         case '4': return;
 
-        default: cout<<"Select a valid number (1-4)\n\tPress any key to retry."<<endl;
-
+        default:
+            cout<<"Select a valid number (1-4)\n\tPress any key to retry."<<endl;
             getchar();
             break;
 
@@ -224,6 +224,10 @@ void Professor::manageSeminars()
         }
             break;
         case '3': return;
+        default:
+            cout<<"Select a valid number (1-3)\n\tPress any key to retry."<<endl;
+            getchar();
+            break;
         }
     }while (true);
 }

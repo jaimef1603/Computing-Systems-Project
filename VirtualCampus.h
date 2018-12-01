@@ -4,40 +4,34 @@
 #include "Professor.h"
 #include "Seminar.h"
 #include "Degree.h"
-
+#include <vector>
 class Administrator;
 class VirtualCampus
 {
 
 private:
-    int admin_number;
-    Administrator *admins;
-    int prof_number;
-    Professor *proflist;
-    int degree_number;
-    Degree *degreelist;
-    int seminar_number;
-    Seminar *seminalist;
+    std::vector <Administrator*> admins;
+    std::vector <Professor*> proflist;
+    std::vector <Degree*> degreelist;
+    std::vector <Seminar*> seminalist;
+    std::vector <FDP*> projectlist;
     User *currentuser;
-    int fdp_number;
-    FDP *projectlist;
 
 public:
     friend class Administrator;
     VirtualCampus();
     ~VirtualCampus();
     void addTeacher();
-    void deleteTeacher(int index);
+    void deleteTeacher(unsigned index);
     int findTeacher(string identification);
     int findSeminar(string identification);
     int findDegree(string identification);
     int findFDP(string identification);
-    int getDegreeNumber();
-    Degree* getDegrees();
-    Seminar* getSeminars();
-    Professor* getTeachers();
+    vector <Degree*> getDegrees();
+    vector <Seminar*> getSeminars();
+    vector <Professor*> getTeachers();
     void addDegree();
-    void deleteDegree(int index);
+    void deleteDegree(unsigned index);
     void showAllDeg();
     void showAllTeach();
     void showAllSeminars();

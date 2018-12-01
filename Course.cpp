@@ -3,7 +3,7 @@
 #include "Degree.h"
 #include "Student.h"
 #include "VirtualCampus.h"
-
+#include <sstream>
 Course::Course(string id, Degree *d, int c, string s, Link_prof_res **t)
     :Resource(id, s)
 {
@@ -82,26 +82,25 @@ void Course::setcredits(int c)
 
 void Course::edit()
 {
-    int selection;
+    char selection;
     do{
-        //do{
+
         system("clear");
         cout<<"1: Edit ID 2:Edit credits 3: Back\n";
-        cin>>selection;
-        // }while(selection !=1 && selection != 2);
+        cin>>ws>>selection;
         switch (selection) {
-        case 1:{
+        case '1':{
             string newname;
             bool valid=false;
+            system("clear");
+            cout<<"Enter the new ID CCCIIII (C=char, I=number) or \"cancel\" to exit\n"<<endl;
             do {
-                system("clear");
-                cout<<"Enter the new ID CCCIIII (C=char, I=number) or a single char to exit\n"<<endl;
                 cin>>ws>>newname;
-                if (newname.length()==1){
+                if (newname=="cancel"){
                     break;
                 }
                 if (!(valid=checkResId(newname))){
-                    cout<<"Enter a valid ID CCCIIII (C=char, I=number)\n"<<endl;
+                    cout<<"Enter a valid ID CCCIIII (C=char, I=number) or \"cancel\" to exit\n"<<endl;
                 }
             }while (!valid);
             if (valid){
@@ -109,14 +108,23 @@ void Course::edit()
             }
             break;
         }
-        case 2:
+        case '2':
         {
+            string buffer;
             int newc;
+            system("clear");
             cout<<"Enter the new value for credits.\n"<<endl;
-            cin>>newc;
+            do{
+                cin>>ws>>buffer;
+                istringstream(buffer)>>newc;
+                if (newc <=0){
+                    system("clear");
+                    cout<<"Enter a valid value for credits\n";
+                }
+            }while(newc<=0);
             setcredits(newc);
         }break;
-        case 3: return;
+        case '3': return;
         default:
             cout<<"Enter a valid number(1-3).\n\tPress any key to retry."<<endl;
             getchar();
@@ -129,54 +137,57 @@ void Course::edit()
 
 void Course::options()
 {
-    int selection;
+    char selection;
+    system("clear");
+    cout<<"Options of Course: "<<this->getIdentification()<<":"<<endl;
     cout<<"1: Add Student \n2: Remove student \n3: Back\n";
     do {
-        cin>>selection;
-        if (selection <1 || selection >3){
+        cin>>ws>>selection;
+        switch (selection) {
+        case '1':{
+            string identification;
+            int index=-1;
+            do{
+                system("clear");
+                degree->showstudents();
+                cout<<"Enter the identification of the student you want to add or \"cancel\" to exit: ";
+                cin>>identification;
+                if(identification=="cancel"){
+                    break;
+                }else{
+                    index=degree->findStudent(identification);
+                }
+            }while(index==-1);
+            if (index!=-1){
+                degree->getStudents()[unsigned(index)]->enroll(this);
+            }
+            break;
+        }
+        case '2': {
+            string buffer;
+            int selection =-1;
+            do {
+                for (int i=0; i<studentlist.getsize(); i++){
+                    cout<<i+1<<": "<<studentlist[i]->getStudent().getidentifier()<<endl;
+                }
+                cout << "Select the student you want to remove (1-"<<studentlist.getsize()<<") or -1 to cancel: ";
+                cin>>ws>>buffer;
+                istringstream(buffer)>>selection;
+            }while((selection<1 && selection !=-1)||selection>studentlist.getsize());
+            if (selection!=-1){
+                delete studentlist[selection-1];
+            }
+
+        }
+            break;
+        case '3': return;
+        default:
             system("clear");
+            cout<<"Options of Course: "<<this->getIdentification()<<":"<<endl;
             cout<<"1: Add Student \n2: Remove student \n3: Back\n";
-            cout<<"Select a valid number (1-3) or -1 to exit"<<endl;
+            cout<<"Select a valid number (1-3)"<<endl; break;
         }
-    }while((selection <1 && selection !=-1) || selection >3);
-
-    switch (selection) {
-    case 1:{
-        string identification;
-        int index=-1;
-        do{
-            degree->showstudents();
-            cout<<"Enter the identification of the student you want to add or \"cancel\" to exit: ";
-            cin>>identification;
-            if(identification=="cancel"){
-                break;
-            }else{
-                index=degree->findStudent(identification);
-            }
-        }while(index==-1);
-        if (index!=-1){
-            degree->getStudents()[index].enroll(this);
-        }
-        break;
-    }
-    case 2: {
-        int selection =-1;
-        do {
-            for (int i=0; i<studentlist.getsize(); i++){
-                cout<<i+1<<": "<<studentlist[i]->getStudent().getidentifier()<<endl;
-            }
-            cout << "Select the student you want to remove (1-"<<studentlist.getsize()<<") or -1 to cancel: ";
-            cin>>selection;
-        }while((selection<1 && selection !=-1)||selection>studentlist.getsize());
-        if (selection!=-1){
-            delete studentlist[selection-1];
-        }
-
-    }
-        break;
-    case 3: return;
-    }
-    return;
+    }while(true);
 }
 
 
@@ -202,21 +213,29 @@ void Course::addteacher(Link_prof_res *newteacher)
 
     if (newteacher->getRole()==role::named_chair){
         if(teachers[0]!=nullptr){
-
-                delete teachers[0];
-                teachers[0]=newteacher;
+            if(teachers[1]==nullptr){
+                teachers[1]=newteacher;
                 return;
+            }else if(teachers[1]->getRole()!=role::named_chair){
+                delete teachers[1];
+                teachers[1]=newteacher;
+            }else{
+                cout<<"No more space for new teachers in this course.\n";
+            }
 
         }else{
             teachers[0]=newteacher;
             return;
         }
-    }else{
+    if (newteacher->getRole()==role::associated){
         if(teachers[1]!=nullptr){
-
+            if (teachers[1]->getRole()!=role::named_chair){
                 delete teachers[1];
                 teachers[1]=newteacher;
                 return;
+            }else{
+                cout<<"All places in "<<this->getIdentification()<<" are ocupied by named chair professors.\n";
+            }
 
         }else{
             teachers[1]=newteacher;
@@ -224,6 +243,7 @@ void Course::addteacher(Link_prof_res *newteacher)
         }
     }
 
+    }
 }
 
 

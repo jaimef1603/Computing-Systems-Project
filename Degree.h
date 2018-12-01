@@ -4,7 +4,7 @@
 #include "Student.h"
 #include "Course.h"
 #include "FDP.h"
-
+#include <vector>
 using namespace std;
 
 class VirtualCampus;
@@ -14,16 +14,14 @@ private:
     string name;
     char id[4];
     VirtualCampus *vc;
-    int student_number;
-    Student *stulist;
-    int course_number;
-    Course *courselist;
+    vector <Student*> stulist;
+    vector <Course*> courselist;
 
     void addCourse();
-    void deleteCourse(int index);
+    void deleteCourse(unsigned index);
     void editcourse();
     void addStudent();
-    void deleteStudent(int index);
+    void deleteStudent(unsigned index);
     void editstudent();
 
 
@@ -43,8 +41,8 @@ public:
     void showdetails();
     void showstudents();
     void showcourses();
-    Course* getCourses();
-    Student* getStudents();
+    vector<Course*> getCourses();
+    vector <Student*> getStudents();
     int findStudent(string identification);
     int findCourse(string identification);
     void options();

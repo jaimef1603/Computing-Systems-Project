@@ -22,10 +22,10 @@ Student::Student():mycourses(), myseminars()
 
 
 
-Student::Student(Degree &d):mycourses(), myseminars()
+Student::Student(Degree *d):mycourses(), myseminars()
 {
     SIN=1000000 + count;
-    mydegree=&d;
+    mydegree=d;
     myfdp=nullptr;
     count+=1;
 }
@@ -107,9 +107,9 @@ string Student::getidentifier()
     string ident = "";
 
     ident = static_cast<ostringstream*>(&(ostringstream() << SIN))->str();
-    if (ident.length()!=7){
+    if (ident.length()<7){
 
-        for(int i=0; i<(7-ident.length()); i++){
+        for(unsigned i=0; i<(7-ident.length()); i++){
             ident="0"+ident;
         }
     }

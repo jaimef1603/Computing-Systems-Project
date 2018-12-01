@@ -152,10 +152,10 @@ void Professor::manageSeminars()
                     cin>>r;
                     switch (r) {
                     case '1':
-                        enroll(&mycampus->getSeminars()[valid], role::speaker);
+                        enroll(mycampus->getSeminars()[unsigned(valid)], role::speaker);
                         return;
                     case '2':
-                        enroll(&mycampus->getSeminars()[valid], role::coordinator);
+                        enroll(mycampus->getSeminars()[unsigned(valid)], role::coordinator);
                         return;
                     case '3': return;
                     default: break;
@@ -231,12 +231,12 @@ void Professor::selectCourseAndAdd(){
     do {
         system("clear");
         mycampus->showAllDeg();
-        cout<<"Select the Degree to choose a Course: 1- "<<mycampus->getDegreeNumber()<<")"<<endl;
+        cout<<"Select the Degree to choose a Course: 1- "<<mycampus->getDegrees().size()<<")"<<endl;
         cin>>index;
-    }while((index<1 && index!=-1)|| index> mycampus->getDegreeNumber());
+    }while((index<1 && index!=-1)|| index> int(mycampus->getDegrees().size()));
 
     if (index!=-1){
-        current=& (mycampus->getDegrees()[index-1]);
+        current= mycampus->getDegrees()[unsigned(index)-1];
 
         do {
             system("clear");
@@ -256,10 +256,10 @@ void Professor::selectCourseAndAdd(){
                 cin>>r;
                 switch (r) {
                 case '1':
-                    enroll(&current->getCourses()[valid], role::named_chair);
+                    enroll(current->getCourses()[unsigned(valid)], role::named_chair);
                     return;
                 case '2':
-                    enroll(&current->getCourses()[valid], role::associated);
+                    enroll(current->getCourses()[unsigned(valid)], role::associated);
                     return;
                 case '3': return;
                 default: break;

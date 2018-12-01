@@ -1,6 +1,6 @@
 ﻿#include "Administrator.h"
 #include "VirtualCampus.h"
-
+#include <sstream>
 
 Administrator::Administrator(string id, VirtualCampus *vc):Professor(id, vc){}
 
@@ -8,18 +8,18 @@ Administrator::Administrator(string id, VirtualCampus *vc):Professor(id, vc){}
 
 void Administrator::manageTeacher()
 {
-    int selection;
+    char selection;
     do{
         system("clear");
         cout<<"1: Create teacher 2: Edit teacher 3: Delete teacher 4: Details 5: Select 6: Back"<<endl;
         cin>>selection;
         switch (selection) {
-        case 1: mycampus->addTeacher(); break;
-        case 2: {
+        case '1': mycampus->addTeacher(); break;
+        case '2': {
             string id;
             int teach=-1;
             system("clear");
-             mycampus->showAllTeach();
+            mycampus->showAllTeach();
             cout<<"Enter the id of the teacher you want to show details.\n";
 
             do {
@@ -37,10 +37,10 @@ void Administrator::manageTeacher()
             }while(teach==-1);
             system("clear");
             if (teach!=-1){
-                mycampus->proflist[teach].edit();
+                mycampus->proflist[unsigned(teach)]->edit();
             }
         }break;
-        case 3:
+        case '3':
         {
             string id;
             int teach=-1;
@@ -63,11 +63,11 @@ void Administrator::manageTeacher()
             }while(teach==-1);
             system("clear");
             if (teach!=-1){
-                mycampus->deleteTeacher(teach);
+                mycampus->deleteTeacher(unsigned(teach));
             }
         }
             break;
-        case 4: {
+        case '4': {
             string id;
             int teach=-1;
             system("clear");
@@ -88,11 +88,11 @@ void Administrator::manageTeacher()
             }while(teach==-1);
             system("clear");
             if (teach!=-1){
-                mycampus->proflist[teach].showdetails();
+                mycampus->proflist[unsigned(teach)]->showdetails();
             }
         }break;
 
-        case 5:
+        case '5':
         {
             string id;
             int teach=-1;
@@ -114,12 +114,12 @@ void Administrator::manageTeacher()
             }while(teach==-1);
             system("clear");
             if (teach!=-1){
-                mycampus->proflist[teach].options();
+                mycampus->proflist[unsigned(teach)]->options();
             }
         }
             break;
 
-        case 6: return;
+        case '6': return;
         default:
             cout<<"Enter a valid number(1-6)."<<endl;
         }
@@ -130,84 +130,109 @@ void Administrator::manageTeacher()
 
 void Administrator::manageDegree()
 {
-
-    char selection;
+    string buffer;
+    char selection='0';
     int deg;
-
     do{
-        system("clear");
-        mycampus->showAllDeg();
-        cout<<"1: Create 2: Edit 3: Delete 4:Details 5: Select 6:Back\n";
-        cin>>selection;
+        if (selection=='0'){
+            system("clear");
+            mycampus->showAllDeg();
+            cout<<"1: Create 2: Edit 3: Delete 4:Details 5: Select 6:Back\n";
+            cin>>selection;
+        }
         switch(selection){
         case '1':
+            selection='0';
             mycampus->addDegree();
-            system("clear");
+            (*(mycampus->getDegrees().end()-1))->showdetails();
+            cin.ignore(1, '\n');
+            getchar();
             break;
         case '2':
+            selection='0';
             do {
                 system("clear");
                 cout<<"DEGREES:\n";
                 mycampus->showAllDeg();
                 cout<<"What degree do you want to edit?\n";
-                cin>>ws>>deg;
-                if (deg<1 || deg >mycampus->degree_number){
-                    cout<<"Select a valid number. (0-"<<mycampus->degree_number<<")\n";
+                cin>>ws>>buffer;
+                istringstream(buffer)>>deg;
+                if ((deg<1 && deg!=-1) || deg >int(mycampus->degreelist.size())){
+                    cout<<"Select a valid number. (0-"<<mycampus->degreelist.size()<<") or -1 to exit\nPress any key to retry...";
+                    getchar();
                 }
-            }while(deg<1 || deg >mycampus->degree_number);
+            }while((deg<1 && deg!=-1) || deg >int(mycampus->degreelist.size()));
             system("clear");
-            mycampus->degreelist[deg-1].edit();
+            if (deg!=-1){
+                mycampus->degreelist[unsigned(deg)-1]->edit();
+            }
             break;
         case '3':
+            selection='0';
             do {
                 system("clear");
                 cout<<"DEGREES:\n";
                 mycampus->showAllDeg();
                 cout<<"What degree do you want to delete?\n";
-                cin>>ws>>deg;
-                if (deg<1 || deg >mycampus->degree_number){
-                    cout<<"Select a valid number. (0-"<<mycampus->degree_number<<")\n";
+                cin>>ws>>buffer;
+                istringstream(buffer)>>deg;
+                if ((deg<1 && deg!=-1) || deg >int(mycampus->degreelist.size())){
+                    cout<<"Select a valid number. (0-"<<mycampus->degreelist.size()<<") or -1 to exit\nPress any key to retry...";
+                    getchar();
                 }
-            }while(deg<1 || deg >mycampus->degree_number);
+            }while((deg<1 && deg!=-1) || deg >int(mycampus->degreelist.size()));
             system("clear");
-            mycampus->deleteDegree(deg-1);
+            if (deg!=-1){
+                mycampus->deleteDegree(unsigned(deg)-1);
+            }
             break;
         case '4':
+            selection='0';
             do {
                 system("clear");
                 mycampus->showAllDeg();
                 cout<<"What degree do you want to show details of?\n";
-                cin>>ws>>deg;
-                if (deg<1 || deg >mycampus->degree_number){
-                    cout<<"Select a valid number. (0-"<<mycampus->degree_number<<")\n";
+                cin>>ws>>buffer;
+                istringstream(buffer)>>deg;
+                if ((deg<1 && deg!=-1) || deg >int(mycampus->degreelist.size())){
+                    cout<<"Select a valid number. (0-"<<mycampus->degreelist.size()<<") or -1 to exit\nPress any key to retry...";
+                    getchar();
                 }
-            }while(deg<1 || deg >mycampus->degree_number);
+            }while((deg<1 && deg!=-1) || deg >int(mycampus->degreelist.size()));
             system("clear");
-            mycampus->degreelist[deg-1].showdetails();
-            cin.ignore(1, '\n');
-            getchar();
+            if (deg!=-1){
+                mycampus->degreelist[unsigned(deg)-1]->showdetails();
+                cout<<"Press any key to exit\n";
+                cin.ignore(90, '\n');
+                getchar();
+            }
             //system("clear");
             break;
         case '5':
+            selection='0';
             do {
                 system("clear");
                 mycampus->showAllDeg();
                 cout<<"What degree do you want to select?\n";
-                cin>>ws>>deg;
-                if (deg<1 || deg >mycampus->degree_number){
-                    cout<<"Select a valid number. (0-"<<mycampus->degree_number<<") or -1 to exit\n";
+                cin>>ws>>buffer;
+                istringstream(buffer)>>deg;
+                if (deg<1 || deg >int(mycampus->degreelist.size())){
+                    cout<<"Select a valid number. (0-"<<mycampus->degreelist.size()<<") or -1 to exit\n";
                 }
-            }while((deg<1 && deg!=-1)|| deg >mycampus->degree_number);
+            }while((deg<1 && deg!=-1)|| deg >int(mycampus->degreelist.size()));
             system("clear");
             if (deg!=-1){
-                mycampus->degreelist[deg-1].options();
+                mycampus->degreelist[unsigned(deg)-1]->options();
             }
             break;
         case '6': return;
 
         default:
-            cout<<"Enter a valid number(1-5).\n\tPress any key to retry.\n"<<endl;
-            getchar();
+            system("clear");
+            mycampus->showAllDeg();
+            cout<<"1: Create 2: Edit 3: Delete 4:Details 5: Select 6:Back\n";
+            cout<<"Enter a valid number(1-5)\n"<<endl;
+            cin>>selection;
             break;
 
         }

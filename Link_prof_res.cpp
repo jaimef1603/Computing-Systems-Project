@@ -68,6 +68,8 @@ string Link_prof_res::getRoleName()
     case role::cotutor: return "Cotutor";
     case role::undefined: return "Undefined";
     }
+
+    return "Unknown";
 }
 
 

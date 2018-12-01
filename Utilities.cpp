@@ -93,14 +93,14 @@ bool checkResId(string identification)
     if (identification.length()!=7){
         return false;
     }else{
-        for (int i=0;i<3;i++){
-            if(!(((identification.c_str()[i]>='a')&&(identification.c_str()[i]<='z'))|| ((identification.c_str()[i]>='A')&& (identification.c_str()[i]<='Z')))){
+        for (unsigned i=0;i<3;i++){
+            if(!(((identification[i]>='a')&&(identification[i]<='z'))|| ((identification[i]>='A')&& (identification[i]<='Z')))){
                 return false;
             }
         }
 
         for(int i=3;i<7;i++){
-            if(!(identification.c_str()[i]>=0 && identification.c_str()[i]<=9)){
+            if(!(identification[i]>='0' && identification[i]<='9')){
 
                 return false;
 
@@ -111,3 +111,44 @@ bool checkResId(string identification)
    }
     return true;
 }
+
+
+
+void UCaseWord(string& word){
+    for (unsigned i=0; i<word.length(); i++){
+        word[i] = char (toupper(word[i]));
+    }
+}
+
+
+template <typename A> void ListshowAll(vector<A> vect)
+{
+    for (unsigned i=0; i<vect.size(); i++){
+        cout<<i+1<<":\n";
+        vect[i]->show();
+    }
+}
+
+
+
+template <typename A> void ListshowAll(ArrayList<A> arrL)
+{
+    for (unsigned i=0; i<arrL.getsize(); i++){
+        cout<<i+1<<":\n"<<arrL[i]<<endl;
+    }
+
+}
+
+
+
+//template <typename A> void ListshowAllDetails(vector<A> vect)
+//{
+
+//}
+
+
+
+//template <typename A> void ListshowAllDetails(ArrayList<A> arrL)
+//{
+
+//}

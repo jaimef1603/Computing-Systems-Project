@@ -139,7 +139,29 @@ Link_prof_res* Seminar::getcoordinator()const
 
 void Seminar::addteacher(Link_prof_res *newteacher)
 {
+    if (newteacher->getRole()==role::speaker){
+        if(teachers[0]!=nullptr){
 
+            delete teachers[0];
+            teachers[0]=newteacher;
+            return;
+
+        }else{
+            teachers[0]=newteacher;
+            return;
+        }
+    }
+    if (newteacher->getRole()==role::coordinator){
+        if(teachers[1]!=nullptr){
+            delete teachers[1];
+            teachers[1]=newteacher;
+            return;
+
+        }else{
+            teachers[1]=newteacher;
+            return;
+        }
+    }
 }
 
 

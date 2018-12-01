@@ -1,8 +1,12 @@
 ﻿#include "Resource.h"
 #include <iostream>
 #include "Utilities.h"
-Resource::Resource(string id, string s):identification(id), status(s){
+Resource::Resource(string id, string s, string n):identification(id), status(s)
+{
+    name=n;
 }
+
+
 
 Resource::Resource(const Resource& r)
     :identification(r.identification), status(r.status)
@@ -28,28 +32,43 @@ Resource& Resource::operator= (const Resource& r){
     return *this;
 }
 
-string Resource::getIdentification(){
+string Resource::getIdentification()
+{
     return identification;
 }
 
 
 
-string Resource::getstatus(){
+string Resource::getstatus()
+{
     //comprobar que el estado sea correcto
     return status;
 }
 
 
-void Resource::setIdentification(string id){
+void Resource::setIdentification(string id)
+{
 
         identification=id;
 
 }
 
 
-void Resource::setstatus(string s){
+void Resource::setstatus(string s)
+{
     status=s;
 }
 
 
+
+void Resource::setname(string n)
+{
+    name=n;
+}
+
+
+
+string Resource::getname(){
+    return name;
+}
 

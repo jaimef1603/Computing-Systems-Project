@@ -2,8 +2,9 @@
 #include <iostream>
 #include "Link_prof_res.h"
 
-Seminar::Seminar(string id, string s, int seatsValue, Date when, Professor *spe, Professor *coord)
+Seminar::Seminar( string id, string s, int seatsValue, Date when, Professor *spe, Professor *coord)
 {
+    //setname(n);
     setIdentification(id);
     setstatus(s);
     if (seatsValue >0){
@@ -25,8 +26,9 @@ Seminar::Seminar(string id, string s, int seatsValue, Date when, Professor *spe,
 
 
 
-Seminar::Seminar(string id, string s, int seatsValue, Professor *spe, Professor *coord)
+Seminar::Seminar( string id, string s, int seatsValue, Professor *spe, Professor *coord)
 {
+    //setname(n);
     setIdentification(id);
     setstatus(s);
     if (seatsValue >0){
@@ -232,3 +234,26 @@ void Seminar::removeprofessor(Link_prof_res *link){
         }
     }
 }
+
+
+
+
+//Seminar::Seminar(string n, string id, int seatsValue, Date when)
+//{
+//    setname(n);
+//    setIdentification(id);
+//    if (seatsValue >0){
+//        maxseats=seatsValue;
+//    }else{
+//        std::cerr<<"Seminar::Seminar(string,int, Date); seatsValue invalid, assigning seats to 1\n";
+//        maxseats=1;
+//    }
+//      freeseats=maxseats;
+//      students=new Link_stu_res* [maxseats];//students=new Link_us_res [maxseats];
+//      for (int i=0; i<maxseats; i++){
+//          students[i]=nullptr;
+//      }
+//
+//    eventDate=when;
+//    setcoordinator(coord);
+//}

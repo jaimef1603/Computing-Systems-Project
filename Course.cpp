@@ -4,8 +4,9 @@
 #include "Student.h"
 #include "VirtualCampus.h"
 #include <sstream>
-Course::Course(string id, Degree *d, int c, string s, Link_prof_res **t)
-    :Resource(id, s)
+
+Course::Course(string n, string id, Degree *d, int c, string s, Link_prof_res **t)
+    :Resource(n, id, s)
 {
     degree=d;
     credits=c;
@@ -139,7 +140,7 @@ void Course::options()
 {
     char selection;
     system("clear");
-    cout<<"Options of Course: "<<this->getIdentification()<<":"<<endl;
+    cout<<"Options of Course "<<this->getIdentification()<<":"<<endl;
     cout<<"1: Add Student \n2: Remove student \n3: Back\n";
     do {
         cin>>ws>>selection;

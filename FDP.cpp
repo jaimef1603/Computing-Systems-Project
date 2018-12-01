@@ -4,8 +4,8 @@
 #include "Link_prof_res.h"
 
 
-FDP::FDP(string id, Student *stu, string s, Professor *tu, Professor *co_tu)
-    :Resource(id, s)
+FDP::FDP(string n, string id, Student *stu, string s, Professor *tu, Professor *co_tu)
+    :Resource(n, id, s)
 {
     setstudent(stu);
     settutor(tu);

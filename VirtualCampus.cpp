@@ -443,11 +443,30 @@ void VirtualCampus::addseminar()
 {
 
     system("clear");
-    string id;
-    cout<<"Enter the name of the seminar: ";
-    cin>>ws>>id;
+    string id, coordinator;
+    int seats, day, month, year;
+    cout<<"Enter the name of the seminar or \"cancel\" to exit: ";
+    do{
+        cin>>ws>>id;
+        if(id=="cancel"){
+            return;
+        }
+    }while(!checkResId(id));
 
+    system("clear");
+    cout<<"ID: "<<id<<endl;
+    cout<<"Enter the maximum number of seats: ";
+    do{
+        cin>>seats;
+    }while(seats<=0);
+    cout<<"Enter values for day month and year separated by spaces: ";
+    cin>>day>>month>>year;
+    cout<<"Enter the name of the coordinator: ";
+    cin>>coordinator;
     seminalist.push_back(new Seminar(id));
+
+    //seminalist.push_back(new Seminar(id, seats, Date(day, month,year, coordinator));
+
 
     //    Seminar *temp;
     //    if (seminalist==nullptr){

@@ -15,11 +15,11 @@ private:
     Date eventDate;
     int maxseats;
     int freeseats;
-    Link_stu_res **students; //Link_us_res *students;
+    Link_stu_res **students;
 
     //----------
-    void addteacher(Link_prof_res *newteacher);//void addteacher(Link_us_res *newteacher);
-    void addstudent(Link_stu_res *newstudent);//void addstudent(Link_us_res *newstudent);
+    void addteacher(Link_prof_res *newteacher);
+    void addstudent(Link_stu_res *newstudent);
     void removestudent(Link_stu_res *link);
     void removeprofessor(Link_prof_res *link);
 public:
@@ -32,10 +32,11 @@ public:
     void setdate(Date when);
     Date getdate()const;
     void setspeaker(Professor *spe);
-    Link_prof_res* getspeaker()const; //Link_us_res& getspeaker()const;
+    Link_prof_res* getspeaker()const;
     void setcoordinator(Professor *coord);
-    Link_prof_res* getcoordinator()const; //Link_us_res& getcoordinator()const;
+    Link_prof_res* getcoordinator()const;
 
+    //Seminar(string id, int seatsValue, Date when);
 
 };
 

@@ -213,10 +213,10 @@ void VirtualCampus::addDegree()
         system("clear");
         cout<<"Name: "<<name<<endl;
         cout<<"Enter the three letter identification or write \"cancel\" to exit: ";
+        cin>>ws>>id;
         if (id=="cancel"){
             return;
         }
-        cin>>ws>>id;
     }while(!checkletters(id) || id.length()!=3);
     UCaseWord(id);
     degreelist.push_back(new Degree(name, id.c_str(), this));
@@ -498,13 +498,15 @@ int VirtualCampus::findFDP(string identification)
 
 void VirtualCampus::addseminar()
 {
-
     system("clear");
     string id, name;
-    int seats, day, month, year;
-    Professor coord;
+    string idCoord;
+    int day, month, year;
+    int coord=-1;
+    unsigned seats;
+
     do{
-        cout<<"Enter the id of the seminar or \"cancel\" to exit: ";
+        cout<<"Enter the identification of the seminar or \"cancel\" to exit: ";
         cin>>ws>>id;
         if(id=="cancel"){
             return;
@@ -520,18 +522,34 @@ void VirtualCampus::addseminar()
     }while(!checkletters(name));
 
     system("clear");
-    //cout<<"ID: "<<id<<endl;
-    cout<<"Enter the maximum number of seats: ";
-    do{
+
+    //do{
+        cout<<"Enter the maximum number of seats: ";
         cin>>seats;
-    }while(seats<=0);
+    //}while(seats=0);
     cout<<"Enter values for day month and year separated by spaces: ";
     cin>>day>>month>>year;
-    cout<<"Enter the name of the coordinator: ";
-    cin>>coord;
+    cout<<"Enter the id of the coordinator or \"cancel\" to exit: ";
+
+    do {
+        cin>>ws>>idCoord;
+        if (idCoord=="cancel"){
+            break;
+        }else{
+            coord=findTeacher(idCoord);
+        }
+        if(coord==-1){
+            system("clear");
+            cout<<"Invalid ID\n";
+            cout<<"Enter the id of the coordinatoror \"cancel\" to exit:\n";
+        }
+    }while(coord==-1);
+
+    //cin>>coord.getidentifier();
+    //findTeacher(coord);
     //seminalist.push_back(new Seminar(id));
 
-    seminalist.push_back(new Seminar(name, id, seats, Date (day, month, year), coord));
+    seminalist.push_back(new Seminar(name, id, seats, proflist[coord], Date (day, month, year)));
 
 
     //    Seminar *temp;

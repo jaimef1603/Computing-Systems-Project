@@ -52,6 +52,8 @@ public:
     void enroll(Seminar* s, role r);
     void enroll(FDP* project, role r);
     virtual int menu(); //must be virtual to be overriden by admin's menu.
+
+
 };
 
 #endif // PROFESSOR_H

@@ -18,6 +18,18 @@ Seminar::Seminar(string n, string id, unsigned seatsValue, Professor *coord, Pro
 
 
 
+Seminar::Seminar(string n, string id, unsigned seatsValue, Professor *coord, Date when)
+    :Resource(id, n)
+{
+
+    maxseats=seatsValue;
+    eventDate=when;
+    if (coord)
+        setcoordinator(coord);
+}
+
+
+
 unsigned Seminar::getmaxseats()const
 {
     return maxseats;

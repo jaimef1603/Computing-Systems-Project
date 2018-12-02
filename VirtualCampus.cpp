@@ -3,7 +3,7 @@
 VirtualCampus::VirtualCampus()
 {
 
-    currentuser=new Administrator("aaaaaa", this);
+    currentuser=new Administrator("undefined","aaaaaa", this);
 
 
 }
@@ -81,11 +81,12 @@ int VirtualCampus::run()
 void VirtualCampus::addTeacher()
 {
     system("clear");
-    string id;
+    string id, name;
     cout<<"Enter the ID of the teacher: ";
     cin>>ws>>id;
-
-    proflist.push_back(new Professor (id, this));
+    cout<<"Enter the name of the teacher: ";
+    cin>>ws>>name;
+    proflist.push_back(new Professor (name, id, this));
 
 
     //    if (proflist==nullptr){
@@ -212,10 +213,10 @@ void VirtualCampus::addDegree()
         system("clear");
         cout<<"Name: "<<name<<endl;
         cout<<"Enter the three letter identification or write \"cancel\" to exit: ";
+        cin>>ws>>id;
         if (id=="cancel"){
             return;
         }
-        cin>>ws>>id;
     }while(!checkletters(id) || id.length()!=3);
     UCaseWord(id);
     degreelist.push_back(new Degree(name, id.c_str(), this));
@@ -340,8 +341,10 @@ void VirtualCampus::showAllSeminars()
 {
 
     for(unsigned i=0;i<seminalist.size();i++){
-
-        cout<<i+1<<": "<<seminalist[i]->getIdentification()<<endl;
+        cout<<i+1<<": "<<endl;
+        cout<<"   "<<seminalist[i]->getIdentification();
+        //cout<<"   "<<seminalist[i]->getname();
+        //cout<<"   "<<seminalist[i]->getdate();
     }
 
     //    for(int i=0;i<seminar_number;i++){
@@ -356,13 +359,19 @@ void VirtualCampus::showAllSeminars()
 void VirtualCampus::addFDP()
 {
     system("clear");
-    string id;
+    string id, name;
     //string namedegree, studentid;
     //int degreeid;
     //Student *stu;
     //    FDP *temp;
+    do{
     cout<<"Enter the id of the FDP: ";
     cin>>ws>>id;
+    }while(!checkletters(id));
+    do{
+        cout<<"Enter the name of the FDP: ";
+        cin>>ws>>name;
+    }while(!checkletters(name));
 
     //    cout<<"What degree does the student belong to? enter the name of the degree.\n";
     //    cin>>ws>>namedegree;
@@ -377,7 +386,7 @@ void VirtualCampus::addFDP()
     //   stu = degreelist[degreeid].searchStudentbyid(studentid);
 
 
-    projectlist.push_back(new FDP(id));
+    projectlist.push_back(new FDP(name, id));
 
 
     //    if (projectlist==nullptr){
@@ -412,15 +421,63 @@ void VirtualCampus::editFDP()
     system("clear");
     unsigned selection;
     string newname;
+    char option;
+
     cout<<"Select the FDP you want to edit (1-"<<projectlist.size()<<")"<<endl;
     for (unsigned i=0; i<projectlist.size(); i++){
         cout<<i+1<<": "<<projectlist[i]->getIdentification()<<endl;
     }
+
     cin>>selection;
     system("clear");
-    cout<<"Enter the new id"<<endl;
-    cin>>ws>>newname;
-    projectlist[selection-1]->setIdentification(newname);
+    cout<<"1: Edit name 2:Edit ID 3: Back\n";
+    cin>>ws>>option;
+    switch (option) {
+    case '1':{
+        string newname;
+        bool valid=false;
+        system("clear");
+        cout<<"Enter the new name (letters a-z, A-Z) or \"cancel\" to exit\n"<<endl;
+        do {
+            cin>>ws>>newname;
+            if (newname=="cancel"){
+                break;
+            }
+            if (!(valid=checkletters(newname))){
+                cout<<"Enter a valid name or \"cancel\" to exit\n"<<endl;
+            }
+        }while (!valid);
+        if (valid){
+            projectlist[selection-1]->setname(newname);
+        }
+        break;
+    }
+    case '2':{
+        string newId;
+        bool valid=false;
+        system("clear");
+        cout<<"Enter the new ID CCCIIII (C=char, I=number) or \"cancel\" to exit\n"<<endl;
+        do {
+            cin>>ws>>newId;
+            if (newId=="cancel"){
+                break;
+            }
+            if (!(valid=checkResId(newId))){
+                cout<<"Enter a valid ID CCCIIII (C=char, I=number) or \"cancel\" to exit\n"<<endl;
+            }
+        }while (!valid);
+        if (valid){
+            projectlist[selection-1]->setIdentification(newId);
+        }
+        break;
+    }
+    case '3': return;
+    default:
+        cout<<"Enter a valid number(1-3).\n\tPress any key to retry."<<endl;
+        getchar();
+        break;
+    }
+
 }
 
 
@@ -441,13 +498,59 @@ int VirtualCampus::findFDP(string identification)
 
 void VirtualCampus::addseminar()
 {
+    system("clear");
+    string id, name;
+    string idCoord;
+    int day, month, year;
+    int coord=-1;
+    unsigned seats;
+
+    do{
+        cout<<"Enter the identification of the seminar or \"cancel\" to exit: ";
+        cin>>ws>>id;
+        if(id=="cancel"){
+            return;
+        }
+    }while(!checkResId(id));
+
+    do{
+        cout<<"Enter the name of the seminar or \"cancel\" to exit: ";
+        cin>>ws>>name;
+        if(name=="cancel"){
+            return;
+        }
+    }while(!checkletters(name));
 
     system("clear");
-    string id;
-    cout<<"Enter the name of the seminar: ";
-    cin>>ws>>id;
 
-    seminalist.push_back(new Seminar(id));
+    //do{
+        cout<<"Enter the maximum number of seats: ";
+        cin>>seats;
+    //}while(seats=0);
+    cout<<"Enter values for day month and year separated by spaces: ";
+    cin>>day>>month>>year;
+    cout<<"Enter the id of the coordinator or \"cancel\" to exit: ";
+
+    do {
+        cin>>ws>>idCoord;
+        if (idCoord=="cancel"){
+            break;
+        }else{
+            coord=findTeacher(idCoord);
+        }
+        if(coord==-1){
+            system("clear");
+            cout<<"Invalid ID\n";
+            cout<<"Enter the id of the coordinatoror \"cancel\" to exit:\n";
+        }
+    }while(coord==-1);
+
+    //cin>>coord.getidentifier();
+    //findTeacher(coord);
+    //seminalist.push_back(new Seminar(id));
+
+    seminalist.push_back(new Seminar(name, id, seats, proflist[coord], Date (day, month, year)));
+
 
     //    Seminar *temp;
     //    if (seminalist==nullptr){

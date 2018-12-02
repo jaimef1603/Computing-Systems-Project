@@ -20,7 +20,7 @@ template <typename A> ArrayList<A>::~ArrayList(){
     }
 }
 
-template <typename A> int ArrayList <A> ::getsize(){
+template <typename A> unsigned ArrayList <A> ::getsize(){
     return size;
 }
 template <typename A> int ArrayList<A>::length(){
@@ -60,7 +60,7 @@ template <typename A> Node<A>& ArrayList<A>::pushBack(const A &d){
 }
 
 
-template <typename A> int ArrayList<A>::remove(const A &d){
+template <typename A> bool ArrayList<A>::remove(const A &d){
     Node <A>*target=tail;
     for (int i=0; i<size; i++){
         if(target->getdata()==d){
@@ -68,19 +68,19 @@ template <typename A> int ArrayList<A>::remove(const A &d){
             if (i==size-1){head=target->getnext();}
             target->remove();
             size--;
-            return 1;
+            return true;
         } else{
             target = target->getnext();
         }
     }
-    return 0;
+    return false;
 }
 
 
 
-template <typename A> void ArrayList<A>::removebyindex(int index){
+template <typename A> void ArrayList<A>::removebyindex(unsigned index){
     Node<A> *target=tail;
-    for (int i=0; i<index; i++){
+    for (unsigned i=0; i<index; i++){
         target=target->getnext();
     }
     target->remove();
@@ -88,9 +88,9 @@ template <typename A> void ArrayList<A>::removebyindex(int index){
 
 
 
-template <typename A> A ArrayList<A>::operator[](int index)const{
+template <typename A> A ArrayList<A>::operator[](unsigned index)const{
     Node <A>*target=tail;
-    for (int i=0; i<index; i++){
+    for (unsigned i=0; i<index; i++){
         target=target->getnext();
     }
     return target->getdata();

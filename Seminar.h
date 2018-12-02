@@ -5,7 +5,7 @@
 #include "Resource.h"
 #include "Link_prof_res.h"
 #include "Link_stu_res.h"
-
+#include "ArrayList.h"
 using namespace std;
 
 class Seminar: public Resource
@@ -13,29 +13,29 @@ class Seminar: public Resource
 private:
     Link_prof_res *teachers[2];
     Date eventDate;
-    int maxseats;
-    int freeseats;
-    Link_stu_res **students; //Link_us_res *students;
+    unsigned maxseats;
+    ArrayList <Link_stu_res *> students;
 
     //----------
-    void addteacher(Link_prof_res *newteacher);//void addteacher(Link_us_res *newteacher);
-    void addstudent(Link_stu_res *newstudent);//void addstudent(Link_us_res *newstudent);
+    void addteacher(Link_prof_res *newteacher);
+    void addstudent(Link_stu_res *newstudent);
     void removestudent(Link_stu_res *link);
     void removeprofessor(Link_prof_res *link);
 public:
     friend class Link_stu_res;
     friend class Link_prof_res;
-    Seminar(string id="undefined", string s="unknown", int seatsValue=0,Professor *spe =nullptr, Professor *coord=nullptr);
-    Seminar(string id, string s, int seatsValue, Date when, Professor *spe, Professor *coord);
-    void setmaxseats(int s);
-    int getmaxseats()const;
+    Seminar(string n="unknown", string id="undefined", unsigned seatsValue=0, Professor *coord=nullptr, Professor *spe=nullptr, Date when=Date(1, 1, 1));
+     Seminar(string n="unknown", string id="undefined", unsigned seatsValue=0, Professor *coord=nullptr, Date when=Date(1, 1, 1));
+    void setmaxseats(unsigned s);
+    unsigned getmaxseats()const;
     void setdate(Date when);
     Date getdate()const;
     void setspeaker(Professor *spe);
-    Link_prof_res* getspeaker()const; //Link_us_res& getspeaker()const;
+    Link_prof_res* getspeaker()const;
     void setcoordinator(Professor *coord);
-    Link_prof_res* getcoordinator()const; //Link_us_res& getcoordinator()const;
+    Link_prof_res* getcoordinator()const;
 
+    //Seminar(string name, string id, unsigned seatsValue , Professor coord, Date(int d, int m, int y));
 
 };
 

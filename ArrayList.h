@@ -9,19 +9,19 @@ template <typename A> class ArrayList
 {
 
 private:
-    int size;
+    unsigned size;
     Node<A> *head;
     Node<A> *tail;
 public:
     ArrayList();
     ~ArrayList();
-    int getsize();
+    unsigned getsize();
     int length();
     Node<A>& pushFront(const A&);
     Node<A>& pushBack(const A&);
-    int remove(const A&);
-    void removebyindex(int index);
-    A operator[] (int index)const;
+    bool remove(const A&);
+    void removebyindex(unsigned index);
+    A operator[] (unsigned index)const;
     ArrayList<A>& operator=(const ArrayList<A>& );
 
 };

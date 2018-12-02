@@ -6,8 +6,6 @@
 #include "Seminar.h"
 #include "FDP.h"
 
-
-
 using namespace std;
 
 int Student::count;
@@ -22,8 +20,9 @@ Student::Student():mycourses(), myseminars()
 
 
 
-Student::Student(Degree *d):mycourses(), myseminars()
+Student::Student(string n, Degree *d):mycourses(), myseminars()
 {
+    setname(n);
     SIN=1000000 + count;
     mydegree=d;
     myfdp=nullptr;
@@ -122,6 +121,7 @@ string Student::getidentifier()
 void Student::showDetails()
 {
    cout<<"SIN: "<<getidentifier();
+   cout<<"  Name: "<<name;
    cout<<"  Courses enrolled: "<<mycourses.getsize();
    cout<<"  Seminars enrolled: "<<myseminars.getsize();
    cout<<"  Has FDP: ";
@@ -131,7 +131,6 @@ void Student::showDetails()
        cout<<"NO"<<endl;
    }
 }
-
 
 
 

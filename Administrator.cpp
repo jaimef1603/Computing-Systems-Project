@@ -2,7 +2,9 @@
 #include "VirtualCampus.h"
 #include <sstream>
 
-Administrator::Administrator(string id, VirtualCampus *vc):Professor(id, vc){}
+Administrator::Administrator(string n,string id, VirtualCampus *vc):Professor(n, id, vc){
+
+}
 
 
 
@@ -137,13 +139,14 @@ void Administrator::manageDegree()
         if (selection=='0'){
             system("clear");
             mycampus->showAllDeg();
-            cout<<"1: Create 2: Edit 3: Delete 4:Details 5: Select 6:Back\n";
+            cout<<"1: Create 2: Edit 3: Delete 4: Details 5: Select 6:Back\n";
             cin>>selection;
         }
         switch(selection){
         case '1':
             selection='0';
             mycampus->addDegree();
+            system("clear");
             (*(mycampus->getDegrees().end()-1))->showdetails();
             cin.ignore(1, '\n');
             getchar();
@@ -152,7 +155,7 @@ void Administrator::manageDegree()
             selection='0';
             do {
                 system("clear");
-                cout<<"DEGREES:\n";
+                //cout<<"DEGREES:\n";
                 mycampus->showAllDeg();
                 cout<<"What degree do you want to edit?\n";
                 cin>>ws>>buffer;
@@ -171,7 +174,7 @@ void Administrator::manageDegree()
             selection='0';
             do {
                 system("clear");
-                cout<<"DEGREES:\n";
+                //cout<<"DEGREES:\n";
                 mycampus->showAllDeg();
                 cout<<"What degree do you want to delete?\n";
                 cin>>ws>>buffer;

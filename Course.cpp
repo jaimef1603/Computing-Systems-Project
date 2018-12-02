@@ -5,8 +5,8 @@
 #include "VirtualCampus.h"
 #include <sstream>
 
-Course::Course(string n, string id, Degree *d, int c, string s, Link_prof_res **t)
-    :Resource(n, id, s)
+Course::Course(string n, string id, Degree *d, int c, Link_prof_res **t)
+    :Resource(id, n)
 {
     degree=d;
     credits=c;
@@ -24,9 +24,9 @@ Course::Course(string n, string id, Degree *d, int c, string s, Link_prof_res **
 
 
 Course::Course(const Course &c)
-    :Resource(c.identification, c.status)
+    :Resource(c.identification, c.name)
 {
-    if (c.identification.c_str()==nullptr || c.status.c_str()==nullptr || c.degree==nullptr){
+    if (c.identification.empty() || c.name.empty() || c.degree==nullptr){
         std::cerr<<"Course cpyconstructor: (Warning) some atribute of original object is invalid.\n";
     }
     degree=c.degree;
@@ -45,12 +45,12 @@ Course::Course(const Course &c)
 
 Course& Course::operator= (const Course &c)
 {
-    if (c.identification.c_str()==nullptr || c.status.c_str()==nullptr || c.degree==nullptr){
+    if (c.identification.empty() || c.name.empty() || c.degree==nullptr){
         std::cerr<<"Course:operator=(const Course&); (Warning) Some atribute of original object is invalid, *this will not be modified.\n";
     }else{
         identification=c.identification;
-        status=c.status;
         degree=c.degree;
+        name=c.name;
         credits=c.credits;
         studentlist=c.studentlist;
         for (int i=0; i<2; i++){

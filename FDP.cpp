@@ -4,8 +4,8 @@
 #include "Link_prof_res.h"
 
 
-FDP::FDP(string n, string id, Student *stu, string s, Professor *tu, Professor *co_tu)
-    :Resource(n, id, s)
+FDP::FDP(string n, string id, Student *stu, Professor *tu, Professor *co_tu)
+    :Resource(id, n)
 {
     setstudent(stu);
     settutor(tu);
@@ -16,7 +16,7 @@ FDP::FDP(string n, string id, Student *stu, string s, Professor *tu, Professor *
 
 
 FDP::FDP(const FDP &other)
-    :Resource(other.identification, other.status)
+    :Resource(other.identification, other.name)
 {
     teachers[0]=other.teachers[0];
     teachers[1]=other.teachers[1];

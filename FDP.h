@@ -25,7 +25,7 @@ public:
     friend class Link_prof_res;
 
 
-    FDP(string n="unknown", string id="undefined", Student *stu=nullptr, string s="unknown",  Professor *tu =nullptr,Professor *co_tu=nullptr);
+    FDP(string n="unknown", string id="undefined", Student *stu=nullptr,  Professor *tu =nullptr,Professor *co_tu=nullptr);
     FDP(const FDP &other);
     FDP& operator= (const FDP &other);
     Link_prof_res* gettutor()const;

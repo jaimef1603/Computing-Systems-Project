@@ -5,7 +5,7 @@
 #include "Resource.h"
 #include "Link_prof_res.h"
 #include "Link_stu_res.h"
-
+#include "ArrayList.h"
 using namespace std;
 
 class Seminar: public Resource
@@ -13,9 +13,8 @@ class Seminar: public Resource
 private:
     Link_prof_res *teachers[2];
     Date eventDate;
-    int maxseats;
-    int freeseats;
-    Link_stu_res **students;
+    unsigned maxseats;
+    ArrayList <Link_stu_res *> students;
 
     //----------
     void addteacher(Link_prof_res *newteacher);
@@ -25,10 +24,9 @@ private:
 public:
     friend class Link_stu_res;
     friend class Link_prof_res;
-    Seminar(string n="unknown", string id="undefined", string s="unknown", int seatsValue=0,Professor *spe =nullptr, Professor *coord=nullptr);
-    Seminar(string n, string id, string s, int seatsValue, Date when, Professor *spe, Professor *coord);
-    void setmaxseats(int s);
-    int getmaxseats()const;
+    Seminar(string n="unknown", string id="undefined", unsigned seatsValue=0, Professor *coord=nullptr, Professor *spe=nullptr, Date when=Date(1, 1, 1));
+    void setmaxseats(unsigned s);
+    unsigned getmaxseats()const;
     void setdate(Date when);
     Date getdate()const;
     void setspeaker(Professor *spe);

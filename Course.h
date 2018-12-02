@@ -27,7 +27,7 @@ private:
 public:
     friend class Link_stu_res;
     friend class Link_prof_res;
-    Course(string n="unknown",string id="undefined", Degree *d=nullptr, int c=6, string s="unknown", Link_prof_res **t=nullptr);
+    Course(string n="unknown",string id="undefined", Degree *d=nullptr, int c=6, Link_prof_res **t=nullptr);
     Course(const Course&);
     Course& operator= (const Course&);
     int getcredits();

@@ -248,20 +248,20 @@ void Administrator::manageDegree()
 int Administrator::menu()
 {
     char selection;
-    do{
         system("clear");
-        cout<<"1: Manage Degrees 2: Manage Teachers 3: Exit";
+        cout<<"ADMINISTRATOR: "<<this->identifier<<endl;;
+        cout<<"  1: Manage Degrees\n  2: Manage Teachers\n  3: Exit\n";
         cin>>ws>>selection;
         switch (selection) {
-        case '1': this->manageDegree(); break;
-        case '2': this->manageTeacher(); break;
-        case '3': return 1;
+        case '1': this->manageDegree(); return 1;
+        case '2': this->manageTeacher(); return 1;
+        case '3': return 0;
         default:
             cout<<"Enter a valid number(1-3).\n\tPress any key to retry.\n"<<endl;
             getchar();
-            break;
+            return 1;
         }
-    }while (true);
+
 
 }
 

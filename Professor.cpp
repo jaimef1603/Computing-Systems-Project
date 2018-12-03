@@ -213,14 +213,14 @@ void Professor::manageSeminars()
             do{
                 system("clear");
                 cout<<"Seminars of "<<this->getidentifier()<<" :"<<endl;
-                for(int i=0; i<seminarlist.getsize(); i++){
+                for(unsigned i=0; i<seminarlist.getsize(); i++){
                     cout<<seminarlist[i]->getResource().getIdentification()<<endl;
                 }
                 cout<<"Enter the id of the seminar you want to remove?\n";
                 cin>>index;
-            }while ((index<0 && index !=-1) || index>=seminarlist.getsize());
+            }while ((index<0 && index !=-1) || index>=int(seminarlist.getsize()));
 
-            delete seminarlist[index];
+            delete seminarlist[unsigned(index)];
         }
             break;
         case '3': return;
@@ -283,14 +283,14 @@ void Professor::manageCourses()
             do{
                 system("clear");
                 cout<<"Courses of "<<this->getidentifier()<<" :"<<endl;
-                for(int i=0; i<courselist.getsize(); i++){
+                for(unsigned i=0; i<courselist.getsize(); i++){
                     cout<<courselist[i]->getResource().getIdentification()<<endl;
                 }
                 cout<<"Enter the id of the course you want to remove?\n";
                 cin>>index;
-            }while ((index<0 && index !=-1) || index>=courselist.getsize());
+            }while ((index<0 && index !=-1) || index>=int(courselist.getsize()));
 
-            delete courselist[index];
+            delete courselist[unsigned(index)];
         }
             break;
         case '3': return;

@@ -4,6 +4,7 @@
 #include <sstream>
 #include "Utilities.h"
 #include <cstring>
+#include <limits>
 
 using namespace std;
 
@@ -137,14 +138,15 @@ void Degree::addCourse()
     int credits=0;
     do{
     cout<<"Enter the name of the course: ";
-    cin>>name;
+    cin>>ws>>name;
     }while(!checkletters(name));
     do {
-        cout<<"New course ID CCCIIII (C=char, I=number) or \"cancel\" to exit:\n ";
+        cout<<"New course ID CCCIIII (C=char, I=number) or \"cancel\" to exit: "<<this->id;
         cin>>ws>>id;
         if (id=="cancel"){
             break;
         }
+        id=this->id+id;
     }while(!checkResId(id));
     do {
         system("clear");
@@ -373,9 +375,10 @@ void Degree::showdetails()
 void Degree::options()
 {
     char selection;
-    system("clear");
-    cout<<"1: Courses\n2: Students\n3: Back\n";
+
     do {
+        system("clear");
+        cout<<"1: Courses\n2: Students\n3: Back\n";
         cin>>selection;
         switch (selection) {
         case '1':
@@ -388,9 +391,9 @@ void Degree::options()
             break;
         case '3': return;
         default:
-            system("clear");
-            cout<<"1: Courses\n2: Students\n3: Back\n";
-            cout<<"Select a valid number (1-3)"<<endl;
+            cout<<"Enter a valid number(1-3).\n"<<endl;
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            cin.get();
             break;
         }
     }while(true);
@@ -400,26 +403,22 @@ void Degree::options()
 
 void Degree::manageCourses ()
 {
-    char selection='0';
+    char selection;
     string buffer;
     int cour;
     do{
-        if(selection=='0'){
             system("clear");
             cout<<"COURSES of "<<this->getname()<<":\n";
             showcourses();
             cout<<"\n";
             cout<<"1: Create 2: Edit 3: Delete 4:Details 5: Select 6:Back\n";
-            cin>>selection;
-        }
+        cin>>selection;
         switch(selection){
         case '1':
-            selection='0';
             system("clear");
             addCourse();
             break;
         case '2':
-            selection='0';
             do {
                 system("clear");
                 cout<<"COURSES:\n";
@@ -439,7 +438,6 @@ void Degree::manageCourses ()
             }
             break;
         case '3':
-            selection='0';
             do {
                 system("clear");
                 cout<<"COURSES:\n";
@@ -459,7 +457,6 @@ void Degree::manageCourses ()
             }
             break;
         case '4':
-            selection='0';
             do {
                 system("clear");
                 cout<<"COURSES:\n";
@@ -485,7 +482,6 @@ void Degree::manageCourses ()
 
             break;
         case '5':
-            selection='0';
             do {
                 system("clear");
                 cout<<"COURSES:\n";
@@ -508,13 +504,9 @@ void Degree::manageCourses ()
         case '6': return;
 
         default:
-            system("clear");
-            cout<<"COURSES of "<<this->getname()<<":\n";
-            showcourses();
-            cout<<"\n";
-            cout<<"1: Create 2: Edit 3: Delete 4:Details 5: Select 6:Back\n";
             cout<<"Enter a valid number(1-6).\n"<<endl;
-            cin>>selection;
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            cin.get();
             break;
         }
     }while (true);
@@ -593,12 +585,9 @@ void Degree::manageStudents()
         case '4':
             return;
         default:
-            system("clear");
-            cout<<"STUDENTS of "<<this->getname()<<":\n";
-            showstudents();
-            cout<<"1: Create 2: Delete 3: Details 4: Back\n";
             cout<<"Enter a valid number(1-4).\n"<<endl;
-            cin>>selection;
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            cin.get();
             break;
         }
     }while(true);

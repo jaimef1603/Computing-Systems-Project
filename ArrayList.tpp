@@ -62,7 +62,7 @@ template <typename A> Node<A>& ArrayList<A>::pushBack(const A &d){
 
 template <typename A> bool ArrayList<A>::remove(const A &d){
     Node <A>*target=tail;
-    for (int i=0; i<size; i++){
+    for (unsigned i=0; i<size; i++){
         if(target->getdata()==d){
             if (i==0){tail=target->getnext();}
             if (i==size-1){head=target->getnext();}
@@ -114,7 +114,7 @@ template <typename A> ArrayList<A>& ArrayList<A>::operator=(const ArrayList<A>& 
     }
         head=nullptr;
         tail=nullptr;
-        for(int i=0; i<list.size; i++){
+        for(unsigned i=0; i<list.size; i++){
             this->pushFront(list[i]);
         }
         return *this;

@@ -44,11 +44,11 @@ Student::Student (const Student &s)
 
 Student::~Student()
 {
-    for (int i = mycourses.getsize()-1; i>=0; i-- ){
-       delete mycourses[i];
+    for (int i = int(mycourses.getsize())-1; i>=0; i-- ){
+       delete mycourses[unsigned(i)];
     }
-    for (int i = myseminars.getsize()-1; i>=0; i--){
-        delete myseminars[i];
+    for (int i = int(myseminars.getsize())-1; i>=0; i--){
+        delete myseminars[unsigned(i)];
     }
     if (myfdp!=nullptr){
         delete myfdp;
@@ -137,7 +137,7 @@ void Student::showDetails()
 void Student::Drop(Course *c)
 {
    Link_stu_res link (this, c);
-   for (int i=0; i<mycourses.getsize(); i++){
+   for (unsigned i=0; i<mycourses.getsize(); i++){
        if (*mycourses[i]==link){
            delete mycourses[i];
        }
@@ -149,7 +149,7 @@ void Student::Drop(Course *c)
 void Student::Drop(Seminar *s)
 {
     Link_stu_res link (this, s);
-    for (int i=0; i<myseminars.getsize(); i++){
+    for (unsigned i=0; i<myseminars.getsize(); i++){
         if (*myseminars[i]==link){
             delete myseminars[i];
         }
@@ -168,7 +168,7 @@ void Student::Dropfdp()
 
 
 int Student::menu(){
-
+    return 0;
 }
 
 

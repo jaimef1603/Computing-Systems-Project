@@ -4,6 +4,7 @@
 #include "Student.h"
 #include "VirtualCampus.h"
 #include <sstream>
+#include <limits>
 
 Course::Course(string n, string id, Degree *d, int c, Link_prof_res **t)
     :Resource(id, n)
@@ -213,10 +214,10 @@ void Course::edit()
 void Course::options()
 {
     char selection;
-    system("clear");
-    cout<<"Options of Course "<<this->getIdentification()<<":"<<endl;
-    cout<<"1: Add Student \n2: Remove student \n3: Back\n";
     do {
+        system("clear");
+        cout<<"Options of Course "<<this->getIdentification()<<":"<<endl;
+        cout<<"1: Add Student \n2: Remove student \n3: Back\n";
         cin>>ws>>selection;
         switch (selection) {
         case '1':{
@@ -242,25 +243,25 @@ void Course::options()
             string buffer;
             int selection =-1;
             do {
-                for (int i=0; i<studentlist.getsize(); i++){
+                for (unsigned i=0; i<studentlist.getsize(); i++){
                     cout<<i+1<<": "<<studentlist[i]->getStudent().getidentifier()<<endl;
                 }
                 cout << "Select the student you want to remove (1-"<<studentlist.getsize()<<") or -1 to cancel: ";
                 cin>>ws>>buffer;
                 istringstream(buffer)>>selection;
-            }while((selection<1 && selection !=-1)||selection>studentlist.getsize());
+            }while((selection<1 && selection !=-1)||selection>int(studentlist.getsize()));
             if (selection!=-1){
-                delete studentlist[selection-1];
+                delete studentlist[unsigned(selection)-1];
             }
 
         }
             break;
         case '3': return;
         default:
-            system("clear");
-            cout<<"Options of Course: "<<this->getIdentification()<<":"<<endl;
-            cout<<"1: Add Student \n2: Remove student \n3: Back\n";
-            cout<<"Select a valid number (1-3)"<<endl; break;
+            cout<<"Select a valid number (1-3)"<<endl;
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            cin.get();
+            break;
         }
     }while(true);
 }

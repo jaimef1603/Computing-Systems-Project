@@ -309,12 +309,14 @@ int VirtualCampus::findDegree(string identification)
 
 void VirtualCampus::showAllDeg()
 {
+    cout<<"DEGREES:\n";
     if (degreelist.size()>0){
-        cout<<"DEGREES:\n";
         for(unsigned i=0;i<degreelist.size();i++){
 
             cout<<i+1<<": "<<degreelist[i]->getname()<<endl;
         }
+    }else{
+        cout<<"\n";
     }
 }
 
@@ -322,17 +324,15 @@ void VirtualCampus::showAllDeg()
 
 void VirtualCampus::showAllTeach()
 {
-
+    cout<<"TEACHERS:\n";
+    if (proflist.size()>0){
     for(unsigned i=0;i<proflist.size();i++){
 
         cout<<i+1<<": "<<proflist[i]->getidentifier()<<endl;
     }
-
-
-    //    for(int i=0;i<prof_number;i++){
-
-    //        cout<<i+1<<": "<<proflist[i].getidentifier()<<endl;
-    //    }
+    }else{
+        cout<<"\n";
+    }
 }
 
 
@@ -506,11 +506,12 @@ void VirtualCampus::addseminar()
     unsigned seats;
 
     do{
-        cout<<"Enter the identification of the seminar or \"cancel\" to exit: ";
+        cout<<"Enter the identification of the seminar or \"cancel\" to exit: SEM";
         cin>>ws>>id;
         if(id=="cancel"){
             return;
         }
+        id="SEM"+id;
     }while(!checkResId(id));
 
     do{
@@ -534,14 +535,14 @@ void VirtualCampus::addseminar()
     do {
         cin>>ws>>idCoord;
         if (idCoord=="cancel"){
-            break;
+            return;
         }else{
             coord=findTeacher(idCoord);
         }
         if(coord==-1){
             system("clear");
             cout<<"Invalid ID\n";
-            cout<<"Enter the id of the coordinatoror \"cancel\" to exit:\n";
+            cout<<"Enter the id of the coordinator \"cancel\" to exit:\n";
         }
     }while(coord==-1);
 
@@ -549,7 +550,7 @@ void VirtualCampus::addseminar()
     //findTeacher(coord);
     //seminalist.push_back(new Seminar(id));
 
-    seminalist.push_back(new Seminar(name, id, seats, proflist[coord], Date (day, month, year)));
+    seminalist.push_back(new Seminar(name, id, seats, proflist[unsigned(coord)], Date (day, month, year)));
 
 
     //    Seminar *temp;

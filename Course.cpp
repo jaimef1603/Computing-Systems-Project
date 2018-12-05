@@ -243,13 +243,13 @@ void Course::options()
             string buffer;
             int selection =-1;
             do {
-                for (unsigned i=0; i<studentlist.getsize(); i++){
+                for (unsigned i=0; i<studentlist.size(); i++){
                     cout<<i+1<<": "<<studentlist[i]->getStudent().getidentifier()<<endl;
                 }
-                cout << "Select the student you want to remove (1-"<<studentlist.getsize()<<") or -1 to cancel: ";
+                cout << "Select the student you want to remove (1-"<<studentlist.size()<<") or -1 to cancel: ";
                 cin>>ws>>buffer;
                 istringstream(buffer)>>selection;
-            }while((selection<1 && selection !=-1)||selection>int(studentlist.getsize()));
+            }while((selection<1 && selection !=-1)||selection>int(studentlist.size()));
             if (selection!=-1){
                 delete studentlist[unsigned(selection)-1];
             }
@@ -279,7 +279,7 @@ void Course::showdetails()
             cout<<"\t"<<teachers[i]->getteacher()->getidentifier()<<": "<<teachers[i]->getRoleName()<<endl;
         }
     }
-    cout<<"Number of students: "<<studentlist.getsize()<<endl;
+    cout<<"Number of students: "<<studentlist.size()<<endl;
 
 }
 

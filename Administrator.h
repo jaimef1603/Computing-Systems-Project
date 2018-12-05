@@ -8,11 +8,8 @@ class Administrator: public Professor{
 
 private:
 
-    void manageUser();
-    void manageTeacher();
     void createResource();
     void editResource();
-    void manageDegree();
 public:
     Administrator(string n="undefined",string id= "xxxxxx", VirtualCampus *vc=nullptr);
 

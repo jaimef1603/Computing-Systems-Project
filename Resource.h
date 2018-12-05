@@ -3,6 +3,7 @@
 #include <string>
 #include "Link_prof_res.h"
 #include "Link_stu_res.h"
+#include "Menu.h"
 
 using namespace std;
 
@@ -30,8 +31,11 @@ public:
     string getIdentification();
     void setname(string n);
     string getname();
-
+    static Menu<Resource>::menu_option_member gimmethename();
+    static Menu<Resource>::menu_option_member gimmetheid();
 };
+
+
 
 #endif // RESOURCE_H
 

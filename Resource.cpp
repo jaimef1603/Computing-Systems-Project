@@ -59,3 +59,16 @@ string Resource::getname(){
     return name;
 }
 
+
+
+Menu<Resource>::menu_option_member Resource::gimmethename()
+{
+    return &Resource::name;
+}
+
+
+
+Menu<Resource>::menu_option_member Resource::gimmetheid()
+{
+    return &Resource::identification;
+}

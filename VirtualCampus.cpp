@@ -1,5 +1,6 @@
 ﻿#include "VirtualCampus.h"
 #include "Utilities.h"
+#include <sstream>
 VirtualCampus::VirtualCampus()
 {
 
@@ -47,34 +48,303 @@ int VirtualCampus::run()
     r=currentuser->menu();
     system("clear");
     fflush(stdout);
-    //    if (degreelist!=nullptr){
-    //        cout<<"DEGREES & COURSES"<<endl;
-    //        for(int i=0; i<degree_number; i++){
-    //            cout<<degreelist[i].getname();
-    //            degreelist[i].showcourses();
-    //            cout<<endl;
-    //        }
-    //    }
-    //    if (projectlist!=nullptr){
-    //        cout<<"FDP's"<<endl;
-    //        for(int i=0; i<fdp_number; i++){
-    //            cout<<projectlist[i].getIdentification()<<endl;
-    //        }
-    //    }
-    //    if (seminalist!=nullptr){
-    //        cout<<"Seminars"<<endl;
-    //        for(int i=0; i<seminar_number; i++){
-    //            cout<<i+1<<": "<<seminalist[i].getIdentification()<<endl;
-    //            cout<<"Seats: "<<seminalist[i].getmaxseats();
-    //            //cout<<"\tDate: "<<seminalist[i].getdate();
-    //        }
-    //    }
 
     getchar();
     return r;
 }
 
 
+
+void VirtualCampus::manageDegrees()
+{
+    string buffer;
+    char selection='0';
+    int deg;
+    do{
+        if (selection=='0'){
+            system("clear");
+            showAllDeg();
+            cout<<"1: Create 2: Edit 3: Delete 4: Details 5: Select 6:Back\n";
+            cin>>selection;
+        }
+        switch(selection){
+        case '1':
+            selection='0';
+            addDegree();
+            system("clear");
+            (*(getDegrees().end()-1))->showdetails();
+            cin.ignore(1, '\n');
+            getchar();
+            break;
+        case '2':
+            selection='0';
+            do {
+                system("clear");
+                //cout<<"DEGREES:\n";
+                showAllDeg();
+                cout<<"What degree do you want to edit?\n";
+                cin>>ws>>buffer;
+                istringstream(buffer)>>deg;
+                if ((deg<1 && deg!=-1) || deg >int(degreelist.size())){
+                    cout<<"Select a valid number. (0-"<<degreelist.size()<<") or -1 to exit\nPress any key to retry...";
+                    getchar();
+                }
+            }while((deg<1 && deg!=-1) || deg >int(degreelist.size()));
+            system("clear");
+            if (deg!=-1){
+                degreelist[unsigned(deg)-1]->edit();
+            }
+            break;
+        case '3':
+            selection='0';
+            do {
+                system("clear");
+                //cout<<"DEGREES:\n";
+                showAllDeg();
+                cout<<"What degree do you want to delete?\n";
+                cin>>ws>>buffer;
+                istringstream(buffer)>>deg;
+                if ((deg<1 && deg!=-1) || deg >int(degreelist.size())){
+                    cout<<"Select a valid number. (0-"<<degreelist.size()<<") or -1 to exit\nPress any key to retry...";
+                    getchar();
+                }
+            }while((deg<1 && deg!=-1) || deg >int(degreelist.size()));
+            system("clear");
+            if (deg!=-1){
+                deleteDegree(unsigned(deg)-1);
+            }
+            break;
+        case '4':
+            selection='0';
+            do {
+                system("clear");
+                showAllDeg();
+                cout<<"What degree do you want to show details of?\n";
+                cin>>ws>>buffer;
+                istringstream(buffer)>>deg;
+                if ((deg<1 && deg!=-1) || deg >int(degreelist.size())){
+                    cout<<"Select a valid number. (0-"<<degreelist.size()<<") or -1 to exit\nPress any key to retry...";
+                    getchar();
+                }
+            }while((deg<1 && deg!=-1) || deg >int(degreelist.size()));
+            system("clear");
+            if (deg!=-1){
+                degreelist[unsigned(deg)-1]->showdetails();
+                cout<<"Press any key to exit\n";
+                cin.ignore(90, '\n');
+                getchar();
+            }
+            //system("clear");
+            break;
+        case '5':
+            selection='0';
+            do {
+                system("clear");
+                showAllDeg();
+                cout<<"What degree do you want to select?\n";
+                cin>>ws>>buffer;
+                istringstream(buffer)>>deg;
+                if (deg<1 || deg >int(degreelist.size())){
+                    cout<<"Select a valid number. (0-"<<degreelist.size()<<") or -1 to exit\n";
+                }
+            }while((deg<1 && deg!=-1)|| deg >int(degreelist.size()));
+            system("clear");
+            if (deg!=-1){
+                degreelist[unsigned(deg)-1]->options();
+            }
+            break;
+        case '6': return;
+
+        default:
+            system("clear");
+            showAllDeg();
+            cout<<"1: Create 2: Edit 3: Delete 4:Details 5: Select 6:Back\n";
+            cout<<"Enter a valid number(1-5)\n"<<endl;
+            cin>>selection;
+            break;
+
+        }
+    }while(true);
+
+}
+
+
+
+
+void VirtualCampus::addDegree()
+{
+    system("clear");
+    string name, id;
+    cout<<"Enter the name of the degree (letters a-z, A-Z) or \"cancel\" to exit : ";
+    do{
+        cin>>ws>>name;
+        if (name =="cancel"){
+            return;
+        }
+    }while(!checkletters(name));
+    do{
+        system("clear");
+        cout<<"Name: "<<name<<endl;
+        cout<<"Enter the three letter identification or write \"cancel\" to exit: ";
+        cin>>ws>>id;
+        if (id=="cancel"){
+            return;
+        }
+    }while(!checkletters(id) || id.length()!=3);
+    UCaseWord(id);
+    degreelist.push_back(new Degree(name, id.c_str(), this));
+
+}
+
+
+
+void VirtualCampus::deleteDegree(unsigned index){
+
+
+    delete degreelist[index];
+    degreelist.erase(degreelist.begin()+index);
+
+
+}
+
+
+
+int VirtualCampus::findDegree(string identification)
+{
+
+
+    for (unsigned i=0; i<degreelist.size(); i++ ){
+        if (degreelist[i]->getid()==identification){
+            return int(i);
+        }
+    }
+    return -1;
+
+
+
+}
+
+
+
+void VirtualCampus::manageTeachers()
+{
+    char selection;
+    do{
+        system("clear");
+        cout<<"1: Create teacher 2: Edit teacher 3: Delete teacher 4: Details 5: Select 6: Back"<<endl;
+        cin>>selection;
+        switch (selection) {
+        case '1': addTeacher(); break;
+        case '2': {
+            string id;
+            int teach=-1;
+            system("clear");
+            showAllTeach();
+            cout<<"Enter the id of the teacher you want to show details.\n";
+
+            do {
+                cin>>ws>>id;
+                if (id=="cancel"){
+                    break;
+                }else{
+                    teach=findTeacher(id);
+                }
+                if(teach==-1){
+                    system("clear");
+                    cout<<"Invalid ID\n";
+                    cout<<"Enter the id of the teacher you want to show details.\n";
+                }
+            }while(teach==-1);
+            system("clear");
+            if (teach!=-1){
+                proflist[unsigned(teach)]->edit();
+            }
+        }break;
+        case '3':
+        {
+            string id;
+            int teach=-1;
+            system("clear");
+            showAllTeach();
+            cout<<"Enter the id of the teacher you want to delete.\n";
+
+            do {
+                cin>>ws>>id;
+                if (id=="cancel"){
+                    break;
+                }else{
+                    teach=findTeacher(id);
+                }
+                if(teach==-1){
+                    system("clear");
+                    cout<<"Invalid ID\n";
+                    cout<<"Enter the id of the teacher you want to delete.\n";
+                }
+            }while(teach==-1);
+            system("clear");
+            if (teach!=-1){
+                deleteTeacher(unsigned(teach));
+            }
+        }
+            break;
+        case '4': {
+            string id;
+            int teach=-1;
+            system("clear");
+            cout<<"Enter the id of the teacher you want to show details.\n";
+
+            do {
+                cin>>ws>>id;
+                if (id=="cancel"){
+                    break;
+                }else{
+                    teach=findTeacher(id);
+                }
+                if(teach==-1){
+                    system("clear");
+                    cout<<"Invalid ID\n";
+                    cout<<"Enter the id of the teacher you want to show details.\n";
+                }
+            }while(teach==-1);
+            system("clear");
+            if (teach!=-1){
+                proflist[unsigned(teach)]->showdetails();
+            }
+        }break;
+
+        case '5':
+        {
+            string id;
+            int teach=-1;
+            system("clear");
+            cout<<"Enter the id of the teacher you want to select.\n";
+
+            do {
+                cin>>ws>>id;
+                if (id=="cancel"){
+                    break;
+                }else{
+                    teach=findTeacher(id);
+                }
+                if(teach==-1){
+                    system("clear");
+                    cout<<"Invalid ID\n";
+                    cout<<"Enter the id of the teacher you want to show details.\n";
+                }
+            }while(teach==-1);
+            system("clear");
+            if (teach!=-1){
+                proflist[unsigned(teach)]->options();
+            }
+        }
+            break;
+
+        case '6': return;
+        default:
+            cout<<"Enter a valid number(1-6)."<<endl;
+        }
+    }while(true);
+}
 
 
 
@@ -87,33 +357,6 @@ void VirtualCampus::addTeacher()
     cout<<"Enter the name of the teacher: ";
     cin>>ws>>name;
     proflist.push_back(new Professor (name, id, this));
-
-
-    //    if (proflist==nullptr){
-    //        proflist = new Professor[1];
-    //        proflist[0] = Professor(id, this);
-    //        prof_number=1;
-    //        std::cerr<<"Teacher added\n";
-    //        getchar();
-    //    }else{
-    //        if (proflist!=nullptr){
-    //            temp=new Professor [prof_number];
-    //            for(int i=0; i<prof_number; i++){
-    //                temp[i]=proflist[i];
-    //            }
-    //            delete [] proflist;
-    //            proflist = new Professor[prof_number+1];
-    //            for(int i=0; i<prof_number; i++){
-    //                proflist[i]=temp[i];
-    //            }
-    //            delete [] temp;
-    //            proflist[prof_number] = Professor(id, this);
-    //            prof_number+=1;
-    //            std::cerr<<"Teacher added\n";
-    //        }else{
-    //            cerr<<"VirtualCampus::addTeacher(); Invalid size for prof_number.\n"<<endl;
-    //        }
-    //    }
 }
 
 
@@ -127,24 +370,6 @@ void VirtualCampus::deleteTeacher(unsigned index)
         cerr<<"VirtualCampus::deleteTeacher(int); Invalid index\n";
     }
 
-
-
-    //    Professor *temp = new Professor [prof_number-1];
-    //    int j=0;
-
-    //    for (int i = 0; i<prof_number; i++){
-    //        if (i != index){
-    //            temp[j]=proflist[i];
-    //            j++;
-    //        }
-    //    }
-    //    prof_number -=1;
-    //    delete [] proflist;
-    //    proflist = new Professor [prof_number];
-    //    for (int i=0; i<prof_number; i++){
-    //        proflist[i]=temp[i];
-    //    }
-    //    delete [] temp;
 }
 
 
@@ -161,14 +386,6 @@ int VirtualCampus::findTeacher(string identification)
     return -1;
 
 
-    //    if(proflist!=nullptr){
-    //        for (int i=0; i<prof_number; i++){
-    //            if (identification==proflist[i].getidentifier()){
-    //                return i;
-    //            }
-    //        }
-    //    }
-    //    return -1;
 
 }
 
@@ -197,113 +414,6 @@ vector <Professor*> VirtualCampus::getTeachers()
 }
 
 
-
-void VirtualCampus::addDegree()
-{
-    system("clear");
-    string name, id;
-    cout<<"Enter the name of the degree (letters a-z, A-Z) or \"cancel\" to exit : ";
-    do{
-        cin>>ws>>name;
-        if (name =="cancel"){
-            return;
-        }
-    }while(!checkletters(name));
-    do{
-        system("clear");
-        cout<<"Name: "<<name<<endl;
-        cout<<"Enter the three letter identification or write \"cancel\" to exit: ";
-        cin>>ws>>id;
-        if (id=="cancel"){
-            return;
-        }
-    }while(!checkletters(id) || id.length()!=3);
-    UCaseWord(id);
-    degreelist.push_back(new Degree(name, id.c_str(), this));
-
-
-
-    //    Degree *temp;
-
-    //        if (degreelist==nullptr){
-    //            degreelist = new Degree[1];
-    //            degreelist[0] = Degree(name, id.c_str(),  this);
-    //            degree_number=1;
-    //            std::cerr<<"Degree added\n";
-    //            getchar();
-    //        }else{
-    //            if (degree_number>0){
-    //                temp=new Degree [degree_number];
-    //                for(int i=0; i<degree_number; i++){
-    //                    temp[i]=degreelist[i];
-    //                }
-    //                delete [] degreelist;
-    //                degreelist = new Degree[degree_number+1];
-    //                for(int i=0; i<degree_number; i++){
-    //                    degreelist[i]=temp[i];
-    //                }
-    //                delete [] temp;
-    //                degreelist[degree_number] = Degree(name, id.c_str(), this);
-    //                degree_number+=1;
-    //            }else{
-    //                cerr<<"VirtualCampus::addDegree(); Invalid size for degree_number.\n"<<endl;
-    //            }
-    //        }
-
-
-}
-
-
-
-void VirtualCampus::deleteDegree(unsigned index){
-
-
-    delete degreelist[index];
-    degreelist.erase(degreelist.begin()+index);
-
-
-
-    //    Degree *temp = new Degree [degree_number-1];
-    //    int j=0;
-
-    //    for (int i = 0; i<degree_number; i++){
-    //        if (i != index){
-    //            temp[j]=degreelist[i];
-    //            j++;
-    //        }
-    //    }
-    //    degree_number -=1;
-    //    delete [] degreelist;
-    //    degreelist = new Degree [degree_number];
-    //    for (int i=0; i<degree_number; i++){
-    //        degreelist[i]=temp[i];
-    //    }
-    //    delete [] temp;
-}
-
-
-
-int VirtualCampus::findDegree(string identification)
-{
-
-
-    for (unsigned i=0; i<degreelist.size(); i++ ){
-        if (degreelist[i]->getid()==identification){
-            return int(i);
-        }
-    }
-    return -1;
-
-
-    //    if(degreelist!=nullptr){
-    //        for (int i=0; i<degree_number; i++){
-    //            if (identification.c_str()==degreelist[i].getid()){
-    //                return i;
-    //            }
-    //        }
-    //    }
-    //    return -1;
-}
 
 
 
@@ -343,14 +453,8 @@ void VirtualCampus::showAllSeminars()
     for(unsigned i=0;i<seminalist.size();i++){
         cout<<i+1<<": "<<endl;
         cout<<"   "<<seminalist[i]->getIdentification();
-        //cout<<"   "<<seminalist[i]->getname();
-        //cout<<"   "<<seminalist[i]->getdate();
     }
 
-    //    for(int i=0;i<seminar_number;i++){
-
-    //        cout<<i+1<<": "<<seminalist[i].getIdentification()<<endl;
-    //    }
 }
 
 
@@ -373,44 +477,12 @@ void VirtualCampus::addFDP()
         cin>>ws>>name;
     }while(!checkletters(name));
 
-    //    cout<<"What degree does the student belong to? enter the name of the degree.\n";
-    //    cin>>ws>>namedegree;
-    //    for (int i=0; i<degree_number; i++){
-    //        if (degreelist[i].getname()==namedegree){
-    //            degreelist[i].showstudents();
-    //            degreeid = i;
-    //            break;
-    //        }
-    //    }
-    //    cout<<"Enter the id of the student."<<endl;
-    //   stu = degreelist[degreeid].searchStudentbyid(studentid);
 
 
     projectlist.push_back(new FDP(name, id));
 
 
-    //    if (projectlist==nullptr){
-    //        projectlist = new FDP[1];
-    //        projectlist[0]= FDP(id);
-    //        fdp_number=1;
-    //    }else{
-    //        if (fdp_number>0){
-    //            temp=new FDP [fdp_number];
-    //            for(int i=0; i<fdp_number; i++){
-    //                temp[i]=projectlist[i];
-    //            }
-    //            delete [] projectlist;
-    //            projectlist = new FDP[fdp_number+1];
-    //            for(int i=0; i<fdp_number; i++){
-    //                projectlist[i]=temp[i];
-    //            }
-    //            projectlist[fdp_number]= FDP(id);
-    //            delete [] temp;
-    //            fdp_number+=1;
-    //        }else{
-    //            cerr<<"VirtualCampus::addDegree(); Invalid size for degree_number.\n"<<endl;
-    //        }
-    //    }
+
 
 }
 
@@ -546,36 +618,9 @@ void VirtualCampus::addseminar()
         }
     }while(coord==-1);
 
-    //cin>>coord.getidentifier();
-    //findTeacher(coord);
-    //seminalist.push_back(new Seminar(id));
 
     seminalist.push_back(new Seminar(name, id, seats, proflist[unsigned(coord)], Date (day, month, year)));
 
-
-    //    Seminar *temp;
-    //    if (seminalist==nullptr){
-    //        seminalist = new Seminar[1];
-    //        seminalist[0]=Seminar(id);
-    //        seminar_number=1;
-    //    }else{
-    //        if (seminar_number>0){
-    //            temp=new Seminar [seminar_number];
-    //            for(int i=0; i<seminar_number; i++){
-    //                temp[i]=seminalist[i];
-    //            }
-    //            delete [] seminalist;
-    //            seminalist = new Seminar[seminar_number+1];
-    //            for(int i=0; i<seminar_number; i++){
-    //                seminalist[i]=temp[i];
-    //            }
-    //            delete [] temp;
-    //            seminalist[seminar_number]=Seminar(id);
-    //            seminar_number+=1;
-    //        }else{
-    //            cerr<<"VirtualCampus::addseminar(); Invalid size for seminar_number.\n"<<endl;
-    //        }
-    //    }
 
 }
 

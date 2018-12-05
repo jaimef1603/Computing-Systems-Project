@@ -141,7 +141,7 @@ void Seminar::addteacher(Link_prof_res *newteacher)
 void Seminar::addstudent(Link_stu_res *newstudent)
 {
     bool flag = false;
-    if (students.getsize()<maxseats){
+    if (students.size()<maxseats){
         students.pushFront(newstudent);
         flag = true;
     }

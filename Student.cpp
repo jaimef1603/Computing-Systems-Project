@@ -44,10 +44,10 @@ Student::Student (const Student &s)
 
 Student::~Student()
 {
-    for (int i = int(mycourses.getsize())-1; i>=0; i-- ){
+    for (int i = int(mycourses.size())-1; i>=0; i-- ){
        delete mycourses[unsigned(i)];
     }
-    for (int i = int(myseminars.getsize())-1; i>=0; i--){
+    for (int i = int(myseminars.size())-1; i>=0; i--){
         delete myseminars[unsigned(i)];
     }
     if (myfdp!=nullptr){
@@ -122,8 +122,8 @@ void Student::showDetails()
 {
    cout<<"SIN: "<<getidentifier();
    cout<<"  Name: "<<name;
-   cout<<"  Courses enrolled: "<<mycourses.getsize();
-   cout<<"  Seminars enrolled: "<<myseminars.getsize();
+   cout<<"  Courses enrolled: "<<mycourses.size();
+   cout<<"  Seminars enrolled: "<<myseminars.size();
    cout<<"  Has FDP: ";
    if(myfdp!=nullptr){
        cout<<"YES"<<endl;
@@ -137,7 +137,7 @@ void Student::showDetails()
 void Student::Drop(Course *c)
 {
    Link_stu_res link (this, c);
-   for (unsigned i=0; i<mycourses.getsize(); i++){
+   for (unsigned i=0; i<mycourses.size(); i++){
        if (*mycourses[i]==link){
            delete mycourses[i];
        }
@@ -149,7 +149,7 @@ void Student::Drop(Course *c)
 void Student::Drop(Seminar *s)
 {
     Link_stu_res link (this, s);
-    for (unsigned i=0; i<myseminars.getsize(); i++){
+    for (unsigned i=0; i<myseminars.size(); i++){
         if (*myseminars[i]==link){
             delete myseminars[i];
         }

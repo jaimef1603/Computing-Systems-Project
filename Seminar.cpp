@@ -2,8 +2,6 @@
 #include <iostream>
 #include "Link_prof_res.h"
 
-//Seminar::Seminar(string n, string id, int seatsValue, Date (int d, int m, int y), Professor coord)
-
 Seminar::Seminar(string n, string id, unsigned seatsValue, Professor *coord, Professor *spe, Date when)
     :Resource(id, n)
 {
@@ -61,14 +59,9 @@ void Seminar::setdate(Date when)
 void Seminar::setspeaker(Professor *spe)
 {
 
-    Link_prof_res *newLink=new Link_prof_res(spe, this, role::speaker);//Link_us_res *newLink=new Link_us_res(spe, this);
+    Link_prof_res *newLink=new Link_prof_res(spe, this, role::speaker);
     if (newLink->checkHealth()==0){
-        //if (!newLink->checkUserKind()){
         teachers[0]= newLink;
-        //}else{
-        //delete newLink;
-        //std::cerr<<"Seminar::setspeaker(User*); User passed is not valid for speaker. Only teachers can be speaker.\n";
-        //}
     }else{
         std::cerr<<"Seminar::setspeaker(User*); failed to create a new link\n";
     }
@@ -93,12 +86,7 @@ void Seminar::setcoordinator(Professor *coord)
 {
     Link_prof_res *newLink=new Link_prof_res(coord, this, role::coordinator);
     if (newLink->checkHealth()==0){
-        //if (!newLink->checkUserKind()){
         teachers[1]=newLink;
-        //}else{
-        //delete newLink;
-        //std::cerr<<"Seminar::setcoordinator(User*); User passed is not valid for coordnator. Only teachers can be coordinator.\n";
-        //}
     }else{
         std::cerr<<"Seminar::setcoordinator(User*); failed to create a new link\n";
     }
@@ -153,7 +141,7 @@ void Seminar::addteacher(Link_prof_res *newteacher)
 void Seminar::addstudent(Link_stu_res *newstudent)
 {
     bool flag = false;
-    if (students.getsize()<maxseats){
+    if (students.size()<maxseats){
         students.pushFront(newstudent);
         flag = true;
     }

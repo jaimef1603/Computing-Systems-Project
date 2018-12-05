@@ -4,6 +4,23 @@ User::~User(){
 
 }
 
+void User::setname(string n)
+{
+    name=n;
+}
+
+
+
+string User::getname(){
+    return name;
+}
+
+
+Menu<User>::menu_option_member User::gimmethename()
+{
+    return &User::name;
+}
+
 //void User::addCourse(Link_us_res *link){
 //    std::cerr<<"This object can't add Course"<<std::endl;
 //}

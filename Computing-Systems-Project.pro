@@ -22,7 +22,8 @@ SOURCES += \
     Node.tpp \
     Link_stu_res.cpp \
     Link_prof_res.cpp \
-    Utilities.cpp
+    Utilities.cpp \
+    Menu.tpp
 
 HEADERS += \
     Administrator.h \
@@ -42,4 +43,5 @@ HEADERS += \
     Node.h \
     Utilities.h \
     Link_stu_res.h \
-    Link_prof_res.h
+    Link_prof_res.h \
+    Menu.h

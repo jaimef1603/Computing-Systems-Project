@@ -4,8 +4,8 @@
 #include "Link_prof_res.h"
 
 
-FDP::FDP(string id, Student *stu, string s, Professor *tu, Professor *co_tu)
-    :Resource(id, s)
+FDP::FDP(string n, string id, Student *stu, Professor *tu, Professor *co_tu)
+    :Resource(id, n)
 {
     setstudent(stu);
     settutor(tu);
@@ -16,7 +16,7 @@ FDP::FDP(string id, Student *stu, string s, Professor *tu, Professor *co_tu)
 
 
 FDP::FDP(const FDP &other)
-    :Resource(other.identification, other.status)
+    :Resource(other.identification, other.name)
 {
     teachers[0]=other.teachers[0];
     teachers[1]=other.teachers[1];
@@ -99,7 +99,7 @@ void FDP::setstudent(Student* stu)
 {
     Link_stu_res *newlink = new Link_stu_res(stu, this);
     if (newlink!=nullptr && !newlink->checkHealth()){
-       student=newlink;
+        student=newlink;
     }else{
         std::cerr<<"FDP::setstudent(Link_stu_res*); incomplete or null link passed, student will not be modified.\n";
     }
@@ -109,8 +109,32 @@ void FDP::setstudent(Student* stu)
 
 void FDP::addteacher(Link_prof_res *newteacher)
 {
+    if (newteacher->getRole()==role::tutor){
+        if(teachers[0]!=nullptr){
 
+            delete teachers[0];
+            teachers[0]=newteacher;
+            return;
+
+        }else{
+            teachers[0]=newteacher;
+            return;
+        }
+    }
+    if (newteacher->getRole()==role::cotutor){
+        if(teachers[1]!=nullptr){
+            delete teachers[1];
+            teachers[1]=newteacher;
+            return;
+
+        }else{
+            teachers[1]=newteacher;
+            return;
+        }
+    }
 }
+
+
 
 
 

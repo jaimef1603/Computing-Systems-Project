@@ -4,47 +4,43 @@
 #include "Professor.h"
 #include "Seminar.h"
 #include "Degree.h"
-
+#include <vector>
 class Administrator;
 class VirtualCampus
 {
 
 private:
-    int admin_number;
-    Administrator *admins;
-    int prof_number;
-    Professor *proflist;
-    int degree_number;
-    Degree *degreelist;
-    int seminar_number;
-    Seminar *seminalist;
+    std::vector <Administrator*> admins;
+    std::vector <Professor*> proflist;
+    std::vector <Degree*> degreelist;
+    std::vector <Seminar*> seminalist;
+    std::vector <FDP*> projectlist;
     User *currentuser;
-    int fdp_number;
-    FDP *projectlist;
 
 public:
     friend class Administrator;
     VirtualCampus();
     ~VirtualCampus();
+    void manageTeachers();
     void addTeacher();
-    void deleteTeacher(int index);
+    void deleteTeacher(unsigned index);
     int findTeacher(string identification);
-    int findSeminar(string identification);
-    int findDegree(string identification);
-    int findFDP(string identification);
-    int getDegreeNumber();
-    Degree* getDegrees();
-    Seminar* getSeminars();
-    Professor* getTeachers();
-    void addDegree();
-    void deleteDegree(int index);
-    void showAllDeg();
     void showAllTeach();
-    void showAllSeminars();
+    vector <Professor*> getTeachers();
+    void manageDegrees();
+    void addDegree();
+    void deleteDegree(unsigned index);
+    int findDegree(string identification);
+    void showAllDeg();
+    vector <Degree*> getDegrees();
     void editFDP();
     void addFDP();
-    void editseminar();
+    int findFDP(string identification);
     void addseminar();
+    void editseminar();
+    void showAllSeminars();
+    int findSeminar(string identification);
+    vector <Seminar*> getSeminars();
     void start();
     int run();
     void end();

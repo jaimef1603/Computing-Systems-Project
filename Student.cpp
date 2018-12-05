@@ -6,8 +6,6 @@
 #include "Seminar.h"
 #include "FDP.h"
 
-
-
 using namespace std;
 
 int Student::count;
@@ -22,10 +20,11 @@ Student::Student():mycourses(), myseminars()
 
 
 
-Student::Student(Degree &d):mycourses(), myseminars()
+Student::Student(string n, Degree *d):mycourses(), myseminars()
 {
+    setname(n);
     SIN=1000000 + count;
-    mydegree=&d;
+    mydegree=d;
     myfdp=nullptr;
     count+=1;
 }
@@ -45,11 +44,11 @@ Student::Student (const Student &s)
 
 Student::~Student()
 {
-    for (int i = mycourses.getsize()-1; i>=0; i-- ){
-       delete mycourses[i];
+    for (int i = int(mycourses.size())-1; i>=0; i-- ){
+       delete mycourses[unsigned(i)];
     }
-    for (int i = myseminars.getsize()-1; i>=0; i--){
-        delete myseminars[i];
+    for (int i = int(myseminars.size())-1; i>=0; i--){
+        delete myseminars[unsigned(i)];
     }
     if (myfdp!=nullptr){
         delete myfdp;
@@ -107,9 +106,9 @@ string Student::getidentifier()
     string ident = "";
 
     ident = static_cast<ostringstream*>(&(ostringstream() << SIN))->str();
-    if (ident.length()!=7){
+    if (ident.length()<7){
 
-        for(int i=0; i<(7-ident.length()); i++){
+        for(unsigned i=0; i<(7-ident.length()); i++){
             ident="0"+ident;
         }
     }
@@ -122,8 +121,9 @@ string Student::getidentifier()
 void Student::showDetails()
 {
    cout<<"SIN: "<<getidentifier();
-   cout<<"  Courses enrolled: "<<mycourses.getsize();
-   cout<<"  Seminars enrolled: "<<myseminars.getsize();
+   cout<<"  Name: "<<name;
+   cout<<"  Courses enrolled: "<<mycourses.size();
+   cout<<"  Seminars enrolled: "<<myseminars.size();
    cout<<"  Has FDP: ";
    if(myfdp!=nullptr){
        cout<<"YES"<<endl;
@@ -134,11 +134,10 @@ void Student::showDetails()
 
 
 
-
 void Student::Drop(Course *c)
 {
    Link_stu_res link (this, c);
-   for (int i=0; i<mycourses.getsize(); i++){
+   for (unsigned i=0; i<mycourses.size(); i++){
        if (*mycourses[i]==link){
            delete mycourses[i];
        }
@@ -150,7 +149,7 @@ void Student::Drop(Course *c)
 void Student::Drop(Seminar *s)
 {
     Link_stu_res link (this, s);
-    for (int i=0; i<myseminars.getsize(); i++){
+    for (unsigned i=0; i<myseminars.size(); i++){
         if (*myseminars[i]==link){
             delete myseminars[i];
         }
@@ -169,7 +168,7 @@ void Student::Dropfdp()
 
 
 int Student::menu(){
-
+    return 0;
 }
 
 

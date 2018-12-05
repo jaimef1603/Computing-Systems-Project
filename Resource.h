@@ -3,6 +3,7 @@
 #include <string>
 #include "Link_prof_res.h"
 #include "Link_stu_res.h"
+#include "Menu.h"
 
 using namespace std;
 
@@ -12,8 +13,7 @@ class Resource
 {
 protected:
     string identification;
-    string status;
-
+    string name;
     //--------
     virtual void addteacher(Link_prof_res *newteacher)=0;
     virtual void addstudent(Link_stu_res *newstudent)=0;
@@ -22,17 +22,20 @@ protected:
 public:
     friend class Link_stu_res;
     friend class Link_prof_res;
-    Resource(string id="undefined", string s ="unknown");
+    //Resource(string id="undefined", string s ="unknown");
+    Resource(string id="undefined", string n="unknown");
     Resource(const Resource&);
     virtual ~Resource();
     virtual Resource& operator= (const Resource& r); //problematico, revisar bien.
     void setIdentification(string id);
     string getIdentification();
-    void setstatus(string s);
-    string getstatus();
-
-
+    void setname(string n);
+    string getname();
+    static Menu<Resource>::menu_option_member gimmethename();
+    static Menu<Resource>::menu_option_member gimmetheid();
 };
+
+
 
 #endif // RESOURCE_H
 

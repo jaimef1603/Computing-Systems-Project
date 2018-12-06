@@ -1,8 +1,8 @@
 ﻿#ifndef LINK_US_RES_H
 #define LINK_US_RES_H
 #include "User.h"
-
 #include "Date.h"
+
 class Resource;
 class Link_us_res
 {

@@ -459,6 +459,12 @@ void VirtualCampus::showAllSeminars()
 
 
 
+void VirtualCampus::manageSeminarsVc()
+{
+
+}
+
+
 
 void VirtualCampus::addFDP()
 {
@@ -564,6 +570,13 @@ int VirtualCampus::findFDP(string identification)
     }
 
     return -1;
+}
+
+
+
+void VirtualCampus::manageFDPs()
+{
+
 }
 
 

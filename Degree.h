@@ -5,6 +5,7 @@
 #include "Course.h"
 #include "FDP.h"
 #include <vector>
+
 using namespace std;
 
 class VirtualCampus;
@@ -30,21 +31,29 @@ public:
     Degree(string n, const char *id,  VirtualCampus *mycampus);
     ~Degree();
     string getname();
+    void setname(string n);
     const char* getid();
     VirtualCampus& getVc();
+
+    //Student functions
+
     Student* searchStudentbyid(string id);
     int getstudent_number();
-    void setname(string n);
-    void edit();
-    void manageCourses();
     void manageStudents();
-    void showdetails();
-    void showstudents();
-    void showcourses();
-    vector<Course*> getCourses();
-    vector <Student*> getStudents();
     int findStudent(string identification);
+    vector <Student*> getStudents();
+    void showstudents();
+
+    //Course functions
+
+    void manageCourses();
     int findCourse(string identification);
+    vector<Course*> getCourses();
+    void showcourses();
+
+
+    void showdetails();
+    void edit();
     void options();
 };
 

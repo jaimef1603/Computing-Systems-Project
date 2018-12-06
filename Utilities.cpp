@@ -1,5 +1,7 @@
 ﻿#include "Utilities.h"
 #include <cstring>
+#include <iostream>
+
 using namespace std;
 
 bool checkletters (const char str[]){

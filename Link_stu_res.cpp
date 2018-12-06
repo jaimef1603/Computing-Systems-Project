@@ -154,3 +154,5 @@ void Link_stu_res::destroy()
    resourcePtr->removestudent(this);
    stuPtr->removeResource(this);
 }
+
+

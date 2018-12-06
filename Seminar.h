@@ -6,6 +6,7 @@
 #include "Link_prof_res.h"
 #include "Link_stu_res.h"
 #include "ArrayList.h"
+
 using namespace std;
 
 class Seminar: public Resource
@@ -21,11 +22,12 @@ private:
     void addstudent(Link_stu_res *newstudent);
     void removestudent(Link_stu_res *link);
     void removeprofessor(Link_prof_res *link);
+
 public:
     friend class Link_stu_res;
     friend class Link_prof_res;
     Seminar(string n="unknown", string id="undefined", unsigned seatsValue=0, Professor *coord=nullptr, Professor *spe=nullptr, Date when=Date(1, 1, 1));
-     Seminar(string n="unknown", string id="undefined", unsigned seatsValue=0, Professor *coord=nullptr, Date when=Date(1, 1, 1));
+    Seminar(string n="unknown", string id="undefined", unsigned seatsValue=0, Professor *coord=nullptr, Date when=Date(1, 1, 1));
     void setmaxseats(unsigned s);
     unsigned getmaxseats()const;
     void setdate(Date when);
@@ -35,7 +37,6 @@ public:
     void setcoordinator(Professor *coord);
     Link_prof_res* getcoordinator()const;
 
-    //Seminar(string name, string id, unsigned seatsValue , Professor coord, Date(int d, int m, int y));
 
 };
 

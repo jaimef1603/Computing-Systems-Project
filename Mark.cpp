@@ -1,6 +1,8 @@
 ﻿#include "Mark.h"
 #include <iostream>
-Mark::Mark(float v): date_graded(){
+
+Mark::Mark(float v): date_graded()
+{
     if ((v>=0 && v<=10) || v==-1){ // revisar
         value = v;
     }else {
@@ -9,7 +11,11 @@ Mark::Mark(float v): date_graded(){
     }
 
 }
-Mark::Mark(float v, Date when): date_graded(when){
+
+
+
+Mark::Mark(float v, Date when): date_graded(when)
+{
     if ((v>=0 && v<=10) || v==-1){ // revisar
         value = v;
     }else {
@@ -18,10 +24,18 @@ Mark::Mark(float v, Date when): date_graded(when){
     }
 
 }
-float Mark::getvalue(){
+
+
+
+float Mark::getvalue()
+{
     return value;
 }
-void Mark::setvalue(float v){
+
+
+
+void Mark::setvalue(float v)
+{
     if ((v>=0 && v<=10) || v==-1){ // revisar
         value = v;
     }else {
@@ -30,15 +44,25 @@ void Mark::setvalue(float v){
 }
 
 
-void Mark::setdate_graded(Date when){
+
+void Mark::setdate_graded(Date when)
+{
     date_graded=when;
 }
-void Mark::setdate_graded(int day, int month, int year){
+
+
+
+void Mark::setdate_graded(int day, int month, int year)
+{
     date_graded.setday(day);
     date_graded.setmonth(month);
     date_graded.setyear(year);
 }
-Date Mark::getdate_graded(){
+
+
+
+Date Mark::getdate_graded()
+{
     return date_graded;
 }
 

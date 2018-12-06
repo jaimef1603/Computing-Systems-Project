@@ -1,10 +1,12 @@
 ﻿#include "Resource.h"
 #include <iostream>
 #include "Utilities.h"
+
 Resource::Resource(string id, string n)
     :identification(id), name(n)
 
 {
+
 }
 
 
@@ -18,12 +20,16 @@ Resource::Resource(const Resource& r)
 }
 
 
-Resource::~Resource(){
+
+Resource::~Resource()
+{
 
 }
 
 
-Resource& Resource::operator= (const Resource& r){
+
+Resource& Resource::operator= (const Resource& r)
+{
     if (r.identification.empty() || r.name.empty()){
         std::cerr<<"Resource::operator= : (Error) Some atribute of original object is invalid. Object not copied.\n";
     }else{
@@ -31,6 +37,8 @@ Resource& Resource::operator= (const Resource& r){
     }
     return *this;
 }
+
+
 
 string Resource::getIdentification()
 {
@@ -41,9 +49,7 @@ string Resource::getIdentification()
 
 void Resource::setIdentification(string id)
 {
-
         identification=id;
-
 }
 
 

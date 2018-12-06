@@ -161,9 +161,6 @@ void Professor::options()
 
 
 
-
-
-
 void Professor::manageSeminars()
 {
     char selection;
@@ -299,6 +296,7 @@ void Professor::manageCourses()
 }
 
 
+
 void Professor::selectCourseAndAdd(){
     int index;
     char r;
@@ -352,8 +350,8 @@ void Professor::selectCourseAndAdd(){
 
 
 
-
-void Professor::addResource(ArrayList<Link_prof_res*> &list, Link_prof_res* link){
+void Professor::addResource(ArrayList<Link_prof_res*> &list, Link_prof_res* link)
+{
     list.pushFront(link);
 }
 
@@ -365,6 +363,7 @@ void Professor:: enroll(Course* c, role r)
     newlink->connectProftoCourse();
     newlink->connectResource();
 }
+
 
 
 void Professor:: enroll(Seminar* s, role r)
@@ -385,7 +384,8 @@ void Professor:: enroll(FDP* project, role r)
 
 
 
-void Professor::addCourse(Link_prof_res *link){
+void Professor::addCourse(Link_prof_res *link)
+{
     this->courselist.pushBack(link);
 }
 
@@ -407,7 +407,7 @@ void Professor::addFDP(Link_prof_res *link)
 
 int Professor::menu()
 {
-return 0;
+    return 0;
 }
 
 

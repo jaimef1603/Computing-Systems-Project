@@ -4,7 +4,7 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
-        main.cpp \
+	main.cpp \
     Administrator.cpp \
     Course.cpp \
     Date.cpp \
@@ -19,7 +19,6 @@ SOURCES += \
     ArrayList.tpp \
     Link_us_res.cpp \
     User.cpp \
-    Node.tpp \
     Link_stu_res.cpp \
     Link_prof_res.cpp \
     Utilities.cpp \
@@ -40,7 +39,6 @@ HEADERS += \
     ArrayList.h \
     Link_us_res.h \
     User.h \
-    Node.h \
     Utilities.h \
     Link_stu_res.h \
     Link_prof_res.h \

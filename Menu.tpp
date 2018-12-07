@@ -1,6 +1,7 @@
 ﻿
 #include "Menu.h"
-
+#include <sstream>
+#include <limits>
 template <typename T>
 Menu<T>::Menu(std::vector<Menu<T>::Menu_option> o, char ec, const std::string menuName, Menu<T>::menu_option_handler init_f, T* if_o)
 {
@@ -15,9 +16,9 @@ Menu<T>::Menu(std::vector<Menu<T>::Menu_option> o, char ec, const std::string me
 template <typename T>
 Menu<T>::Menu(std::vector<T> &data, Menu<T>::menu_option_handler execf, char ec,  const std:: string menuName , Menu<T>::menu_option_handler init_f, T* if_o)
 {
-    int i=0;
+    int i=1;
     for(typename std::vector<T>::iterator it = data.begin(); it!=data.end(); it++, i++ ){
-        options.push_back(Menu<T>::Menu_option('1'+char(i), execf, "option "+std::to_string(i+1), *it));
+        options.push_back(Menu<T>::Menu_option(i, execf, "option "+std::to_string(i+1), *it));
     }
     name=menuName;
     exit_char=ec;
@@ -32,9 +33,9 @@ Menu<T>::Menu(std::vector<T> &data,  Menu<T>::menu_option_handler execf, Menu<T>
 
 {
 
-    int i=0;
+    int i=1;
     for(typename std::vector<T>::iterator it = data.begin(); it!=data.end(); it++, i++ ){
-        options.push_back(Menu<T>::Menu_option('1'+char(i), execf, (*it).*option_name, *it));
+        options.push_back(Menu<T>::Menu_option(i, execf, (*it).*option_name, *it));
     }
     name=menuName;
     exit_char=ec;
@@ -47,9 +48,9 @@ Menu<T>::Menu(std::vector<T> &data,  Menu<T>::menu_option_handler execf, Menu<T>
 template <typename T>
 Menu<T>::Menu(std::vector<T> &data, Menu<T>::menu_option_handler execf,  const std:: string menuName, Menu<T>::menu_option_handler init_f, T* if_o)
 {
-    int i=0;
+    int i=1;
     for(typename std::vector<T>::iterator it = data.begin(); it!=data.end(); it++, i++ ){
-        options.push_back(Menu<T>::Menu_option('1'+char(i), execf, "option "+std::to_string(i+1), *it));
+        options.push_back(Menu<T>::Menu_option(i, execf, "option "+std::to_string(i+1), *it));
     }
     name=menuName;
     exit_char='q';
@@ -61,9 +62,9 @@ Menu<T>::Menu(std::vector<T> &data, Menu<T>::menu_option_handler execf,  const s
 
 template <typename T>
 Menu<T>::Menu(std::vector<T> &data, Menu<T>::menu_option_handler execf, Menu<T>::menu_option_member option_name, const std:: string menuName, Menu<T>::menu_option_handler init_f, T* if_o){
-    int i=0;
+    int i=1;
     for(typename std::vector<T>::iterator it = data.begin(); it!=data.end(); it++, i++ ){
-        options.push_back(Menu<T>::Menu_option('1'+char(i), execf, it->*option_name, *it));
+        options.push_back(Menu<T>::Menu_option(i, execf, it->*option_name, *it));
     }
     name=menuName;
     exit_char='q';
@@ -78,7 +79,7 @@ Menu<T>:: Menu(std::vector<T> &data, Menu<T>::menu_option_member option_name, ch
 {
 
     for(unsigned i=0; i<data.size();  i++ ){
-        options.push_back(Menu<T>::Menu_option('1'+char(i), nullptr, data[i].*option_name, data[i]));
+        options.push_back(Menu<T>::Menu_option(1+i, nullptr, data[i].*option_name, data[i]));
     }
     name=std::string();
     exit_char=ec;
@@ -92,9 +93,9 @@ Menu<T>:: Menu(std::vector<T> &data, Menu<T>::menu_option_member option_name, ch
 template <typename T>
 Menu<T>::Menu(std::vector<T*> &data, Menu<T>::menu_option_handler execf, char ec,  const std:: string menuName , Menu<T>::menu_option_handler init_f, T* if_o)
 {
-    int i=0;
+    int i=1;
     for(typename std::vector<T*>::iterator it = data.begin(); it!=data.end(); it++, i++ ){
-        options.push_back(Menu<T>::Menu_option('1'+char(i), execf, "option "+std::to_string(i+1), *it));
+        options.push_back(Menu<T>::Menu_option(i, execf, "option "+std::to_string(i+1), *it));
     }
     name=menuName;
     exit_char=ec;
@@ -109,9 +110,9 @@ Menu<T>::Menu(std::vector<T*> &data,  Menu<T>::menu_option_handler execf, Menu<T
 
 {
 
-    int i=0;
+    int i=1;
     for(typename std::vector<T*>::iterator it = data.begin(); it!=data.end(); it++, i++ ){
-        options.push_back(Menu<T>::Menu_option('1'+char(i), execf, (*it)->*option_name, *it));
+        options.push_back(Menu<T>::Menu_option(i, execf, (*it)->*option_name, *it));
     }
     name=menuName;
     exit_char=ec;
@@ -124,9 +125,9 @@ Menu<T>::Menu(std::vector<T*> &data,  Menu<T>::menu_option_handler execf, Menu<T
 template <typename T>
 Menu<T>::Menu(std::vector<T*> &data, Menu<T>::menu_option_handler execf,  const std:: string menuName, Menu<T>::menu_option_handler init_f, T* if_o)
 {
-    int i=0;
+    int i=1;
     for(typename std::vector<T*>::iterator it = data.begin(); it!=data.end(); it++, i++ ){
-        options.push_back(Menu<T>::Menu_option('1'+char(i), execf, "option "+std::to_string(i+1), *it));
+        options.push_back(Menu<T>::Menu_option(i, execf, "option "+std::to_string(i+1), *it));
     }
     name=menuName;
     exit_char='q';
@@ -138,9 +139,9 @@ Menu<T>::Menu(std::vector<T*> &data, Menu<T>::menu_option_handler execf,  const 
 
 template <typename T>
 Menu<T>::Menu(std::vector<T*> &data, Menu<T>::menu_option_handler execf, Menu<T>::menu_option_member option_name, const std:: string menuName, Menu<T>::menu_option_handler init_f, T* if_o){
-    int i=0;
+    int i=1;
     for(typename std::vector<T*>::iterator it = data.begin(); it!=data.end(); it++, i++ ){
-        options.push_back(Menu<T>::Menu_option('1'+char(i), execf, (*it).*option_name, *it));
+        options.push_back(Menu<T>::Menu_option(i, execf, (*it)->*option_name, *it));
     }
     name=menuName;
     exit_char='q';
@@ -151,13 +152,14 @@ Menu<T>::Menu(std::vector<T*> &data, Menu<T>::menu_option_handler execf, Menu<T>
 
 
 template <typename T>
-Menu<T>:: Menu(std::vector<T*> &data, Menu<T>::menu_option_member option_name, char ec,  Menu<T>::menu_option_handler init_f, T* if_o)
+Menu<T>:: Menu(std::vector<T*> &data, Menu<T>::menu_option_member option_name, std::string selectorName, char ec,  Menu<T>::menu_option_handler init_f, T* if_o)
 {
 
+    name = selectorName;
+
     for(unsigned i=0; i<data.size();  i++ ){
-        options.push_back(Menu<T>::Menu_option('1'+char(i), nullptr, data[i]->*option_name, data[i]));
+        options.push_back(Menu<T>::Menu_option(1+i, nullptr, data[i]->*option_name, data[i]));
     }
-    name=std::string();
     exit_char=ec;
     initial_function = init_f;
     if_object = if_o;
@@ -173,18 +175,16 @@ void Menu<T>::display(bool showErrorMsg)
 {
     if (!name.empty())
         std::cout<<name<<std::endl;
-
-    if(initial_function){
+    if (initial_function)
         (if_object->*initial_function)();
-    }
 
     if(showErrorMsg)
         std::cout<<"Select a valid option"<<std::endl;
 
     for(unsigned i=0; i<options.size(); i++){
-        std::cout<<"\t"<<options[i].option<<": "<<options[i].text<<std::endl;
+        std::cout<<"\t["<<options[i].option<<"] "<<options[i].text<<std::endl;
     }
-    std::cout<<"\t"<<exit_char<<" :"<<"Back"<<std::endl;
+    std::cout<<"\t\'"<<exit_char<<"\' "<<"Back"<<std::endl;
 }
 
 
@@ -192,8 +192,24 @@ void Menu<T>::display(bool showErrorMsg)
 template <typename T>
 bool Menu<T>::ask()
 {
-    std::cin>>std::ws>>selection;
-    return selection==exit_char? false:true;
+    std::string buffer;
+    if (!std::cin.good()){
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<char>::max(), '\n');
+    }
+    std::cin>>std::ws>>buffer;
+    char exit_str [2] = {exit_char, '\0'};
+    if (buffer == exit_str){
+        return false;
+    }else{
+        std::istringstream(buffer)>>selection;
+        if (std::cin.good()){
+            return true;
+        }
+        selection = -1;
+        return true;
+    }
+
 }
 
 
@@ -201,9 +217,11 @@ bool Menu<T>::ask()
 template <typename T>
 bool Menu<T>::evaluate_options()
 {
-    for (unsigned i=0; i<options.size(); i++){
-        if(options[i].is_selected(selection)){
-            return true;
+    if (selection != -1){
+        for (unsigned i=0; i<options.size(); i++){
+            if(options[i].is_selected(selection)){
+                return true;
+            }
         }
     }
     return false;
@@ -214,9 +232,11 @@ bool Menu<T>::evaluate_options()
 template <typename T>
 T* Menu<T>::evaluate_selection()
 {
-    for (unsigned i=0; i<options.size(); i++){
-        if(options[i].is_selected(selection)){
-           return options[i].object;
+    if (selection != -1){
+        for (unsigned i=0; i<options.size(); i++){
+            if(options[i].is_selected(selection)){
+                return options[i].object;
+            }
         }
     }
     return nullptr;
@@ -254,7 +274,7 @@ T* Menu<T>::run_selector()
 
 
 template <typename T>
-Menu<T>::Menu_option::Menu_option(char opt, Menu<T>::menu_option_handler moh, const std::string t, T* obj)
+Menu<T>::Menu_option::Menu_option(unsigned opt, Menu<T>::menu_option_handler moh, const std::string t, T* obj)
 {
     object=obj;
     function=moh;
@@ -264,7 +284,7 @@ Menu<T>::Menu_option::Menu_option(char opt, Menu<T>::menu_option_handler moh, co
 
 
 template <typename T>
-Menu<T>::Menu_option::Menu_option(char opt, Menu<T>::menu_option_handler moh, const std::string t, T& obj)
+Menu<T>::Menu_option::Menu_option(unsigned opt, Menu<T>::menu_option_handler moh, const std::string t, T& obj)
 {
     object=&obj;
     function=moh;
@@ -275,7 +295,7 @@ Menu<T>::Menu_option::Menu_option(char opt, Menu<T>::menu_option_handler moh, co
 
 
 template <typename T>
-bool Menu<T>::Menu_option::is_selected(int opt)
+bool Menu<T>::Menu_option::is_selected(unsigned opt)
 {
     if (option == opt){
         if( function){

@@ -14,7 +14,7 @@ class Student: public User
 {
 private:
 
-    int SIN;
+    unsigned SIN;
     const Degree *mydegree;
     ArrayList <Link_stu_res*> mycourses;//triple!!! investigar si todo funciona correcto.
     ArrayList <Link_stu_res*> myseminars;
@@ -25,17 +25,17 @@ private:
     void addSeminar(Link_stu_res *link);
     void addFDP(Link_stu_res *link);
 public:
-    static int count;
+    static unsigned count;
     friend class Link_stu_res;
     Student();
     Student(string n, Degree *d);
     Student (const Student &);
     ~Student();
     Student& operator=(const Student&);
-    void setCount(int c);
-    int getCount();
-    int getSIN();
-    void setSIN(int s);
+    void setCount(unsigned c);
+    unsigned getCount();
+    unsigned getSIN();
+    void setSIN(unsigned s);
     string getidentifier();
     void showDetails();
     void Drop(Course *c);
@@ -47,6 +47,7 @@ public:
     void options();
     int menu();
 
+    Menu<Student>::menu_option_member gimme_the_id();
     friend ostream& operator<<(ostream& os, const Student& stu);
 };
 

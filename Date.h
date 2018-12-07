@@ -5,19 +5,19 @@
 class Date
 {
 private:
-    int day;
-    int month;
-    int year;
+    unsigned day;
+    unsigned month;
+    unsigned year;
 public:
-    Date(int d=1, int m=1, int y=1);
+    Date(unsigned d=1, unsigned m=1, unsigned y=1);
     Date(const Date &other);
     Date& operator = (const Date &d);
-    int getday();
-    void setday(int d);
-    int getmonth();
-    void setmonth(int m);
-    int getyear();
-    void setyear(int y);
+    unsigned getday();
+    void setday(unsigned d);
+    unsigned getmonth();
+    void setmonth(unsigned m);
+    unsigned getyear();
+    void setyear(unsigned y);
 };
 
 #endif // DATE_H

@@ -35,7 +35,7 @@ public:
 
     Menu(std::vector<T*> &data, Menu<T>::menu_option_handler execf, Menu<T>::menu_option_member, const std:: string menuName, Menu<T>::menu_option_handler init_f = nullptr, T* if_o = nullptr);
 
-    Menu(std::vector<T*> &data, Menu<T>::menu_option_member option_name, char ec='q',  Menu<T>::menu_option_handler init_f = nullptr, T* if_o = nullptr);
+    Menu(std::vector<T*> &data, Menu<T>::menu_option_member option_name, std::string selectorName= std::string (), char ec='q',  Menu<T>::menu_option_handler init_f = nullptr, T* if_o = nullptr);
 
 
 
@@ -54,7 +54,7 @@ private:
     T* if_object;
     std::vector <Menu<T>::Menu_option> options;
     char exit_char;
-    char selection;
+    int selection;
 
 
 };
@@ -65,14 +65,14 @@ class Menu<T>::Menu_option{
 public:
     friend class Menu<T>;
 
-    Menu_option(char opt, Menu<T>::menu_option_handler moh,  const std::string t=nullptr, T* obj=nullptr);
-    Menu_option(char opt, Menu<T>::menu_option_handler moh,  const std::string t=nullptr, T& obj = T());
-    bool is_selected(int opt);
+    Menu_option(unsigned opt, Menu<T>::menu_option_handler moh,  const std::string t=nullptr, T* obj=nullptr);
+    Menu_option(unsigned opt, Menu<T>::menu_option_handler moh,  const std::string t=nullptr, T& obj = T());
+    bool is_selected(unsigned opt);
 
 
 
 private:
-    char option;
+    unsigned option;
     std::string text;
     T *object;
     Menu<T>::menu_option_handler function;

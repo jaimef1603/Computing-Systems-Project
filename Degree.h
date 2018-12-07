@@ -5,6 +5,7 @@
 #include "Course.h"
 #include "FDP.h"
 #include <vector>
+#include "Menu.h"
 
 using namespace std;
 
@@ -41,7 +42,7 @@ public:
     int getstudent_number();
     void manageStudents();
     int findStudent(string identification);
-    vector <Student*> getStudents();
+    vector <Student*>& getStudents();
     void showstudents();
 
     //Course functions
@@ -55,6 +56,9 @@ public:
     void showdetails();
     void edit();
     void options();
+    static Menu<Degree>::menu_option_member gimme_the_name();
+
+
 };
 
 #endif // DEGREE_H

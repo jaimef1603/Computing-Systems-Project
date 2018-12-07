@@ -20,7 +20,7 @@ public:
     virtual std::string getidentifier()=0;
     void setname(string n);
     string getname();
-    Menu<User>::menu_option_member gimmethename();
+    static Menu<User>::menu_option_member gimmethename();
 
     //virtual void addCourse(Link_us_res *link);
     //virtual void addSeminar(Link_us_res *link);

@@ -17,7 +17,6 @@ class Professor: public User
 {
 protected:
     string identifier;
-    string name;
     VirtualCampus *mycampus;
     ArrayList<Link_prof_res*> courselist;
     ArrayList<Link_prof_res*> fdplist;

@@ -74,6 +74,13 @@ Student& Student::operator=(const Student &s)
 
 
 
+ostream& operator<<(ostream& os, const Student& stu){
+    os<<stu.SIN<<endl;
+    return os;
+}
+
+
+
 void Student::setCount(unsigned c)
 {
     count = c;
@@ -118,19 +125,11 @@ string Student::getidentifier()
 
 
 
-void Student::showDetails()
-{
-   cout<<"SIN: "<<getidentifier();
-   cout<<"  Name: "<<name;
-   cout<<"  Courses enrolled: "<<mycourses.size();
-   cout<<"  Seminars enrolled: "<<myseminars.size();
-   cout<<"  Has FDP: ";
-   if(myfdp!=nullptr){
-       cout<<"YES"<<endl;
-   }else{
-       cout<<"NO"<<endl;
-   }
-}
+/* _______________________________________
+  |                                       |
+  |---------- COURSE FUNCTIONS -----------|
+  |_______________________________________|
+*/
 
 
 
@@ -146,62 +145,8 @@ void Student::Drop(Course *c)
 
 
 
-void Student::Drop(Seminar *s)
-{
-    Link_stu_res link (this, s);
-    for (unsigned i=0; i<myseminars.size(); i++){
-        if (*myseminars[i]==link){
-            delete myseminars[i];
-        }
-    }
-}
-
-
-
-void Student::Dropfdp()
-{
-    if (myfdp!= nullptr){
-        delete myfdp;
-    }
-}
-
-
-
-int Student::menu(){
-    return 0;
-}
-
-
-
 void Student::addCourse(Link_stu_res *link){
     mycourses.pushFront(link);
-}
-
-
-
-void Student::addSeminar(Link_stu_res *link){
-   myseminars.pushFront(link);
-}
-
-
-
-void Student::addFDP(Link_stu_res *link){
-    if(myfdp==nullptr){
-        myfdp=link;
-    }
-}
-
-
-
-void Student::removeResource(Link_stu_res *link)
-{
-    int flag = mycourses.remove(link) + myseminars.remove(link);
-    if (myfdp==link){
-        myfdp=nullptr;
-    }else if(flag==0){
-        cerr<<"Student::removeResource(Link_stu_res*); Nothing to remove.\n";
-    }
-
 }
 
 
@@ -218,6 +163,34 @@ void Student::enroll(Course *cour)
 
 
 
+/* _______________________________________
+  |                                       |
+  |---------- SEMINAR FUNCTIONS-----------|
+  |_______________________________________|
+*/
+
+
+
+void Student::Drop(Seminar *s)
+{
+    Link_stu_res link (this, s);
+    for (unsigned i=0; i<myseminars.size(); i++){
+        if (*myseminars[i]==link){
+            delete myseminars[i];
+        }
+    }
+}
+
+
+
+
+void Student::addSeminar(Link_stu_res *link){
+   myseminars.pushFront(link);
+}
+
+
+
+
 void Student::enroll(Seminar *setminar)
 {
     Link_stu_res *newLink = new Link_stu_res(this, setminar);
@@ -225,6 +198,32 @@ void Student::enroll(Seminar *setminar)
     newLink->connectStutoSeminar();
     newLink->connectResource();
 }
+
+
+
+/* _______________________________________
+  |                                       |
+  |------------ FDP FUNCTIONS ------------|
+  |_______________________________________|
+*/
+
+
+
+void Student::Dropfdp()
+{
+    if (myfdp!= nullptr){
+        delete myfdp;
+    }
+}
+
+
+
+void Student::addFDP(Link_stu_res *link){
+    if(myfdp==nullptr){
+        myfdp=link;
+    }
+}
+
 
 
 void Student::enroll(FDP *project)
@@ -238,8 +237,36 @@ void Student::enroll(FDP *project)
 
 
 
-ostream& operator<<(ostream& os, const Student& stu){
-    os<<stu.SIN<<endl;
-    return os;
+void Student::showDetails()        //Function to show student's details
+{
+   cout<<"SIN: "<<getidentifier();
+   cout<<"  Name: "<<name;
+   cout<<"  Courses enrolled: "<<mycourses.size();
+   cout<<"  Seminars enrolled: "<<myseminars.size();
+   cout<<"  Has FDP: ";
+   if(myfdp!=nullptr){
+       cout<<"YES"<<endl;
+   }else{
+       cout<<"NO"<<endl;
+   }
+}
+
+
+
+int Student::menu(){
+    return 0;
+}
+
+
+
+void Student::removeResource(Link_stu_res *link)
+{
+    int flag = mycourses.remove(link) + myseminars.remove(link);
+    if (myfdp==link){
+        myfdp=nullptr;
+    }else if(flag==0){
+        cerr<<"Student::removeResource(Link_stu_res*); Nothing to remove.\n";
+    }
+
 }
 

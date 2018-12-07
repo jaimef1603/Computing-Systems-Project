@@ -14,7 +14,9 @@ class Resource
 protected:
     string identification;
     string name;
-    //--------
+
+    //Virtual functions
+
     virtual void addteacher(Link_prof_res *newteacher)=0;
     virtual void addstudent(Link_stu_res *newstudent)=0;
     virtual void removestudent(Link_stu_res *student)=0;

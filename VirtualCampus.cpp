@@ -8,7 +8,6 @@ VirtualCampus::VirtualCampus()
 
     currentuser=new Administrator("undefined","aaaaaa", this);
 
-
 }
 
 
@@ -44,7 +43,7 @@ VirtualCampus::~VirtualCampus()
 
 
 
-int VirtualCampus::run()
+int VirtualCampus::run()   //Function to start the program
 {
     int r;
     r=currentuser->menu();
@@ -169,7 +168,7 @@ void VirtualCampus::manageDegrees()
             system("clear");
             showAllDeg();
             cout<<"1: Create 2: Edit 3: Delete 4:Details 5: Select 6:Back\n";
-            cout<<"Enter a valid number(1-5)\n"<<endl;
+            cout<<"Enter a valid number(1-6)\n"<<endl;
             cin>>selection;
             break;
 
@@ -177,7 +176,6 @@ void VirtualCampus::manageDegrees()
     }while(true);
 
 }
-
 
 
 
@@ -208,20 +206,18 @@ void VirtualCampus::addDegree()
 
 
 
-void VirtualCampus::deleteDegree(unsigned index){
-
+void VirtualCampus::deleteDegree(unsigned index)
+{
 
     delete degreelist[index];
     degreelist.erase(degreelist.begin()+index);
-
 
 }
 
 
 
-int VirtualCampus::findDegree(string identification)
+int VirtualCampus::findDegree(string identification)   //Function to find a degree in the degreelist if it is created, and return the position where it is
 {
-
 
     for (unsigned i=0; i<degreelist.size(); i++ ){
         if (degreelist[i]->getid()==identification){
@@ -230,8 +226,28 @@ int VirtualCampus::findDegree(string identification)
     }
     return -1;
 
+}
 
 
+
+void VirtualCampus::showAllDeg()     //Function to show all the degrees
+{
+    cout<<"DEGREES:\n";
+    if (degreelist.size()>0){
+        for(unsigned i=0;i<degreelist.size();i++){
+
+            cout<<i+1<<": "<<degreelist[i]->getname()<<endl;
+        }
+    }else{
+        cout<<"\n";
+    }
+}
+
+
+
+vector <Degree*>& VirtualCampus::getDegrees()
+{
+    return degreelist;
 }
 
 
@@ -309,7 +325,7 @@ void VirtualCampus::manageTeachers()
             string id;
             int teach=-1;
             system("clear");
-            cout<<"Enter the id of the teacher you want to show details.\n";
+            cout<<"Enter the id of the teacher you want to show details of.\n";
 
             do {
                 cin>>ws>>id;
@@ -321,7 +337,7 @@ void VirtualCampus::manageTeachers()
                 if(teach==-1){
                     system("clear");
                     cout<<"Invalid ID\n";
-                    cout<<"Enter the id of the teacher you want to show details.\n";
+                    cout<<"Enter the id of the teacher you want to show details of.\n";
                 }
             }while(teach==-1);
             system("clear");
@@ -349,7 +365,7 @@ void VirtualCampus::manageTeachers()
                 if(teach==-1){
                     system("clear");
                     cout<<"Invalid ID\n";
-                    cout<<"Enter the id of the teacher you want to show details.\n";
+                    cout<<"Enter the id of the teacher you want to select.\n";
                 }
             }while(teach==-1);
             system("clear");
@@ -394,9 +410,8 @@ void VirtualCampus::deleteTeacher(unsigned index)
 
 
 
-int VirtualCampus::findTeacher(string identification)
+int VirtualCampus::findTeacher(string identification)    //Function to find a teacher in the proflist if it is created, and return the position where it is
 {
-
 
     for (unsigned i=0; i<proflist.size(); i++ ){
         if (proflist[i]->getidentifier()==identification){
@@ -405,15 +420,6 @@ int VirtualCampus::findTeacher(string identification)
     }
     return -1;
 
-
-
-}
-
-
-
-vector <Degree*>& VirtualCampus::getDegrees()
-{
-    return degreelist;
 }
 
 
@@ -425,22 +431,7 @@ vector <Professor*>& VirtualCampus::getTeachers()
 
 
 
-void VirtualCampus::showAllDeg()
-{
-    cout<<"DEGREES:\n";
-    if (degreelist.size()>0){
-        for(unsigned i=0;i<degreelist.size();i++){
-
-            cout<<i+1<<": "<<degreelist[i]->getname()<<endl;
-        }
-    }else{
-        cout<<"\n";
-    }
-}
-
-
-
-void VirtualCampus::showAllTeach()
+void VirtualCampus::showAllTeach()   //Function to show all the teachers
 {
     cout<<"TEACHERS:\n";
     if (proflist.size()>0){
@@ -452,7 +443,6 @@ void VirtualCampus::showAllTeach()
         cout<<"\n";
     }
 }
-
 
 
 
@@ -621,7 +611,7 @@ void VirtualCampus::selectSeminar()
 
 
 
-int VirtualCampus::findSeminar(string identification)
+int VirtualCampus::findSeminar(string identification)    //Function to find a seminar in the seminalist if it is created, and return the position where it is
 {
     for (unsigned i=0; i<seminalist.size(); i++){
         if (identification==seminalist[i]->getIdentification()){
@@ -634,7 +624,7 @@ int VirtualCampus::findSeminar(string identification)
 
 
 
-void VirtualCampus::showAllSeminars()
+void VirtualCampus::showAllSeminars()        //Function to show all the seminars
 {
 
     for(unsigned i=0;i<seminalist.size();i++){
@@ -667,12 +657,12 @@ void VirtualCampus::manageFDPs()
 
     vector<Menu<VirtualCampus>::Menu_option> options;
 
-    options.push_back(Menu<VirtualCampus>::Menu_option (1, &VirtualCampus::addFDP, "Add Seminar", this));
-    options.push_back(Menu<VirtualCampus>::Menu_option (2, &VirtualCampus::selectFDP, "Select Seminar", this));
-    options.push_back(Menu<VirtualCampus>::Menu_option (3, &VirtualCampus::deleteFDP, "Delete Seminar", this));
+    options.push_back(Menu<VirtualCampus>::Menu_option (1, &VirtualCampus::addFDP, "Add FDP", this));
+    options.push_back(Menu<VirtualCampus>::Menu_option (2, &VirtualCampus::selectFDP, "Select FDP", this));
+    options.push_back(Menu<VirtualCampus>::Menu_option (3, &VirtualCampus::deleteFDP, "Delete FDP", this));
 
 
-    Menu<VirtualCampus> seminarMenu(options,'q',"Manage Seminars", &VirtualCampus::showAllFDP, this);
+    Menu<VirtualCampus> seminarMenu(options,'q',"Manage FDP", &VirtualCampus::showAllFDP, this);
     seminarMenu.run();
 
 }
@@ -720,7 +710,6 @@ void VirtualCampus::addFDP()
             cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
-
 
         std::cout<<"Enter the title or \'q\' to cancel: ";
 
@@ -774,8 +763,6 @@ void VirtualCampus::addFDP()
             projectlist.push_back(new FDP(name, id, this, temp_student, temp_professor));
         }
     }
-
-
 
 }
 

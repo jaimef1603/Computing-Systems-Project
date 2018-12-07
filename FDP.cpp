@@ -169,8 +169,6 @@ void FDP::addteacher(Link_prof_res *newteacher)
 
 
 
-
-
 void FDP::addstudent(Link_stu_res *newstudent)
 {
     student=newstudent;
@@ -301,6 +299,7 @@ void FDP::edit()
 }
 
 
+
 void FDP::showDetails()
 {
   cout<<"ID: "<<this->identification<<endl;
@@ -311,4 +310,5 @@ void FDP::showDetails()
           cout<<teachers[i]->getRoleName()<<": "<<teachers[i]->getteacher()->getname()<<endl;
       }
   }
+
 }

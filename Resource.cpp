@@ -87,7 +87,6 @@ void Resource::editName()
         name=buffer;
     }
 
-
 }
 
 

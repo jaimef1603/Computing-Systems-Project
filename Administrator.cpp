@@ -8,9 +8,6 @@ Administrator::Administrator(string n,string id, VirtualCampus *vc):Professor(n,
 
 
 
-
-
-
 int Administrator::menu()
 {
     char selection;
@@ -21,16 +18,15 @@ int Administrator::menu()
         switch (selection) {
         case '1': mycampus->manageDegrees(); return 1;
         case '2': mycampus->manageTeachers(); return 1;
-        case '3': mycampus->manageSeminars();
+        case '3': mycampus->manageSeminarsVc();
         case '4': mycampus->manageFDPs();
         case '5': return 0;
 
         default:
-            cout<<"Enter a valid number(1-3).\n\tPress any key to retry.\n"<<endl;
+            cout<<"Enter a valid number(1-5).\n\tPress any key to retry.\n"<<endl;
             getchar();
             return 1;
         }
-
 
 }
 

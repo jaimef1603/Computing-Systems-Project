@@ -8,8 +8,6 @@
 
 using namespace std;
 
-
-
 Degree::Degree():name()
 {
     vc=nullptr;
@@ -106,16 +104,6 @@ void Degree::edit()
             if (valid){
                 this->setname(newname);
             }
-
-//            do{
-//                cout<<"Enter the new name (letters a-z, A-Z) or \"cancel\" to exit"<<endl;
-//                cin>>ws>>newname;
-//                if (newname == "cancel"){
-//                    break;
-//                }
-//            }while(!checkletters(newname));
-//            this->setname(newname);
-
            break;
         }
         case '2': return;

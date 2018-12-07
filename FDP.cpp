@@ -145,7 +145,8 @@ void FDP::addstudent(Link_stu_res *newstudent)
 
 
 
-void FDP::removestudent(Link_stu_res *link){
+void FDP::removestudent(Link_stu_res *link)
+{
     if (student==link && student != nullptr){
         student=nullptr;
     }else{

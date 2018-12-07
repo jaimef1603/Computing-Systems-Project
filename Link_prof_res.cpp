@@ -74,7 +74,8 @@ string Link_prof_res::getRoleName()
 
 
 
-int Link_prof_res::checkHealth(){
+int Link_prof_res::checkHealth()
+{
     if(profPtr==nullptr && resourcePtr==nullptr){
             return -2;
     }else if(profPtr!=nullptr && resourcePtr!=nullptr){

@@ -36,14 +36,17 @@ public:
     void editFDP();
     void addFDP();
     int findFDP(string identification);
+    void manageFDPs();
     void addseminar();
     void editseminar();
     void showAllSeminars();
+    void manageSeminarsVc();
     int findSeminar(string identification);
     vector <Seminar*> getSeminars();
     void start();
     int run();
     void end();
+
 };
 
 #endif // VIRTUALCAMPUS_H

@@ -22,7 +22,6 @@ protected:
 public:
     friend class Link_stu_res;
     friend class Link_prof_res;
-    //Resource(string id="undefined", string s ="unknown");
     Resource(string id="undefined", string n="unknown");
     Resource(const Resource&);
     virtual ~Resource();

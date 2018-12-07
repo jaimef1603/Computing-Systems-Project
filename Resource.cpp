@@ -1,6 +1,8 @@
 ﻿#include "Resource.h"
 #include <iostream>
 #include "Utilities.h"
+#include <sstream>
+#include <limits>
 
 Resource::Resource(string id, string n)
     :identification(id), name(n)
@@ -67,6 +69,29 @@ string Resource::getname(){
 
 
 
+void Resource::editName()
+{
+    std::string buffer;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    do {
+       system("clear");
+       if (!cin.good()){
+           cin.clear();
+           std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+       }
+       std::cout<<"Enter the new name or \'q\' to cancel: ";
+
+    }while(!getline(cin, buffer, '\n') || !checkletters(buffer));
+
+    if (buffer!="q"){
+        name=buffer;
+    }
+
+
+}
+
+
+
 Menu<Resource>::menu_option_member Resource::gimmethename()
 {
     return &Resource::name;
@@ -77,4 +102,9 @@ Menu<Resource>::menu_option_member Resource::gimmethename()
 Menu<Resource>::menu_option_member Resource::gimmetheid()
 {
     return &Resource::identification;
+
 }
+
+
+
+

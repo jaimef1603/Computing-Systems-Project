@@ -4,7 +4,7 @@
 #include <string>
 using namespace std;
 
-Date::Date(int d, int m, int y)
+Date::Date(unsigned d, unsigned m, unsigned y)
 {
     if((m>0 && m<13) && y>0){
 
@@ -74,7 +74,7 @@ Date::Date(int d, int m, int y)
 
 Date::Date(const Date &other)
 {
-    int d=other.day, m=other.month, y=other.year;
+    unsigned d=other.day, m=other.month, y=other.year;
     if((m>0 && m<13) && y>0){
 
         switch(m){
@@ -152,28 +152,28 @@ Date& Date::operator=(const Date &d)
 
 
 
-int Date::getday()
+unsigned Date::getday()
 {
     return day;
 }
 
 
 
-int Date::getmonth()
+unsigned Date::getmonth()
 {
     return month;
 }
 
 
 
-int Date::getyear()
+unsigned Date::getyear()
 {
     return year;
 }
 
 
 
-void Date::setday(int d)
+void Date::setday(unsigned d)
 {
     if(month!=0 && year!=0){
 
@@ -227,7 +227,7 @@ void Date::setday(int d)
 
 
 
-void Date::setmonth(int m)
+void Date::setmonth(unsigned m)
 {
     if(day!=0 && year!=0){
 
@@ -287,7 +287,7 @@ void Date::setmonth(int m)
 
 
 
-void Date::setyear(int y)
+void Date::setyear(unsigned y)
 {
     if(day!=0 && month!=0){
 

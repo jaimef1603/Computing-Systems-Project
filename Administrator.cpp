@@ -13,13 +13,13 @@ int Administrator::menu()
     char selection;
         system("clear");
         cout<<"ADMINISTRATOR: "<<this->identifier<<endl;;
-        cout<<"  1: Manage Degrees\n  2: Manage Teachers\n  3:Manage Seminars\n  4:Manage FDP's\n  5:Exit\n";
+        cout<<"  1: Manage Degrees\n  2: Manage Teachers\n  3: Manage Seminars\n  4: Manage FDP's\n  5: Exit\n";
         cin>>ws>>selection;
         switch (selection) {
         case '1': mycampus->manageDegrees(); return 1;
         case '2': mycampus->manageTeachers(); return 1;
-        case '3': mycampus->manageSeminarsVc();
-        case '4': mycampus->manageFDPs();
+        case '3': mycampus->manageSeminars(); return 1;
+        case '4': mycampus->manageFDPs(); return 1;
         case '5': return 0;
 
         default:

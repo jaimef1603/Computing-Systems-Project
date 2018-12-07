@@ -30,8 +30,13 @@ public:
     string getIdentification();
     void setname(string n);
     string getname();
+    void editName();
+    virtual void editID()=0;
     static Menu<Resource>::menu_option_member gimmethename();
     static Menu<Resource>::menu_option_member gimmetheid();
+
+
+
 };
 
 

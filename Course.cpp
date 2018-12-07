@@ -92,41 +92,11 @@ void Course::edit()            //Edit Course attributes
         cin>>ws>>selection;
         switch (selection) {
         case '1':{
-            string name;
-            bool valid=false;
-            system("clear");
-            cout<<"Enter the new name (letters a-z, A-Z) or \"cancel\" to exit\n"<<endl;
-            do {
-                cin>>ws>>name;
-                if (name=="cancel"){
-                    break;
-                }
-                if (!(valid=checkletters(name))){
-                    cout<<"Enter a valid name or \"cancel\" to exit\n"<<endl;
-                }
-            }while (!valid);
-            if (valid){
-                this->setname(name);
-            }
+            editName();
             break;
         }
         case '2':{
-            string newname;
-            bool valid=false;
-            system("clear");
-            cout<<"Enter the new ID CCCIIII (C=char, I=number) or \"cancel\" to exit\n"<<endl;
-            do {
-                cin>>ws>>newname;
-                if (newname=="cancel"){
-                    break;
-                }
-                if (!(valid=checkResId(newname))){
-                    cout<<"Enter a valid ID CCCIIII (C=char, I=number) or \"cancel\" to exit\n"<<endl;
-                }
-            }while (!valid);
-            if (valid){
-                this->setIdentification(newname);
-            }
+            editID();
             break;
         }
         case '3':
@@ -153,6 +123,25 @@ void Course::edit()            //Edit Course attributes
         }
     }while(true);
 }
+
+
+
+void Course::editID()
+{
+    std::string buffer;
+    do {
+       system("clear");
+       cin.clear();
+       std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+       std::cout<<"Enter the new identification (CCCIIII, C=Letter, I=Number) or \'q\' to cancel: \n"<<degree->getid();
+
+    }while(!(std::cin>>std::ws>>buffer) || !checkResId(degree->getid()+buffer));
+
+    if (buffer!="q"){
+        identification=degree->getid()+buffer;
+    }
+}
+
 
 
 void Course::options()

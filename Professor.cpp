@@ -60,7 +60,7 @@ void Professor::removeResource(Link_prof_res *link)
 void Professor::showdetails()
 {
     cout<<"ID: "<<identifier<<endl;
-    cout<<"Name: "<<name<<endl;
+    cout<<"Name: "<<this->name<<endl;
     cout<<"Courses: "<<courselist.size()<<endl;
     cout<<"Seminars: "<<seminarlist.size()<<endl;
     cout<<"FDPs: "<<fdplist.size()<<endl;

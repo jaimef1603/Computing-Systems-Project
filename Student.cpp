@@ -8,7 +8,7 @@
 
 using namespace std;
 
-int Student::count;
+unsigned Student::count;
 
 Student::Student():mycourses(), myseminars()
 {
@@ -74,27 +74,27 @@ Student& Student::operator=(const Student &s)
 
 
 
-void Student::setCount(int c)
+void Student::setCount(unsigned c)
 {
     count = c;
 }
 
 
 
-int Student::getCount()
+unsigned Student::getCount()
 {
     return count;
 }
 
 
 
-int Student::getSIN(){
+unsigned Student::getSIN(){
     return SIN;
 }
 
 
 
-void Student::setSIN(int s)
+void Student::setSIN(unsigned s)
 {
     SIN=s;
 }
@@ -176,9 +176,15 @@ int Student::menu(){
 void Student::addCourse(Link_stu_res *link){
     mycourses.pushFront(link);
 }
+
+
+
 void Student::addSeminar(Link_stu_res *link){
    myseminars.pushFront(link);
 }
+
+
+
 void Student::addFDP(Link_stu_res *link){
     if(myfdp==nullptr){
         myfdp=link;
@@ -229,6 +235,7 @@ void Student::enroll(FDP *project)
     newLink->connectResource();
 
 }
+
 
 
 ostream& operator<<(ostream& os, const Student& stu){

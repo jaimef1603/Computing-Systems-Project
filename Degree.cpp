@@ -293,7 +293,7 @@ void Degree::showstudents(){
 
 
 
-vector <Student*> Degree::getStudents()
+vector <Student*>& Degree::getStudents()
 {
     return stulist;
 }
@@ -356,6 +356,13 @@ void Degree::showdetails()
     cout<<"Name: "<<name<<endl;
     cout<<"Students: "<<stulist.size()<<endl;
     cout<<"Courses: "<<courselist.size()<<endl;
+}
+
+
+
+Menu<Degree>::menu_option_member Degree::gimme_the_name()
+{
+   return &Degree::name;
 }
 
 

@@ -20,10 +20,16 @@ private:
     ArrayList <Link_stu_res*> myseminars;
     Link_stu_res *myfdp;
 
+    //Add functions
+
     void addCourse(Link_stu_res *link);
-    void removeResource(Link_stu_res *link);
     void addSeminar(Link_stu_res *link);
     void addFDP(Link_stu_res *link);
+
+    //Remove function
+
+     void removeResource(Link_stu_res *link);
+
 public:
     static unsigned count;
     friend class Link_stu_res;
@@ -32,23 +38,36 @@ public:
     Student (const Student &);
     ~Student();
     Student& operator=(const Student&);
+    friend ostream& operator<<(ostream& os, const Student& stu);
+
     void setCount(unsigned c);
     unsigned getCount();
     unsigned getSIN();
     void setSIN(unsigned s);
     string getidentifier();
-    void showDetails();
+
+    //Course functions
+
     void Drop(Course *c);
-    void Drop(Seminar *s);
-    void Dropfdp();
     void enroll(Course *cour);
+
+    //Seminar functions
+
+    void Drop(Seminar *s);
     void enroll(Seminar *setminar);
+
+    //FDP functions
+
+    void Dropfdp();
     void enroll(FDP *project);
+
+
+    void showDetails();
     void options();
     int menu();
 
     Menu<Student>::menu_option_member gimme_the_id();
-    friend ostream& operator<<(ostream& os, const Student& stu);
+
 };
 
 #endif // STUDENT_H

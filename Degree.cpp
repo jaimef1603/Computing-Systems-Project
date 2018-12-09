@@ -79,7 +79,7 @@ void Degree::setname(string n)
 
 
 
-void Degree::edit()
+void Degree::edit()     //Function to edit degree's attributes (name)
 {
     char selection;
     system("clear");
@@ -283,11 +283,21 @@ void Degree::deleteStudent(unsigned index)
 }
 
 
-
+/*
 void Degree::showstudents(){
     for (unsigned i=0; i< stulist.size(); i++){
         cout<<i+1;
         cout<<stulist[i]<<endl;
+    }
+}
+*/
+
+
+void Degree::showstudents()
+{
+    for (unsigned i=0; i<stulist.size(); i++){
+        cout<<i+1<<": "<<stulist[i]->getSIN()<<endl;
+
     }
 }
 
@@ -313,7 +323,7 @@ int Degree::findStudent(string identification)
 
 
 
-void Degree::showcourses()
+void Degree::showcourses()       //Function to show all the courses
 {
 
     cout<<"\t\nCourses:"<<endl;
@@ -336,7 +346,7 @@ vector <Course*> Degree::getCourses()
 
 
 
-int Degree::findCourse(string identification)
+int Degree::findCourse(string identification)     //Function to find a course in the courselist if it is created, and return the position where it is
 {
 
     for (unsigned i=0; i<courselist.size(); i++){
@@ -350,7 +360,7 @@ int Degree::findCourse(string identification)
 
 
 
-void Degree::showdetails()
+void Degree::showdetails()     //Function to show the details of a degree
 {
     cout<<"ID: "<<id<<endl;
     cout<<"Name: "<<name<<endl;
@@ -367,7 +377,7 @@ Menu<Degree>::menu_option_member Degree::gimme_the_name()
 
 
 
-void Degree::options()
+void Degree::options()     //Degree's options
 {
     char selection;
 
@@ -406,7 +416,7 @@ void Degree::manageCourses ()
             cout<<"COURSES of "<<this->getname()<<":\n";
             showcourses();
             cout<<"\n";
-            cout<<"1: Create 2: Edit 3: Delete 4:Details 5: Select 6:Back\n";
+            cout<<"1: Create 2: Edit 3: Delete 4: Details 5: Select 6:Back\n";
         cin>>selection;
         switch(selection){
         case '1':
@@ -470,7 +480,7 @@ void Degree::manageCourses ()
             if(cour!=-1){
                 cout<<"Details of Course "<<cour<<" of "<<this->getname()<<".\n";
                 courselist[unsigned(cour)-1]->showdetails();
-                cout<<"\tPress any key to close.\n";
+                cout<<"\tPress any key to return.\n";
                 cin.ignore(50, '\n');
                 getchar();
             }
@@ -557,7 +567,7 @@ void Degree::manageStudents()
             system("clear");
             cout<<"STUDENTS:\n";
             showstudents();
-            cout<<"What student do you want to delete? (enter -1 to exit)\n";
+            cout<<"What student do you want to show details of? (enter -1 to exit)\n";
             do {
                 cin>>ws>>buffer;
                 istringstream(buffer)>>stu;

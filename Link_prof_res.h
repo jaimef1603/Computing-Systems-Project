@@ -29,6 +29,9 @@ public:
     void setRole(role r);
     role getRole();
     std::string getRoleName();
+
+    // Connect functions
+
     void connectProftoCourse();
     void connectProftoSeminar();
     void connectProftoFDP();

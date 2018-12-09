@@ -25,6 +25,10 @@ public:
     void setpartialMark(Mark value[4]);
     Mark& getfinalMark();
     Mark* getpartiaMark();
+
+
+    //Connect functions
+
     void connectStutoCourse();
     void connectStutoSeminar();
     void connectStutoFDP();

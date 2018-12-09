@@ -141,7 +141,7 @@ void Seminar::addteacher(Link_prof_res *newteacher)
 
 
 
-void Seminar::showdetails()
+void Seminar::showdetails()    //Function to show seminar details
 {
     cout<<"Name: "<<this->name<<endl<<"ID: "<<this->identification<<endl;
     cout<<"Number of seats: "<<this->maxseats<<" Occupied: "<<this->students.size()<<endl;
@@ -154,7 +154,7 @@ void Seminar::showdetails()
 
 
 
-void Seminar::options()
+void Seminar::options()    //Function which contains the option menu of seminar
 {
    //Set coordinator, set speaker, add student, remove student, edit
 
@@ -172,7 +172,7 @@ void Seminar::options()
 
 
 
-void Seminar::options_coordinator()
+void Seminar::options_coordinator()   //Function to choose the coordinator of a seminar
 {
 
     Menu<Professor> professorSelector(mycampus->getTeachers(), Professor::gimmethename(), "Choose a teacher to set the coordinator");
@@ -183,7 +183,7 @@ void Seminar::options_coordinator()
 
 
 
-void Seminar::options_speaker()
+void Seminar::options_speaker()   //Function to choose the speaker of a seminar
 {
 
     Menu<Professor> professorSelector(mycampus->getTeachers(), Professor::gimmethename(), "Choose a teacher to set the speaker");
@@ -194,7 +194,7 @@ void Seminar::options_speaker()
 
 
 
-void Seminar::options_addstudent()
+void Seminar::options_addstudent()    //Function to add a student to a seminar
 {
     Degree *selected_degree;
     Student *selected_student;
@@ -212,7 +212,7 @@ void Seminar::options_addstudent()
 
 
 
-void Seminar::options_removestudent()
+void Seminar::options_removestudent()     //Function to remove a student from a seminar
 {
     Link_stu_res* selected_student;
     vector<Menu<Link_stu_res>::Menu_option> selector_options;
@@ -231,8 +231,8 @@ void Seminar::options_removestudent()
 
 
 
-void Seminar::edit(){
-
+void Seminar::edit()    //Function which contains the seminar's edit menu
+{
 
     vector<Menu<Seminar>::Menu_option> options;
 
@@ -248,7 +248,7 @@ void Seminar::edit(){
 
 
 
-void Seminar::editID()
+void Seminar::editID()     //Function to edit the identification of a seminar
 {
     std::string buffer;
     do {
@@ -266,7 +266,7 @@ void Seminar::editID()
 
 
 
-void Seminar::editDate()
+void Seminar::editDate()    //Function to edit the date of a seminar
 {
     unsigned day, month, year;
     std::string buffer;
@@ -285,12 +285,11 @@ void Seminar::editDate()
 
     this->eventDate=Date(day, year, month);
 
-
 }
 
 
 
-void Seminar::editMaxseats()
+void Seminar::editMaxseats()    //Function to edit the maximum number of seats of a seminar
 {
 
     unsigned newValue;
@@ -327,13 +326,15 @@ void Seminar::addstudent(Link_stu_res *newstudent)
 
 
 
-void Seminar::removestudent(Link_stu_res *link){
+void Seminar::removestudent(Link_stu_res *link)
+{
     students.remove(link);
 }
 
 
 
-void Seminar::removeprofessor(Link_prof_res *link){
+void Seminar::removeprofessor(Link_prof_res *link)
+{
     int i;
     bool flag = false;
     for (i=0; i<2; i++){

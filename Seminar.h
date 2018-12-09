@@ -49,6 +49,7 @@ public:
     Link_prof_res* getcoordinator()const;
     void setvc(VirtualCampus * vc){ mycampus = vc;}
     VirtualCampus* getvc(){return mycampus;}
+
     void showdetails();
     void options();
     void edit();

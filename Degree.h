@@ -22,6 +22,7 @@ private:
     void addCourse();
     void deleteCourse(unsigned index);
     void editcourse();
+
     void addStudent();
     void deleteStudent(unsigned index);
     void editstudent();

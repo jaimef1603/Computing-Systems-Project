@@ -8,9 +8,10 @@ Administrator::Administrator(string n,string id, VirtualCampus *vc):Professor(n,
 
 
 
-int Administrator::menu()
+int Administrator::menu()    //Principal menu of the administrator
 {
     char selection;
+    do{
         system("clear");
         cout<<"ADMINISTRATOR: "<<this->identifier<<endl;;
         cout<<"  1: Manage Degrees\n  2: Manage Teachers\n  3: Manage Seminars\n  4: Manage FDP's\n  5: Exit\n";
@@ -27,7 +28,7 @@ int Administrator::menu()
             getchar();
             return 1;
         }
-
+    }while(true);
 }
 
 

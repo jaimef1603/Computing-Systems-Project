@@ -69,7 +69,7 @@ string Resource::getname(){
 
 
 
-void Resource::editName()
+void Resource::editName()    //Function to edit the resource name
 {
     std::string buffer;
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');

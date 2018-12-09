@@ -1,8 +1,12 @@
 ﻿#include "User.h"
 #include <iostream>
-User::~User(){
+
+User::~User()
+{
 
 }
+
+
 
 void User::setname(string n)
 {
@@ -11,9 +15,11 @@ void User::setname(string n)
 
 
 
-string User::getname(){
+string User::getname()
+{
     return name;
 }
+
 
 
 Menu<User>::menu_option_member User::gimmethename()

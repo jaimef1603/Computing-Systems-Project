@@ -57,6 +57,24 @@ ArrayList<A>::ArrayList(const vector<A> && a)
 
 
 
+template <typename A>
+ArrayList<A>::ArrayList(const ArrayList<A> &a)
+    :vector<A> (a)
+{
+
+}
+
+
+
+template <typename A>
+ArrayList<A>::ArrayList(const ArrayList<A> && a)
+    :vector<A>(a)
+{
+
+}
+
+
+
 //-------------------------------------------------
 
 template <typename A>

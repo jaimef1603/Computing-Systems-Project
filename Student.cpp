@@ -11,7 +11,8 @@ using namespace std;
 
 unsigned Student::count;
 
-Student::Student():mycourses(), myseminars()
+Student::Student()
+    :User(),mycourses(), myseminars()
 {
     SIN=1000000 + count;
     mydegree=nullptr;
@@ -21,7 +22,8 @@ Student::Student():mycourses(), myseminars()
 
 
 
-Student::Student(string n, Degree *d):mycourses(), myseminars()
+Student::Student(string n, Degree *d)
+    :User(), mycourses(), myseminars()
 {
     setname(n);
     SIN=1000000 + count;
@@ -33,9 +35,8 @@ Student::Student(string n, Degree *d):mycourses(), myseminars()
 
 
 Student::Student (const Student &s)
+    :mycourses(s.mycourses), myseminars(s.myseminars)
 {
-    mycourses=s.mycourses;  //cambiar cuando el constructor de copia de ArrayList este hecho.
-    myseminars=s.myseminars; // " " "
     SIN=s.SIN;
     mydegree=s.mydegree;
     myfdp=s.myfdp;
@@ -152,15 +153,13 @@ void Student::my_courses()
 void Student::course_view()
 {
 
-    //ESTA MAL EN LOS TRES, HACER LAS OPCIONES MANUALMENTE PARA QUE COJA EL NOMBRE DEL RECURSO COMO TEXTO
-    // DE CADA OPCION
     unsigned i=1;
 
 
     vector<Menu<Link_stu_res>::Menu_option> options;
     options.reserve(mycourses.size());
     for (auto it:mycourses){
-        options.emplace_back(i,  &Link_stu_res::showDetails,it->getResource().getname(), *it);
+        options.emplace_back(i, &Link_stu_res::showDetails ,it->getResource()->getname(), *it);
         i++;
     }
 
@@ -174,12 +173,64 @@ void Student::course_view()
 void Student::course_enrolling_func()
 {
 
+    Course * to_enroll = nullptr; //Pointer to the course that this will be enrolled in. Will be assigned by the selector
+    string option_name;
+    unsigned i =1;
+    vector<Menu<Course>::Menu_option> options;
+    options.reserve(mydegree->getCourses().size());
+    for (auto it:mydegree->getCourses()){
+        option_name = it->getname()+" ID: "+it->getIdentification();
+        options.emplace_back(i, nullptr, option_name, (*it));
+        i++;
+    }
+
+    Menu<Course> menu(options, ("---COURSES OF "+mydegree->getname()+"---"));
+
+    to_enroll = menu.run_selector();   //Assigning the course to the pointer,
+    if (to_enroll){                    // if the selector returns nullptr it means
+                                       //the user aborted the operation so we don't enroll
+        for (auto it: mycourses){
+            if (it->getResource() == to_enroll){    //We check if the student is already enrolled in this course.
+                cout<<"You are already enrolled in this course"<<endl;
+                cin.ignore(numeric_limits<int>::max(), '\n');
+                cin.get();
+                return;
+            }
+        }
+        enroll(to_enroll);
+    }
+
+
+
 }
 
 
 
 void Student::course_droppin_func()
 {
+    Link_stu_res *to_drop;
+    Course *Course_to_drop;
+    string option_name;
+    unsigned i=1;
+
+    vector<Menu<Link_stu_res>::Menu_option> options;
+
+    options.reserve(mycourses.size());
+    for (auto it:mycourses){
+        option_name = it->getResource()->getname()+" ID: "+it->getResource()->getIdentification();
+        options.emplace_back(i, nullptr, option_name, (*it));
+        i++;
+    }
+
+    Menu<Link_stu_res> menu(options, "---YOUR COURSES---");
+
+    to_drop=menu.run_selector();
+    if(to_drop != nullptr){
+        Course_to_drop = dynamic_cast<Course*>(to_drop->getResource());
+        Drop(Course_to_drop);
+    }
+
+
 
 }
 
@@ -219,8 +270,8 @@ void Student::showCourses()
     unsigned i=1;
     for (auto it: mycourses){
         cout<<" "<<i<<": "
-           <<it->getResource().getname()
-          <<" ID: "<<it->getResource().getIdentification()
+           <<it->getResource()->getname()
+          <<" ID: "<<it->getResource()->getIdentification()
          <<endl;
         i++;
     }
@@ -278,8 +329,8 @@ void Student::showSeminars()
     unsigned i=1;
     for (auto it: myseminars){
         cout<<" "<<i<<": "
-           <<it->getResource().getname()
-          <<" ID: "<<it->getResource().getIdentification()
+           <<it->getResource()->getname()
+          <<" ID: "<<it->getResource()->getIdentification()
          <<endl;
         i++;
     }
@@ -369,8 +420,8 @@ void Student::showFDP()
 {
     if(myfdp){
         cout<<" Title: "
-           <<myfdp->getResource().getname()
-          <<" ID: "<<myfdp->getResource().getIdentification()
+           <<myfdp->getResource()->getname()
+          <<" ID: "<<myfdp->getResource()->getIdentification()
          <<endl;
     }
 }

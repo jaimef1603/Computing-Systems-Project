@@ -164,7 +164,7 @@ void Link_stu_res::showDetails()
     if (this->resourcePtr->getname().find_first_of("SEM")!=0 && this->resourcePtr->getname().find_first_of("FDP")!=0){
 
         cout<<"GRADES:"<<endl
-           <<"\tPartial:"<<endl;
+           <<"\tPartial evaluation:"<<endl;
         for (unsigned i=0; i<4; i++){
             cout<<"\t "<<i<<": ";
             if (partial[i].getvalue()==-1){
@@ -173,7 +173,7 @@ void Link_stu_res::showDetails()
                 cout<<partial[i].getvalue()<<" Date: "<<partial[i].getdate_graded();
             }
         }
-        cout<<"Final: ";
+        cout<<"\tFinal: ";
         if(final.getvalue()==-1){
             cout<<"Not graded"<<endl;
         }else{

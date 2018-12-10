@@ -69,7 +69,7 @@ void Degree::setname(string n)
 
 Menu<Degree>::menu_option_member Degree::gimme_the_name()
 {
-   return &Degree::name;
+    return &Degree::name;
 }
 
 
@@ -297,11 +297,11 @@ void Degree::manageCourses ()
     string buffer;
     int cour;
     do{
-            system("clear");
-            cout<<"COURSES of "<<this->getname()<<":\n";
-            showcourses();
-            cout<<"\n";
-            cout<<"1: Create 2: Edit 3: Delete 4: Details 5: Select 6:Back\n";
+        system("clear");
+        cout<<"COURSES of "<<this->getname()<<":\n";
+        showcourses();
+        cout<<"\n";
+        cout<<"1: Create 2: Edit 3: Delete 4: Details 5: Select 6:Back\n";
         cin>>selection;
         switch(selection){
         case '1':
@@ -427,21 +427,40 @@ int Degree::findCourse(string identification)     //Function to find a course in
 
 void Degree::addCourse()
 {
+    bool valid;
     string id, name;
     string buffer;
     int credits=0;
     do{
-    cout<<"Enter the name of the course: ";
-    cin>>ws>>name;
+        cout<<"Enter the name of the course: ";
+        cin>>ws>>name;
     }while(!checkletters(name));
     do {
+        valid = true;
         cout<<"New course ID CCCIIII (C=char, I=number) or \"cancel\" to exit: "<<this->id;
         cin>>ws>>id;
         if (id=="cancel"){
             break;
         }
         id=this->id+id;
-    }while(!checkResId(id));
+
+        if (!checkResId(id)){
+            valid = false;
+        }else{
+            for (auto it: courselist){
+                if (it->getIdentification()==id){
+                    valid = false;
+                    cout<<"There is already a course with this identification, choose another"<<endl;
+                    cin.ignore(numeric_limits<char>::max(), '\n');
+                    cin.get();
+                }
+
+            }
+
+        }
+
+
+    }while(!valid);
     do {
         system("clear");
         cout<<"ID: "<<id<<endl;
@@ -558,7 +577,7 @@ void Degree::edit()     //Function to edit degree's attributes (name)
             if (valid){
                 this->setname(newname);
             }
-           break;
+            break;
         }
         case '2': return;
         default:

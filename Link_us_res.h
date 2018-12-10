@@ -14,7 +14,7 @@ public:
     virtual ~Link_us_res();
     Link_us_res& operator=(const Link_us_res& other);
     //hacer el destructor para que sea esta clase la que se encargue de borrarse de los arrays de user y resources.
-    Resource& getResource();
+    Resource* getResource();
     virtual int checkHealth()=0;
     virtual void destroy()=0;
     virtual void connectResource()=0;

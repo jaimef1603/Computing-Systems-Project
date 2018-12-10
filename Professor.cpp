@@ -102,7 +102,7 @@ void Professor::manageCourses()
                 system("clear");
                 cout<<"Courses of "<<this->getidentifier()<<" :"<<endl;
                 for(unsigned i=0; i<courselist.size(); i++){
-                    cout<<courselist[i]->getResource().getIdentification()<<endl;
+                    cout<<courselist[i]->getResource()->getIdentification()<<endl;
                 }
                 cout<<"Enter the id of the course you want to remove?\n";
                 cin>>index;
@@ -245,7 +245,7 @@ void Professor::manageSeminars()
                 system("clear");
                 cout<<"Seminars of "<<this->getidentifier()<<" :"<<endl;
                 for(unsigned i=0; i<seminarlist.size(); i++){
-                    cout<<seminarlist[i]->getResource().getIdentification()<<endl;
+                    cout<<seminarlist[i]->getResource()->getIdentification()<<endl;
                 }
                 cout<<"Enter the id of the seminar you want to remove?\n";
                 cin>>index;

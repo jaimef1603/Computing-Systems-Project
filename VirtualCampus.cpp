@@ -107,9 +107,12 @@ void VirtualCampus::manageDegrees()
             selection='0';
             addDegree();
             system("clear");
-            (*(getDegrees().end()-1))->showdetails();
-            cin.ignore(1, '\n');
-            getchar();
+            if (degreelist.size()>0){
+
+                (*(degreelist.end()-1))->showdetails();
+                cin.ignore(1, '\n');
+                cin.get();
+            }
             break;
         case '2':
             selection='0';
@@ -208,6 +211,7 @@ void VirtualCampus::manageDegrees()
 void VirtualCampus::addDegree()
 {
     system("clear");
+    bool valid = true;
     string name, id;
     cout<<"Enter the name of the degree (letters a-z, A-Z) or \"cancel\" to exit : ";
     do{
@@ -217,6 +221,7 @@ void VirtualCampus::addDegree()
         }
     }while(!checkletters(name));
     do{
+        valid=true;
         system("clear");
         cout<<"Name: "<<name<<endl;
         cout<<"Enter the three letter identification or write \"cancel\" to exit: ";
@@ -224,8 +229,25 @@ void VirtualCampus::addDegree()
         if (id=="cancel"){
             return;
         }
-    }while(!checkletters(id) || id.length()!=3);
-    UCaseWord(id);
+
+        if (!checkletters(id) || id.length()!=3){
+            valid = false;
+        }else{
+            UCaseWord(id);
+            for (auto it: degreelist){
+
+                if (it->getid()==id){
+                    valid = false;
+                    cout<<"There is already a degree with this identification, choose another"<<endl;
+                    cin.ignore(numeric_limits<char>::max(), '\n');
+                    cin.get();
+                }
+
+            }
+
+        }
+
+    }while(!valid);
     degreelist.push_back(new Degree(name, id.c_str(), this));
 
 }
@@ -412,13 +434,75 @@ void VirtualCampus::manageTeachers()
 
 void VirtualCampus::addTeacher()
 {
+
+
+
+
+
+
+
     system("clear");
-    string id, name;
-    cout<<"Enter the ID of the teacher: ";
-    cin>>ws>>id;
-    cout<<"Enter the name of the teacher: ";
-    cin>>ws>>name;
-    proflist.push_back(new Professor (name, id, this));
+    bool valid=false;
+    string ident, name;
+
+    std::string buffer; //Auxiliar string to prevent buffer loops and incorrect insertions
+
+
+
+
+    //---- ASKING FOR THE NAME OF THE PROFESSOR-----
+
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    do {
+        system("clear");
+        if (!cin.good()){
+            cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+
+
+        std::cout<<"Enter the name or \'q\' to cancel: ";
+        if (name=="q"){
+            return;
+        }
+
+    }while(!getline(cin, name, '\n') || !checkletters(name));
+
+
+
+
+    // ----ASKING FOR THE ID-----
+
+    system("clear");
+    cout<<"Enter the new ID (7 chars) or \'q\' to exit: ";
+    do{
+        valid = true;
+        cin>>ident;
+        if (ident=="q"){
+            return;
+        }
+
+        if ((ident.length()!=7) || (!checkletters(ident))){
+            valid = false;
+            system("clear");
+            cout<<"Enter the new ID (7 chars) or \'q\' to exit: ";
+        }else{
+            for (auto it: proflist){
+                if (it->getidentifier()==ident){
+                    valid = false;
+                    system("clear");
+                    cout<<"ID already used, choose a different one\n ";
+                    cout<<"Enter the new ID (7 chars) or \'q\' to exit: ";
+                }
+            }
+        }
+    }while (!valid);
+
+    //-----WE KEEP ASKING WHILE THE INSERTION IS
+    //CORRECT; THE FORMAT IS CORRECT AND IT IS NOT "q"
+
+
+    proflist.push_back(new Professor (name, ident, this));
 }
 
 
@@ -501,6 +585,7 @@ void VirtualCampus::manageSeminars()
 void VirtualCampus::addseminar()
 {
     system("clear");
+    bool valid;
     string id, name;
     Professor* Coord;
     unsigned day, month, year;
@@ -514,13 +599,32 @@ void VirtualCampus::addseminar()
 
     do {
         system("clear");
+        valid = true;
         if (!cin.good()){
             cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
         std::cout<<"Enter the identification (CCCIIII, C=Letter, I=Number) or \'q\' to cancel: \nSEM";
 
-    }while(!(std::cin>>std::ws>>buffer) || (!checkResId("SEM"+buffer) && buffer !="q"));
+        if (!(std::cin>>std::ws>>buffer) || (!checkResId("SEM"+buffer) && buffer !="q")){
+            valid = false;
+        }else{
+
+                for (auto it: seminalist){
+                    if (it->getIdentification()=="SEM"+buffer){
+                        valid = false;
+                        cout<<"There is already a seminar with this identification, choose another"<<endl;
+                        cin.ignore(numeric_limits<char>::max(), '\n');
+                        cin.get();
+                    }
+
+                }
+
+        }
+
+
+
+    }while(!valid);
 
     //-----WE KEEP ASKING WHILE THE INSERTION IS
     //CORRECT; THE FORMAT IS CORRECT AND IT IS NOT "q"
@@ -593,6 +697,9 @@ void VirtualCampus::addseminar()
 
     }while(!(istringstream(buffer)>>day>>month>>year));
 
+
+
+
     //WE CREATE A SELECTOR TO SELECT THE TEACHER
     if (proflist.size()>0){
         Menu<Professor> CoordSelector(proflist, User::gimmethename());
@@ -606,6 +713,8 @@ void VirtualCampus::addseminar()
         seminalist.push_back(new Seminar(name, id, this, seats, Coord, Date (day, month, year)));
     }else{
         cout<<"Create a teacher first to be the coordinator, Seminar not created\n";
+        cin.ignore(numeric_limits<char>::max(), '\n');
+        cin.get();
     }
 
 

@@ -15,7 +15,8 @@ public:
     ArrayList(size_t _n, const A& = A() );
     ArrayList(const vector<A> &);
     ArrayList(const vector<A> &&);
-
+    ArrayList(const ArrayList<A> &);
+    ArrayList(const ArrayList<A> &&);
 
     void pushFront(const A&);
     void pushFront(const A&&);

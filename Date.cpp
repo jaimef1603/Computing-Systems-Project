@@ -6,7 +6,7 @@ using namespace std;
 
 Date::Date(unsigned d, unsigned m, unsigned y)
 {
-    if((m>0 && m<13) && y>0){
+    if((m>0 && m<13) && y>1900){
 
         switch(m){
             case 1:
@@ -53,15 +53,16 @@ Date::Date(unsigned d, unsigned m, unsigned y)
               break;
             }
     }else{
-        if (y<=0){
-            year=2018;
+        if (y<=1900){
+            year=1901;
             cerr<<"Not correct date, setting year to 2018"<<endl;
         }else{
             year=y;
         }
         if (m<=0 || m>=13){
             month=1;
-            cerr<<"Not correct date, setting month to 1"<<endl;
+            day = 1;
+            cerr<<"Not correct date, setting month and day to 1"<<endl;
         }else{
             month=m;
         }

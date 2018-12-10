@@ -33,8 +33,9 @@ public:
     int getcredits();
     void setcredits(int c);
     void edit();
+    void editID();
     void options();
-    void showdetails();
+    void showDetails();
 
 
 };

@@ -82,63 +82,7 @@ void Course::setcredits(int c)
 
 
 
-//void Course::edit()
-//{
-//    char selection;
-//    do{
-
-//        system("clear");
-//        cout<<"1: Edit ID 2:Edit credits 3: Back\n";
-//        cin>>ws>>selection;
-//        switch (selection) {
-//        case '1':{
-//            string newname;
-//            bool valid=false;
-//            system("clear");
-//            cout<<"Enter the new ID CCCIIII (C=char, I=number) or \"cancel\" to exit\n"<<endl;
-//            do {
-//                cin>>ws>>newname;
-//                if (newname=="cancel"){
-//                    break;
-//                }
-//                if (!(valid=checkResId(newname))){
-//                    cout<<"Enter a valid ID CCCIIII (C=char, I=number) or \"cancel\" to exit\n"<<endl;
-//                }
-//            }while (!valid);
-//            if (valid){
-//                this->setIdentification(newname);
-//            }
-//            break;
-//        }
-//        case '2':
-//        {
-//            string buffer;
-//            int newc;
-//            system("clear");
-//            cout<<"Enter the new value for credits.\n"<<endl;
-//            do{
-//                cin>>ws>>buffer;
-//                istringstream(buffer)>>newc;
-//                if (newc <=0){
-//                    system("clear");
-//                    cout<<"Enter a valid value for credits\n";
-//                }
-//            }while(newc<=0);
-//            setcredits(newc);
-//        }break;
-//        case '3': return;
-//        default:
-//            cout<<"Enter a valid number(1-3).\n\tPress any key to retry."<<endl;
-//            getchar();
-//            break;
-//        }
-//    }while(true);
-//}
-
-
-
-
-void Course::edit()
+void Course::edit()            //Function to edit Course attributes (name , id and credits)
 {
     char selection;
     do{
@@ -148,41 +92,11 @@ void Course::edit()
         cin>>ws>>selection;
         switch (selection) {
         case '1':{
-            string name;
-            bool valid=false;
-            system("clear");
-            cout<<"Enter the new name (letters a-z, A-Z) or \"cancel\" to exit\n"<<endl;
-            do {
-                cin>>ws>>name;
-                if (name=="cancel"){
-                    break;
-                }
-                if (!(valid=checkletters(name))){
-                    cout<<"Enter a valid name or \"cancel\" to exit\n"<<endl;
-                }
-            }while (!valid);
-            if (valid){
-                this->setname(name);
-            }
+            editName();
             break;
         }
         case '2':{
-            string newname;
-            bool valid=false;
-            system("clear");
-            cout<<"Enter the new ID CCCIIII (C=char, I=number) or \"cancel\" to exit\n"<<endl;
-            do {
-                cin>>ws>>newname;
-                if (newname=="cancel"){
-                    break;
-                }
-                if (!(valid=checkResId(newname))){
-                    cout<<"Enter a valid ID CCCIIII (C=char, I=number) or \"cancel\" to exit\n"<<endl;
-                }
-            }while (!valid);
-            if (valid){
-                this->setIdentification(newname);
-            }
+            editID();
             break;
         }
         case '3':
@@ -211,7 +125,26 @@ void Course::edit()
 }
 
 
-void Course::options()
+
+void Course::editID()     //Function to edit the id of a course
+{
+    std::string buffer;
+    do {
+       system("clear");
+       cin.clear();
+       std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+       std::cout<<"Enter the new identification (CCCIIII, C=Letter, I=Number) or \'q\' to cancel: \n"<<degree->getid();
+
+    }while(!(std::cin>>std::ws>>buffer) || !checkResId(degree->getid()+buffer));
+
+    if (buffer!="q"){
+        identification=degree->getid()+buffer;
+    }
+}
+
+
+
+void Course::options()      //Course's options
 {
     char selection;
     do {
@@ -268,7 +201,7 @@ void Course::options()
 
 
 
-void Course::showdetails()
+void Course::showDetails()        //Function to show course's details
 {
     cout<<"ID: "<<identification<<endl;
     cout<<"Name: "<<name<<endl;

@@ -14,40 +14,72 @@ class Student: public User
 {
 private:
 
-    int SIN;
-    const Degree *mydegree;
+    unsigned SIN;
+    Degree *mydegree;
     ArrayList <Link_stu_res*> mycourses;//triple!!! investigar si todo funciona correcto.
     ArrayList <Link_stu_res*> myseminars;
     Link_stu_res *myfdp;
 
+    //Add functions
+
     void addCourse(Link_stu_res *link);
-    void removeResource(Link_stu_res *link);
     void addSeminar(Link_stu_res *link);
     void addFDP(Link_stu_res *link);
+
+    //Remove function
+
+     void removeResource(Link_stu_res *link);
+
 public:
-    static int count;
+    static unsigned count;
     friend class Link_stu_res;
     Student();
     Student(string n, Degree *d);
     Student (const Student &);
     ~Student();
     Student& operator=(const Student&);
-    void setCount(int c);
-    int getCount();
-    int getSIN();
-    void setSIN(int s);
-    string getidentifier();
-    void showDetails();
-    void Drop(Course *c);
-    void Drop(Seminar *s);
-    void Dropfdp();
-    void enroll(Course *cour);
-    void enroll(Seminar *setminar);
-    void enroll(FDP *project);
-    void options();
-    int menu();
-
     friend ostream& operator<<(ostream& os, const Student& stu);
+
+    void setCount(unsigned c);
+    unsigned getCount();
+    unsigned getSIN();
+    void setSIN(unsigned s);
+    string getidentifier();
+
+    //Course functions
+    void my_courses();
+    void course_droppin_func();
+    void course_enrolling_func();
+    void course_view();
+    void Drop(Course *c);
+    void enroll(Course *cour);
+    void showCourses();
+
+    //Seminar functions
+    void my_seminars();
+    void seminar_droppin_func();
+    void seminar_enrolling_func();
+    void seminar_view();
+    void Drop(Seminar *s);
+    void enroll(Seminar *setminar);
+    void showSeminars();
+
+    //FDP functions
+    void my_fdps();
+    void fdp_droppin_func();
+    void fdp_enrolling_func();
+    void fdp_view();
+    void Dropfdp();
+    void enroll(FDP *project);
+    void showFDP();
+
+
+    void showDetails();
+    void options();
+    void menu();
+
+    Menu<Student>::menu_option_member gimme_the_id();
+
 };
 
 #endif // STUDENT_H

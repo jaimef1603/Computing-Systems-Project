@@ -21,29 +21,51 @@ public:
     friend class Administrator;
     VirtualCampus();
     ~VirtualCampus();
+
+    //Teacher functions
+
     void manageTeachers();
     void addTeacher();
     void deleteTeacher(unsigned index);
     int findTeacher(string identification);
     void showAllTeach();
-    vector <Professor*> getTeachers();
+    vector <Professor*>& getTeachers();
+
+    //Degree functions
+
     void manageDegrees();
     void addDegree();
     void deleteDegree(unsigned index);
     int findDegree(string identification);
     void showAllDeg();
-    vector <Degree*> getDegrees();
-    void editFDP();
+    vector <Degree*>& getDegrees();
+
+    //FDP functions
+
+    void manageFDPs();
     void addFDP();
+    void editFDP();
+    void deleteFDP();
+    void selectFDP();
     int findFDP(string identification);
+    void showAllFDP();
+
+    //Seminar functions
+
     void addseminar();
     void editseminar();
+    void selectSeminar();
+    void deleteSeminar();
     void showAllSeminars();
+    void manageSeminars();
     int findSeminar(string identification);
-    vector <Seminar*> getSeminars();
+    vector <Seminar*>& getSeminars();
+
+
     void start();
     int run();
     void end();
+
 };
 
 #endif // VIRTUALCAMPUS_H

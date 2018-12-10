@@ -2,13 +2,14 @@
 #include <string>
 #include <sstream>
 #include "Student.h"
-#include "Course.h"
 #include "Seminar.h"
 #include "FDP.h"
+#include "Degree.h"
+#include "Menu.h"
 
 using namespace std;
 
-int Student::count;
+unsigned Student::count;
 
 Student::Student():mycourses(), myseminars()
 {
@@ -45,7 +46,7 @@ Student::Student (const Student &s)
 Student::~Student()
 {
     for (int i = int(mycourses.size())-1; i>=0; i-- ){
-       delete mycourses[unsigned(i)];
+        delete mycourses[unsigned(i)];
     }
     for (int i = int(myseminars.size())-1; i>=0; i--){
         delete myseminars[unsigned(i)];
@@ -74,27 +75,34 @@ Student& Student::operator=(const Student &s)
 
 
 
-void Student::setCount(int c)
+ostream& operator<<(ostream& os, const Student& stu){
+    os<<stu.SIN<<endl;
+    return os;
+}
+
+
+
+void Student::setCount(unsigned c)
 {
     count = c;
 }
 
 
 
-int Student::getCount()
+unsigned Student::getCount()
 {
     return count;
 }
 
 
 
-int Student::getSIN(){
+unsigned Student::getSIN(){
     return SIN;
 }
 
 
 
-void Student::setSIN(int s)
+void Student::setSIN(unsigned s)
 {
     SIN=s;
 }
@@ -118,30 +126,163 @@ string Student::getidentifier()
 
 
 
-void Student::showDetails()
+/* _______________________________________
+  |                                       |
+  |---------- COURSE FUNCTIONS -----------|
+  |_______________________________________|
+*/
+
+
+void Student::my_courses()
 {
-   cout<<"SIN: "<<getidentifier();
-   cout<<"  Name: "<<name;
-   cout<<"  Courses enrolled: "<<mycourses.size();
-   cout<<"  Seminars enrolled: "<<myseminars.size();
-   cout<<"  Has FDP: ";
-   if(myfdp!=nullptr){
-       cout<<"YES"<<endl;
-   }else{
-       cout<<"NO"<<endl;
-   }
+
+    vector<Menu<Student>::Menu_option> options;
+    options.reserve(3);
+    options.emplace_back(1, &Student::course_view, "View Course", this);
+    options.emplace_back(2, &Student::course_enrolling_func, "Enroll to a course", this);
+    options.emplace_back(3, &Student::course_droppin_func, "Drop a currently coursing course", this);
+
+    Menu<Student> menu(options, "---YOUR COURSES---", &Student::showCourses, this);
+
+    menu.run();
+}
+
+
+
+void Student::course_view()
+{
+
+    //ESTA MAL EN LOS TRES, HACER LAS OPCIONES MANUALMENTE PARA QUE COJA EL NOMBRE DEL RECURSO COMO TEXTO
+    // DE CADA OPCION
+    unsigned i=1;
+
+
+    vector<Menu<Link_stu_res>::Menu_option> options;
+    options.reserve(mycourses.size());
+    for (auto it:mycourses){
+        options.emplace_back(i,  &Link_stu_res::showDetails,it->getResource().getname(), *it);
+        i++;
+    }
+
+    Menu<Link_stu_res> menu(options, "Select the course you want to see\nYOUR COURSES:");
+    menu.set_settings({'q', menu_config::vertical, 0, "Enter a valid option", '[', ']', true});
+    menu.run();
+}
+
+
+
+void Student::course_enrolling_func()
+{
+
+}
+
+
+
+void Student::course_droppin_func()
+{
+
 }
 
 
 
 void Student::Drop(Course *c)
 {
-   Link_stu_res link (this, c);
-   for (unsigned i=0; i<mycourses.size(); i++){
-       if (*mycourses[i]==link){
-           delete mycourses[i];
-       }
-   }
+    Link_stu_res link (this, c);
+    for (unsigned i=0; i<mycourses.size(); i++){
+        if (*mycourses[i]==link){
+            delete mycourses[i];
+        }
+    }
+}
+
+
+
+void Student::addCourse(Link_stu_res *link){
+    mycourses.pushFront(link);
+}
+
+
+
+void Student::enroll(Course *cour)
+{
+
+    Link_stu_res *newLink = new Link_stu_res(this, cour);
+
+    newLink->connectStutoCourse();
+    newLink->connectResource();
+
+}
+
+
+void Student::showCourses()
+{
+    unsigned i=1;
+    for (auto it: mycourses){
+        cout<<" "<<i<<": "
+           <<it->getResource().getname()
+          <<" ID: "<<it->getResource().getIdentification()
+         <<endl;
+        i++;
+    }
+}
+
+
+/* _______________________________________
+  |                                       |
+  |---------- SEMINAR FUNCTIONS-----------|
+  |_______________________________________|
+*/
+
+
+
+void Student::my_seminars()
+{
+    vector<Menu<Student>::Menu_option> options;
+    options.reserve(3);
+    options.emplace_back(1, &Student::seminar_view, "View a Seminar", this);
+    options.emplace_back(2, &Student::seminar_enrolling_func, "Enroll to a seminar", this);
+    options.emplace_back(3, &Student::seminar_droppin_func, "Drop a seminar", this);
+
+    Menu<Student> menu(options, "---YOUR SEMINARS---", &Student::showSeminars, this);
+
+    menu.run();
+}
+
+
+
+void Student::seminar_view()
+{
+    Menu<Link_stu_res> menu(myseminars, &Link_stu_res::showDetails, "Select the seminar you want to see\nYOUR SEMINARS:");
+    menu.set_settings({'q', menu_config::vertical, 0, "Enter a valid option", '[', ']', true});
+    menu.run();
+}
+
+
+
+void Student::seminar_enrolling_func()
+{
+
+}
+
+
+
+void Student::seminar_droppin_func()
+{
+
+}
+
+
+
+void Student::showSeminars()
+{
+    unsigned i=1;
+    for (auto it: myseminars){
+        cout<<" "<<i<<": "
+           <<it->getResource().getname()
+          <<" ID: "<<it->getResource().getIdentification()
+         <<endl;
+        i++;
+    }
 }
 
 
@@ -158,6 +299,83 @@ void Student::Drop(Seminar *s)
 
 
 
+
+void Student::addSeminar(Link_stu_res *link){
+    myseminars.pushFront(link);
+}
+
+
+
+
+void Student::enroll(Seminar *setminar)
+{
+    Link_stu_res *newLink = new Link_stu_res(this, setminar);
+
+    newLink->connectStutoSeminar();
+    newLink->connectResource();
+}
+
+
+
+/* _______________________________________
+  |                                       |
+  |------------ FDP FUNCTIONS ------------|
+  |_______________________________________|
+*/
+
+
+
+void Student::my_fdps()
+{
+    vector<Menu<Student>::Menu_option> options;
+    options.reserve(3);
+    options.emplace_back(1, &Student::fdp_view, "View my fdp", this);
+    options.emplace_back(2, &Student::fdp_enrolling_func, "Enroll to currently existing fdp", this);
+    options.emplace_back(3, &Student::fdp_droppin_func, "Drop my current fdp", this);
+
+    Menu<Student> menu(options, "---YOUR FDP---", &Student::showFDP, this);
+
+    menu.run();
+}
+
+
+
+void Student::fdp_view()
+{
+    if(myfdp){
+        myfdp->showDetails();
+    }else{
+        cout<<"You currently don't have an FDP assigned"<<endl;
+    }
+}
+
+
+
+void Student::fdp_enrolling_func()
+{
+
+}
+
+
+
+void Student::fdp_droppin_func()
+{
+
+}
+
+
+
+void Student::showFDP()
+{
+    if(myfdp){
+        cout<<" Title: "
+           <<myfdp->getResource().getname()
+          <<" ID: "<<myfdp->getResource().getIdentification()
+         <<endl;
+    }
+}
+
+
 void Student::Dropfdp()
 {
     if (myfdp!= nullptr){
@@ -167,22 +385,53 @@ void Student::Dropfdp()
 
 
 
-int Student::menu(){
-    return 0;
-}
-
-
-
-void Student::addCourse(Link_stu_res *link){
-    mycourses.pushFront(link);
-}
-void Student::addSeminar(Link_stu_res *link){
-   myseminars.pushFront(link);
-}
 void Student::addFDP(Link_stu_res *link){
     if(myfdp==nullptr){
         myfdp=link;
     }
+}
+
+
+
+void Student::enroll(FDP *project)
+{
+    Link_stu_res *newLink = new Link_stu_res(this, project);
+
+    newLink->connectStutoFDP();
+    newLink->connectResource();
+
+}
+
+
+
+void Student::showDetails()        //Function to show student's details
+{
+    cout<<"SIN: "<<getidentifier();
+    cout<<"  Name: "<<name;
+    cout<<"  Courses enrolled: "<<mycourses.size();
+    cout<<"  Seminars enrolled: "<<myseminars.size();
+    cout<<"  Has FDP: ";
+    if(myfdp!=nullptr){
+        cout<<"YES"<<endl;
+    }else{
+        cout<<"NO"<<endl;
+    }
+}
+
+
+
+void Student::menu(){
+
+    vector<Menu<Student>::Menu_option> options;
+    options.reserve(3);
+    options.emplace_back(1, &Student::my_courses, "My Courses", this);
+    options.emplace_back(2, &Student::my_seminars, "My Seminars", this);
+    options.emplace_back(3, &Student::my_fdps, "My FDP", this);
+
+    Menu<Student> menu(options, "---WELCOME TO YOUR MAIN MENU---", &Student::showDetails, this);
+
+    menu.run();
+
 }
 
 
@@ -196,43 +445,5 @@ void Student::removeResource(Link_stu_res *link)
         cerr<<"Student::removeResource(Link_stu_res*); Nothing to remove.\n";
     }
 
-}
-
-
-
-void Student::enroll(Course *cour)
-{
-
-    Link_stu_res *newLink = new Link_stu_res(this, cour);
-
-    newLink->connectStutoCourse();
-    newLink->connectResource();
-
-}
-
-
-
-void Student::enroll(Seminar *setminar)
-{
-    Link_stu_res *newLink = new Link_stu_res(this, setminar);
-
-    newLink->connectStutoSeminar();
-    newLink->connectResource();
-}
-
-
-void Student::enroll(FDP *project)
-{
-    Link_stu_res *newLink = new Link_stu_res(this, project);
-
-    newLink->connectStutoFDP();
-    newLink->connectResource();
-
-}
-
-
-ostream& operator<<(ostream& os, const Student& stu){
-    os<<stu.SIN<<endl;
-    return os;
 }
 

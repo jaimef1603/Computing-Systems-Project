@@ -25,11 +25,18 @@ public:
     void setpartialMark(Mark value[4]);
     Mark& getfinalMark();
     Mark* getpartiaMark();
+
+
+    //Connect functions
+
     void connectStutoCourse();
     void connectStutoSeminar();
     void connectStutoFDP();
     void connectResource();
     void destroy();
+
+    //Student functions
+    void showDetails();
 };
 
 #endif // LINK_STU_RES_H

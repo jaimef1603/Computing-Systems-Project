@@ -5,6 +5,8 @@
 #include "Course.h"
 #include "FDP.h"
 #include <vector>
+#include "Menu.h"
+
 using namespace std;
 
 class VirtualCampus;
@@ -20,6 +22,7 @@ private:
     void addCourse();
     void deleteCourse(unsigned index);
     void editcourse();
+
     void addStudent();
     void deleteStudent(unsigned index);
     void editstudent();
@@ -30,22 +33,33 @@ public:
     Degree(string n, const char *id,  VirtualCampus *mycampus);
     ~Degree();
     string getname();
+    void setname(string n);
     const char* getid();
     VirtualCampus& getVc();
+
+    //Student functions
+
     Student* searchStudentbyid(string id);
     int getstudent_number();
-    void setname(string n);
-    void edit();
-    void manageCourses();
     void manageStudents();
-    void showdetails();
-    void showstudents();
-    void showcourses();
-    vector<Course*> getCourses();
-    vector <Student*> getStudents();
     int findStudent(string identification);
+    vector <Student*>& getStudents();
+    void showstudents();
+
+    //Course functions
+
+    void manageCourses();
     int findCourse(string identification);
+    vector<Course*> getCourses();
+    void showcourses();
+
+
+    void showdetails();
+    void edit();
     void options();
+    static Menu<Degree>::menu_option_member gimme_the_name();
+
+
 };
 
 #endif // DEGREE_H

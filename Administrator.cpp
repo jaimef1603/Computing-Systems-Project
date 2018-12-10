@@ -1,4 +1,4 @@
-﻿#include "Administrator.h"
+#include "Administrator.h"
 #include "VirtualCampus.h"
 #include <sstream>
 
@@ -40,31 +40,9 @@ void Administrator::menu()
 
         menu.run();
 
+
 }
 
-
-
-//int Administrator::menu(){
-//    fflush(stdout);
-//    system("clear");1
-
-//    int selection;
-//    cout<<"1: User\n2: Degree\n3: Resource\n4: Exit\n";
-//    cin>>selection;
-//    switch (selection) {
-//    case 1:
-//        manageUser();
-//        break;
-//    case 2:
-//        manageDegree();
-//        break;
-//    case 3:
-//        manageResource();
-//        break;
-//    case 4:
-//        return 0;
-//    }
-//    return 1;
 //}
 
 //void Administrator::manageResource()

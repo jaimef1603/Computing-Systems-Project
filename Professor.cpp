@@ -89,7 +89,7 @@ void Professor::manageCourses()
 {
     char selection;
     do {
-        cout<<"COURSES:\n 1:Add 2:Delete 3:Back\n"<<endl;
+        cout<<"COURSES:\n 1: Add 2: Delete 3: Back\n"<<endl;
         cin>>selection;
 
         switch (selection) {
@@ -199,7 +199,7 @@ void Professor::manageSeminars()
 {
     char selection;
     do {
-        cout<<"SEMINARS:\n 1:Add 2:Delete 3:Back\n"<<endl;
+        cout<<"SEMINARS:\n 1: Add 2: Delete 3: Back\n"<<endl;
         cin>>selection;
 
         switch (selection) {
@@ -298,14 +298,6 @@ void Professor:: enroll(FDP* project, role r)
 
 
 
-
-
-
-
-
-
-
-
 void Professor::showdetails()   //Function to show the details of a teacher
 {
     cout<<"ID: "<<identifier<<endl;
@@ -320,8 +312,11 @@ void Professor::showdetails()   //Function to show the details of a teacher
 void Professor::edit()    //Edit Professor's attributes(name, id)
 {
     char selection;
-    cout<<"1: Edit name 2: Edit ID 3: Back\n";
+    //cout<<"1: Edit name 2: Edit ID 3: Back\n";
     do{
+        system("clear");
+        cout<<"1: Edit name 2: Edit ID 3: Back\n";
+        //system("clear");
         cin>>selection;
         switch (selection) {
         case '1':{

@@ -82,7 +82,7 @@ void Course::setcredits(int c)
 
 
 
-void Course::edit()            //Edit Course attributes
+void Course::edit()            //Function to edit Course attributes (name , id and credits)
 {
     char selection;
     do{
@@ -126,7 +126,7 @@ void Course::edit()            //Edit Course attributes
 
 
 
-void Course::editID()
+void Course::editID()     //Function to edit the id of a course
 {
     std::string buffer;
     do {

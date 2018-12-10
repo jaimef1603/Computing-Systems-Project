@@ -221,9 +221,8 @@ void FDP::options()
     options.push_back(Menu<FDP>::Menu_option(3, &FDP::options_setstudent, "Add a student", this));
     options.push_back(Menu<FDP>::Menu_option(4, &FDP::options_removeStudent, "Remove the current student", this));
     options.push_back(Menu<FDP>::Menu_option(5, &FDP::edit, "Edit", this));
-    Menu<FDP> FDP_Options_menu (options, 'q', "Options of FDP: ", &FDP::showDetails, this);
+    Menu<FDP> FDP_Options_menu (options, "Options of FDP: ", &FDP::showDetails, this);
     FDP_Options_menu.run();
-
 }
 
 
@@ -294,7 +293,7 @@ void FDP::edit()
 
     options.push_back(Menu<FDP>::Menu_option(1, &Resource::editName, "Edit Name", this));
     options.push_back(Menu<FDP>::Menu_option(2, &FDP::editID, "Edit Identification", this));
-    Menu<FDP> editMenu (options, 'q', "FINAL DEGREE PROJECT: "+ this->name+" - edit");
+    Menu<FDP> editMenu (options, "FINAL DEGREE PROJECT: "+ this->name+" - edit");
     editMenu.run();
 }
 

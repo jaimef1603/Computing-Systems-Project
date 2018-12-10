@@ -1,4 +1,4 @@
-﻿#include "Administrator.h"
+#include "Administrator.h"
 #include "VirtualCampus.h"
 #include <sstream>
 
@@ -7,53 +7,42 @@ Administrator::Administrator(string n,string id, VirtualCampus *vc):Professor(n,
 }
 
 
-
-int Administrator::menu()    //Principal menu of the administrator
+void Administrator::admin_submenu ()
 {
-    char selection;
-    do{
-        system("clear");
-        cout<<"ADMINISTRATOR: "<<this->identifier<<endl;;
-        cout<<"  1: Manage Degrees\n  2: Manage Teachers\n  3: Manage Seminars\n  4: Manage FDP's\n  5: Exit\n";
-        cin>>ws>>selection;
-        switch (selection) {
-        case '1': mycampus->manageDegrees(); return 1;
-        case '2': mycampus->manageTeachers(); return 1;
-        case '3': mycampus->manageSeminars(); return 1;
-        case '4': mycampus->manageFDPs(); return 1;
-        case '5': return 0;
+    vector<Menu<VirtualCampus>::Menu_option> admin_options;
+    admin_options.reserve(4);
+    admin_options.emplace_back(1, &VirtualCampus::manageDegrees, "Manage Degrees", mycampus);
+    admin_options.emplace_back(2, &VirtualCampus::manageTeachers, "Manage Teachers", mycampus);
+    admin_options.emplace_back(3, &VirtualCampus::manageSeminars, "Manage Seminars", mycampus);
+    admin_options.emplace_back(4, &VirtualCampus::manageFDPs, "Manage FDPs", mycampus);
+    Menu<VirtualCampus> admin_menu (admin_options, "VIRTUAL CAMPUS ADMINISTRATOR MENU");
 
-        default:
-            cout<<"Enter a valid number(1-5).\n\tPress any key to retry.\n"<<endl;
-            getchar();
-            return 1;
-        }
-    }while(true);
+    admin_menu.run();
 }
 
 
+void Administrator::professor_submenu()
+{
+    Professor::menu();
+}
 
-//int Administrator::menu(){
-//    fflush(stdout);
-//    system("clear");1
+void Administrator::menu()
+{
 
-//    int selection;
-//    cout<<"1: User\n2: Degree\n3: Resource\n4: Exit\n";
-//    cin>>selection;
-//    switch (selection) {
-//    case 1:
-//        manageUser();
-//        break;
-//    case 2:
-//        manageDegree();
-//        break;
-//    case 3:
-//        manageResource();
-//        break;
-//    case 4:
-//        return 0;
-//    }
-//    return 1;
+
+    vector<Menu<Administrator>::Menu_option> options;
+    options.reserve(2);
+    options.emplace_back(1, &Administrator::admin_submenu, "Access the administrator menu", this);
+    options.emplace_back(2, &Administrator::professor_submenu, "Acces the professor menu", this);
+
+
+        Menu<Administrator> menu(options, "---WELCOME TO YOUR MAIN MENU---\n You currently have administration rights");// &Administrator::showDetails, this);
+
+        menu.run();
+
+
+}
+
 //}
 
 //void Administrator::manageResource()

@@ -45,13 +45,39 @@ VirtualCampus::~VirtualCampus()
 
 int VirtualCampus::run()   //Function to start the program
 {
-    int r;
-    r=currentuser->menu();
-    system("clear");
-    fflush(stdout);
 
-    getchar();
-    return r;
+    int selection;
+    while(true){
+        fflush(stdout);
+        system("clear");
+        cout<<"1: Log in as student 2: Log in as administrator"<<endl;
+        cin>>selection;
+        switch (selection)
+        {
+
+        case 1:
+            if(degreelist.size()>0 ){
+                if (degreelist[0]->getStudents().size()>0){
+
+                    currentuser = degreelist[0]->getStudents()[0];
+                    break;
+                }
+            }else{
+                cerr<<"NO STUDENT HAS BEEN YET CREATED; LOGGING IN AS ADMINISTRATOR\n";
+                cin.ignore(50, '\n');
+                cin.get();
+
+            }
+        [[clang::fallthrough]];
+        case 2:
+            currentuser = new Administrator("ADMIN", "adminis", this); break;
+        }
+        system("clear");
+        currentuser->menu();
+    }
+
+
+    return 1;
 }
 
 
@@ -465,7 +491,7 @@ void VirtualCampus::manageSeminars()
     options.push_back(Menu<VirtualCampus>::Menu_option (3, &VirtualCampus::deleteSeminar, "Delete Seminar", this));
 
 
-    Menu<VirtualCampus> seminarMenu(options,'q',"Manage Seminars", &VirtualCampus::showAllSeminars, this);
+    Menu<VirtualCampus> seminarMenu(options,"Manage Seminars", &VirtualCampus::showAllSeminars, this);
     seminarMenu.run();
 
 }
@@ -662,7 +688,7 @@ void VirtualCampus::manageFDPs()
     options.push_back(Menu<VirtualCampus>::Menu_option (3, &VirtualCampus::deleteFDP, "Delete FDP", this));
 
 
-    Menu<VirtualCampus> seminarMenu(options,'q',"Manage FDP", &VirtualCampus::showAllFDP, this);
+    Menu<VirtualCampus> seminarMenu(options,"Manage FDP", &VirtualCampus::showAllFDP, this);
     seminarMenu.run();
 
 }
@@ -734,7 +760,7 @@ void VirtualCampus::addFDP()
         }
 
 
-        Menu<Student> Student_selector (Student_selector_options, 'q', "Select the student or \'q\' to leave it blank");
+        Menu<Student> Student_selector (Student_selector_options, "Select the student or \'q\' to leave it blank");
         temp_student= Student_selector.run_selector();
     }
 
@@ -743,11 +769,11 @@ void VirtualCampus::addFDP()
 
     for (unsigned i= 0; i< proflist.size(); i++){
         professor_selector_options.push_back(Menu<Professor>::Menu_option(i+1, nullptr, proflist[i]->getname()+ " ID: "+proflist[i]->getidentifier(), proflist[i]));
-   }
+    }
 
     if (temp_student){
 
-        Menu<Professor> professor_selector (professor_selector_options, 'q', "Select the teacher or \'q\' to leave it blank");
+        Menu<Professor> professor_selector (professor_selector_options, "Select the teacher or \'q\' to leave it blank");
 
         temp_professor= professor_selector.run_selector();
 
@@ -755,7 +781,7 @@ void VirtualCampus::addFDP()
 
     }else{
 
-        Menu<Professor> professor_selector (professor_selector_options, 'q', "You must select a teacher or \'q\' to cancel");
+        Menu<Professor> professor_selector (professor_selector_options, "You must select a teacher or \'q\' to cancel");
 
         temp_professor= professor_selector.run_selector();
 

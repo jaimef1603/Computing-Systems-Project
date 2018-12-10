@@ -141,10 +141,11 @@ void Seminar::addteacher(Link_prof_res *newteacher)
 
 
 
-void Seminar::showdetails()    //Function to show seminar details
+void Seminar::showDetails()    //Function to show seminar details
 {
     cout<<"Name: "<<this->name<<endl<<"ID: "<<this->identification<<endl;
-    cout<<"Number of seats: "<<this->maxseats<<" Occupied: "<<this->students.size()<<endl;
+    cout<<"Number of seats: "<<this->maxseats<<" Occupied: "<<this->students.size()<<endl
+       <<"Date: "<<eventDate<<endl;
     for (unsigned i=0; i<2; i++){
         if (teachers[i]){
             cout<<teachers[i]->getRoleName()<<": "<<teachers[i]->getteacher()->getname()<<endl;
@@ -165,7 +166,7 @@ void Seminar::options()    //Function which contains the option menu of seminar
     options.push_back(Menu<Seminar>::Menu_option(3, &Seminar::options_addstudent, "Add a student", this));
     options.push_back(Menu<Seminar>::Menu_option(4, &Seminar::options_removestudent, "Remove a student", this));
     options.push_back(Menu<Seminar>::Menu_option(5, &Seminar::edit, "Edit", this));
-    Menu<Seminar> Seminar_Options_menu (options, 'q', "Options of seminar: ", &Seminar::showdetails, this);
+    Menu<Seminar> Seminar_Options_menu (options, "Options of seminar: ", &Seminar::showDetails, this);
     Seminar_Options_menu.run();
 
 }
@@ -222,7 +223,7 @@ void Seminar::options_removestudent()     //Function to remove a student from a 
      for (unsigned i=0; i<students.size(); i++){
          selector_options.push_back(Menu<Link_stu_res>::Menu_option(i+1, nullptr, to_string(students[i]->getStudent().getSIN()), students[i]));
      }
-     Menu<Link_stu_res> studentSelector (selector_options, 'q', "Select the student you want to remove");
+     Menu<Link_stu_res> studentSelector (selector_options, "Select the student you want to remove");
         selected_student = studentSelector.run_selector();
         if (selected_student)
             delete selected_student;
@@ -241,7 +242,7 @@ void Seminar::edit()    //Function which contains the seminar's edit menu
     options.push_back(Menu<Seminar>::Menu_option(3, &Seminar::editDate, "Edit Date", this));
     options.push_back(Menu<Seminar>::Menu_option(4, &Seminar::editMaxseats, "Edit maximum number of seats", this));
 
-    Menu<Seminar> editMenu (options, 'q', "SEMINAR: "+ this->name+" - edit");
+    Menu<Seminar> editMenu (options, "SEMINAR: "+ this->name+" - edit");
     editMenu.run();
 
 }

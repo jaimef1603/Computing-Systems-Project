@@ -305,3 +305,18 @@ void Date::setyear(unsigned y)
 }
 
 
+
+std::ostream& operator<<(std::ostream& os, const Date & dat)
+{
+    os<<dat.day<<"/"<<dat.month<<"/"<<dat.year;
+    return os;
+}
+
+
+
+std::ostream& operator<<(std::ostream& os, const Date && dat)
+{
+    os<<dat.day<<"/"<<dat.month<<"/"<<dat.year;
+    return os;
+}
+

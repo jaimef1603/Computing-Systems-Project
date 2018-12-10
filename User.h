@@ -16,7 +16,7 @@ protected:
     string name;
 public:
     virtual ~User();
-    virtual int menu()=0;
+    virtual void menu()=0;
     virtual std::string getidentifier()=0;
     void setname(string n);
     string getname();

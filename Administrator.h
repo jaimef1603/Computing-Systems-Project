@@ -8,13 +8,14 @@ class Administrator: public Professor{
 
 private:
 
-    void createResource();
-    void editResource();
+    void admin_submenu();
+    void professor_submenu();
 public:
     Administrator(string n="undefined",string id= "xxxxxx", VirtualCampus *vc=nullptr);
 
     //Polymorphism starts
-    int menu();
+    void menu();
+
 
 };
 

@@ -61,7 +61,7 @@ public:
     void showdetails();
     void edit();
     void options();
-    virtual int menu(); //must be virtual to be overriden by admin's menu.
+    virtual void menu(); //must be virtual to be overriden by admin's menu.
 
 
 };

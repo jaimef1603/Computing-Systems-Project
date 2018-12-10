@@ -34,6 +34,9 @@ public:
     void connectStutoFDP();
     void connectResource();
     void destroy();
+
+    //Student functions
+    void showDetails();
 };
 
 #endif // LINK_STU_RES_H

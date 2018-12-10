@@ -479,7 +479,7 @@ void Degree::manageCourses ()
 
             if(cour!=-1){
                 cout<<"Details of Course "<<cour<<" of "<<this->getname()<<".\n";
-                courselist[unsigned(cour)-1]->showdetails();
+                courselist[unsigned(cour)-1]->showDetails();
                 cout<<"\tPress any key to return.\n";
                 cin.ignore(50, '\n');
                 getchar();

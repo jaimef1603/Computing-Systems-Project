@@ -52,7 +52,7 @@ bool Link_stu_res::operator== (const Link_stu_res &other)
 int Link_stu_res::checkHealth()
 {
     if(stuPtr==nullptr && resourcePtr==nullptr){
-            return -2;
+        return -2;
     }else if(stuPtr!=nullptr && resourcePtr!=nullptr){
         return 0;
     }else{
@@ -151,8 +151,36 @@ void Link_stu_res::connectResource()
 
 void Link_stu_res::destroy()
 {
-   resourcePtr->removestudent(this);
-   stuPtr->removeResource(this);
+    resourcePtr->removestudent(this);
+    stuPtr->removeResource(this);
 }
 
+
+
+void Link_stu_res::showDetails()
+{
+    resourcePtr->showDetails();
+
+    if (this->resourcePtr->getname().find_first_of("SEM")!=0 && this->resourcePtr->getname().find_first_of("FDP")!=0){
+
+        cout<<"GRADES:"<<endl
+           <<"\tPartial:"<<endl;
+        for (unsigned i=0; i<4; i++){
+            cout<<"\t "<<i<<": ";
+            if (partial[i].getvalue()==-1){
+                cout<<"Not Graded"<<endl;
+            }else{
+                cout<<partial[i].getvalue()<<" Date: "<<partial[i].getdate_graded();
+            }
+        }
+        cout<<"Final: ";
+        if(final.getvalue()==-1){
+            cout<<"Not graded"<<endl;
+        }else{
+            cout<<final.getvalue()<<" Date: "<<final.getdate_graded()<<endl;
+
+        }
+    }
+
+}
 

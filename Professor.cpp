@@ -410,9 +410,11 @@ void Professor::options()    //Function of professor's options
 
 
 
-int Professor::menu()
+void Professor::menu()
 {
-    return 0;
+cerr<<"acessed the professor menu"<<endl;
+cin.ignore(500, '\n');
+cin.get();
 }
 
 

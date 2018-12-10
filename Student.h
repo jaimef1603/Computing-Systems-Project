@@ -15,7 +15,7 @@ class Student: public User
 private:
 
     unsigned SIN;
-    const Degree *mydegree;
+    Degree *mydegree;
     ArrayList <Link_stu_res*> mycourses;//triple!!! investigar si todo funciona correcto.
     ArrayList <Link_stu_res*> myseminars;
     Link_stu_res *myfdp;
@@ -47,24 +47,36 @@ public:
     string getidentifier();
 
     //Course functions
-
+    void my_courses();
+    void course_droppin_func();
+    void course_enrolling_func();
+    void course_view();
     void Drop(Course *c);
     void enroll(Course *cour);
+    void showCourses();
 
     //Seminar functions
-
+    void my_seminars();
+    void seminar_droppin_func();
+    void seminar_enrolling_func();
+    void seminar_view();
     void Drop(Seminar *s);
     void enroll(Seminar *setminar);
+    void showSeminars();
 
     //FDP functions
-
+    void my_fdps();
+    void fdp_droppin_func();
+    void fdp_enrolling_func();
+    void fdp_view();
     void Dropfdp();
     void enroll(FDP *project);
+    void showFDP();
 
 
     void showDetails();
     void options();
-    int menu();
+    void menu();
 
     Menu<Student>::menu_option_member gimme_the_id();
 

@@ -35,7 +35,7 @@ public:
     void edit();
     void editID();
     void options();
-    void showdetails();
+    void showDetails();
 
 
 };

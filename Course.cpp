@@ -201,7 +201,7 @@ void Course::options()      //Course's options
 
 
 
-void Course::showdetails()        //Function to show course's details
+void Course::showDetails()        //Function to show course's details
 {
     cout<<"ID: "<<identification<<endl;
     cout<<"Name: "<<name<<endl;

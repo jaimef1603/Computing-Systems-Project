@@ -50,7 +50,7 @@ public:
     void setvc(VirtualCampus * vc){ mycampus = vc;}
     VirtualCampus* getvc(){return mycampus;}
 
-    void showdetails();
+    void showDetails();
     void options();
     void edit();
 

@@ -2,6 +2,7 @@
 #define DATE_H
 
 #include <iostream>
+#include <string>
 
 class Date
 {
@@ -19,6 +20,7 @@ public:
     void setmonth(unsigned m);
     unsigned getyear();
     void setyear(unsigned y);
+    std::string getfancyDate();
     friend std::ostream& operator<<(std::ostream& os, const Date & dat);
     friend std::ostream& operator<<(std::ostream& os, const Date && dat);
 };

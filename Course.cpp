@@ -6,12 +6,12 @@
 #include <sstream>
 #include <limits>
 
-Course::Course(string n, string id, Degree *d, int c, Link_prof_res **t)
+Course::Course(Degree *d, string n, string id, int c, Link_prof_res **t)
     :Resource(id, n)
 {
     degree=d;
     credits=c;
-    if (t!=nullptr){ //we should check as well if the links link to teacher.
+    if (t!=nullptr){
         for (int i=0; i<2; i++){
             teachers[i]=t[i];
         }
@@ -38,6 +38,23 @@ Course::Course(const Course &c)
             teachers[i]=c.teachers[i];
         }else{
             teachers[i]=nullptr;
+        }
+    }
+}
+
+
+
+Course::~Course()
+{
+    for (int i = int(studentlist.size()-1) ; i>=0; i--){
+        if (studentlist[unsigned(i)]){
+            delete studentlist[unsigned(i)];
+        }
+    }
+
+    for (unsigned i =0; i<2; i++){
+        if (teachers[i]){
+            delete teachers[i];
         }
     }
 }
@@ -284,6 +301,27 @@ void Course::removeprofessor(Link_prof_res *professor){
         }
     }
 }
+
+
+
+void Course::grade()
+{
+    vector<Menu<Link_stu_res>::Menu_option> options;
+    options.reserve(studentlist.size());
+    unsigned i = 1;
+    for (auto it:studentlist){
+        string option_name = it->getStudent().getname()+" ID: "+it->getStudent().getidentifier();
+        options.emplace_back(i, &Link_stu_res::grade, option_name, (*it));
+        i++;
+    }
+
+    Menu<Link_stu_res> students(options, name+"- GRADES - \nSelect the student you want to grade");
+    students.run();
+}
+
+
+
+
 
 
 //void Course::addUser(User *newUser){

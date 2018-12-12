@@ -8,7 +8,6 @@ Resource::Resource(string id, string n)
     :identification(id), name(n)
 
 {
-
 }
 
 
@@ -106,4 +105,33 @@ Menu<Resource>::menu_option_member Resource::gimmetheid()
 
 
 
+//---------- FILE HANDLING-----------------
 
+
+ ofstream & operator<< (ofstream& ofs, Resource* _resource)
+{
+     unsigned long length = _resource->name.size();
+     const char *name = _resource->name.c_str();
+     const char *id = _resource->identification.c_str();
+     ofs.write(reinterpret_cast<char*>(&(length)), sizeof (unsigned long));
+     ofs.write(name,  static_cast<long>(length * sizeof (char)));
+     ofs.write(id,  8 * sizeof (char));
+     return ofs;
+}
+
+
+
+ifstream & operator>> (ifstream& ifs, Resource* _resource)
+{
+    unsigned long length;
+    ifs.read(reinterpret_cast<char*>(&(length)), sizeof (unsigned long));
+    char * name=new char[length];
+    ifs.read(name,  static_cast<long>(length * sizeof (char)));
+    _resource->name=name;
+    char * id=new char [8];
+    ifs.read(id, 8 * sizeof (char));
+    _resource->identification=id;
+    delete [] id;
+    delete [] name;
+    return ifs;
+}

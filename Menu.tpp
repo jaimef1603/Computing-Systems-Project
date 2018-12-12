@@ -277,6 +277,7 @@ void Menu<T>::show_settings()
 // [1]
 template <typename T>
 Menu<T>::Menu_option::Menu_option(unsigned opt, Menu<T>::menu_option_handler moh, const std::string t, T* obj)
+   // :text(*t)
 {
     object=obj;
     function=moh;
@@ -284,18 +285,37 @@ Menu<T>::Menu_option::Menu_option(unsigned opt, Menu<T>::menu_option_handler moh
     text=t;
 }
 
+//template <typename T>
+//Menu<T>::Menu_option::Menu_option(unsigned opt, Menu<T>::menu_option_handler moh, std::string t, T* obj)
+//    :text(std::string(t))
+//{
+//    object=obj;
+//    function=moh;
+//    option=opt;
+//    text =t;
+//}
 
 // [2]
 
+//template <typename T>
+//Menu<T>::Menu_option::Menu_option(unsigned opt, Menu<T>::menu_option_handler moh, std::string t, T& obj)
+//{
+//    object=&obj;
+//    function=moh;
+//    option=opt;
+//    text=std::string(t);
+//}
+
+
 template <typename T>
 Menu<T>::Menu_option::Menu_option(unsigned opt, Menu<T>::menu_option_handler moh, const std::string t, T& obj)
+    //:text(*t)
 {
     object=&obj;
     function=moh;
     option=opt;
     text=t;
 }
-
 
 
 template <typename T>

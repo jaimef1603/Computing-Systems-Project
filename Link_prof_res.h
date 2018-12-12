@@ -5,8 +5,8 @@
 class Professor;
 
 enum class role{
-   speaker,
    coordinator,
+   speaker,
    named_chair,
    associated,
    tutor,
@@ -29,6 +29,7 @@ public:
     void setRole(role r);
     role getRole();
     std::string getRoleName();
+    void showDetails();
 
     // Connect functions
 

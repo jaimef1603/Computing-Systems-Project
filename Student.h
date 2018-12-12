@@ -16,7 +16,7 @@ private:
 
     unsigned SIN;
     Degree *mydegree;
-    ArrayList <Link_stu_res*> mycourses;//triple!!! investigar si todo funciona correcto.
+    ArrayList <Link_stu_res*> mycourses;
     ArrayList <Link_stu_res*> myseminars;
     Link_stu_res *myfdp;
 
@@ -34,7 +34,7 @@ public:
     static unsigned count;
     friend class Link_stu_res;
     Student();
-    Student(string n, Degree *d);
+    Student(Degree *d, string n);
     Student (const Student &);
     ~Student();
     Student& operator=(const Student&);

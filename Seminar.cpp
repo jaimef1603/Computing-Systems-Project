@@ -6,30 +6,39 @@
 #include <sstream>
 #include "VirtualCampus.h"
 
-Seminar::Seminar(string n, string id, VirtualCampus *vc, unsigned seatsValue, Professor *coord,  Date when, Professor *spe)
+Seminar::Seminar(VirtualCampus *vc, string n, string id, unsigned seatsValue, Professor *coord,  Date when, Professor *spe)
     :Resource(id, n)
 {
     mycampus=vc;
     maxseats=seatsValue;
     eventDate=when;
+
+    teachers[0]=teachers[1]=nullptr;
+
     if (coord)
-        setcoordinator(coord);
+        coord->enroll(this, role::coordinator);
+
     if (spe)
-        setspeaker(spe);
+        spe->enroll(this, role::speaker);
 }
 
-/*
 
-Seminar::Seminar(string n, string id, unsigned seatsValue, Professor *coord, Date when)
-    :Resource(id, n)
+
+Seminar::~Seminar()
 {
+    for (int i = int(students.size()-1) ; i>=0; i--){
+        if (students[unsigned(i)]){
+            delete students[unsigned(i)];
+        }
+    }
 
-    maxseats=seatsValue;
-    eventDate=when;
-    if (coord)
-        setcoordinator(coord);
+    for (unsigned i =0; i<2; i++){
+        if (teachers[i]){
+            delete teachers[i];
+        }
+    }
 }
-*/
+
 
 
 unsigned Seminar::getmaxseats()const
@@ -60,54 +69,18 @@ void Seminar::setdate(Date when)
 
 
 
-void Seminar::setspeaker(Professor *spe)
-{
-
-    Link_prof_res *newLink=new Link_prof_res(spe, this, role::speaker);
-    if (newLink->checkHealth()==0){
-        teachers[0]= newLink;
-    }else{
-        std::cerr<<"Seminar::setspeaker(User*); failed to create a new link\n";
-    }
-}
-
-
 
 Link_prof_res* Seminar::getspeaker()const
 {
-    for (int i=0; i<2; i++){
-        if (teachers[i]->getRole()==role::speaker){
-            return teachers[i];
-        }
 
-    }
-    return nullptr;
-}
-
-
-
-void Seminar::setcoordinator(Professor *coord)
-{
-    Link_prof_res *newLink=new Link_prof_res(coord, this, role::coordinator);
-    if (newLink->checkHealth()==0){
-        teachers[1]=newLink;
-    }else{
-        std::cerr<<"Seminar::setcoordinator(User*); failed to create a new link\n";
-    }
+    return teachers[0];
 }
 
 
 
 Link_prof_res* Seminar::getcoordinator()const
 {
-
-    for (int i=0; i<2; i++){
-        if (teachers[i]->getRole()==role::coordinator){
-            return teachers[i];
-        }
-
-    }
-    return nullptr;
+    return teachers[1];
 }
 
 
@@ -115,27 +88,21 @@ Link_prof_res* Seminar::getcoordinator()const
 void Seminar::addteacher(Link_prof_res *newteacher)
 {
     if (newteacher->getRole()==role::speaker){
-        if(teachers[0]!=nullptr){
 
+        if(teachers[0]!=nullptr)
             delete teachers[0];
-            teachers[0]=newteacher;
-            return;
 
-        }else{
-            teachers[0]=newteacher;
-            return;
-        }
+        teachers[0]=newteacher;
+        return;
     }
     if (newteacher->getRole()==role::coordinator){
-        if(teachers[1]!=nullptr){
-            delete teachers[1];
-            teachers[1]=newteacher;
-            return;
 
-        }else{
-            teachers[1]=newteacher;
-            return;
-        }
+        if(teachers[1]!=nullptr)
+            delete teachers[1];
+
+        teachers[1]=newteacher;
+        return;
+
     }
 }
 
@@ -179,7 +146,7 @@ void Seminar::options_coordinator()   //Function to choose the coordinator of a 
     Menu<Professor> professorSelector(mycampus->getTeachers(), Professor::gimmethename(), "Choose a teacher to set the coordinator");
     Professor *temp= professorSelector.run_selector();
     if (temp)
-        this->setcoordinator(temp);
+        temp->enroll(this, role::coordinator);
 }
 
 
@@ -190,7 +157,7 @@ void Seminar::options_speaker()   //Function to choose the speaker of a seminar
     Menu<Professor> professorSelector(mycampus->getTeachers(), Professor::gimmethename(), "Choose a teacher to set the speaker");
     Professor *temp= professorSelector.run_selector();
     if (temp)
-        this->setspeaker(temp);
+        temp->enroll(this, role::speaker);
 }
 
 
@@ -242,11 +209,25 @@ void Seminar::edit()    //Function which contains the seminar's edit menu
     options.push_back(Menu<Seminar>::Menu_option(3, &Seminar::editDate, "Edit Date", this));
     options.push_back(Menu<Seminar>::Menu_option(4, &Seminar::editMaxseats, "Edit maximum number of seats", this));
 
-    Menu<Seminar> editMenu (options, "SEMINAR: "+ this->name+" - edit");
+    Menu<Seminar> editMenu (options, "SEMINAR: "+ this->name+" - edit", &Seminar::showDetails, this);
     editMenu.run();
 
 }
 
+
+void Seminar::coordinatorcanediteverythingbuttheid()    //Function which contains the seminar's edit menu
+{
+
+    vector<Menu<Seminar>::Menu_option> options;
+
+    options.push_back(Menu<Seminar>::Menu_option(1, &Resource::editName, "Edit Name", this));
+    options.push_back(Menu<Seminar>::Menu_option(2, &Seminar::editDate, "Edit Date", this));
+    options.push_back(Menu<Seminar>::Menu_option(3, &Seminar::editMaxseats, "Edit maximum number of seats", this));
+
+    Menu<Seminar> editMenu (options, "SEMINAR: "+ this->name+" - edit", &Seminar::showDetails, this);
+    editMenu.run();
+
+}
 
 
 void Seminar::editID()     //Function to edit the identification of a seminar
@@ -276,7 +257,7 @@ void Seminar::editDate()    //Function to edit the date of a seminar
        cin.clear();
        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
        std::cout<<"Enter the new date (day month year) or \'q\' to cancel:";
-       std::cin>>std::ws>>buffer;
+       getline(std::cin, buffer, '\n');
 
                if (buffer=="q"){
                   return;
@@ -340,23 +321,44 @@ void Seminar::removeprofessor(Link_prof_res *link)
     bool flag = false;
     for (i=0; i<2; i++){
         if (teachers[i]==link){
+            teachers[i]=nullptr;
             flag = true;
-            for(;i<2; i++){
-                if (i!=1){
-                    teachers[i]=teachers[i+1];
-                }else{
-                    teachers[i]=nullptr;
-                }
-            }
-            break;
         }
-
+    }
         if (!flag){
             cerr<<"Seminar::removeprofessor(Link_prof_res*); No teacher removed.\n";
         }
-    }
+
 }
 
 
+
+
+
+// ---------------------FUNCTIONS FOR FILE HANDLING-----------------
+
+ofstream & operator<< (ofstream& ofs, Seminar& _seminar)
+{
+
+    ofs << &_seminar;
+    ofs.write(reinterpret_cast<char*>(&_seminar.eventDate), sizeof (Mark));
+    ofs.write(reinterpret_cast<char*>(&_seminar.maxseats), sizeof(unsigned));
+    unsigned long student_number = _seminar.students.size();
+    ofs.write(reinterpret_cast<char*>(&student_number), sizeof (unsigned long));
+    return ofs;
+}
+
+
+
+ifstream& operator>>(ifstream& ifs, Seminar& _seminar)
+{
+    ifs>>&_seminar;
+    ifs.read(reinterpret_cast<char*>(&_seminar.eventDate), sizeof(Mark));
+    ifs.read(reinterpret_cast<char*>(&_seminar.maxseats), sizeof(unsigned));
+    unsigned long student_number;
+    ifs.read(reinterpret_cast<char*>(&student_number), sizeof (unsigned long));
+    _seminar.students.reserve(student_number);
+    return ifs;
+}
 
 

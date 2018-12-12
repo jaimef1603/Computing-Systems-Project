@@ -23,11 +23,6 @@ protected:
     ArrayList<Link_prof_res*> seminarlist;
 
 
-    //Polymorphism starts
-    //void addCourse(Link_us_res *link);
-    //void addSeminar(Link_us_res *link);
-    //void addFDP(Link_us_res *link);
-
 public:
     Professor();
     Professor(string n, string ident, VirtualCampus *vc);
@@ -41,24 +36,63 @@ public:
     void removeResource(Link_prof_res *link);
 
     //Course functions
-
-    void addCourse(Link_prof_res *link);
+    //  Used by administrator
     void manageCourses();
     void selectCourseAndAdd();
+
+    //  Used by professor
+    void my_courses();
+    void course_droppin_func();
+    void course_enrolling_func();
+    void course_view();
+
+    //  Common
+    void addCourse(Link_prof_res *link);
     void enroll(Course* c, role r);
+    void Drop(Course* );
+    void showCourses();
 
     //Seminar functions
-
-    void addSeminar(Link_prof_res *link);
+    //  Used by administrator
     void manageSeminars();
+
+
+    //  Used by professor
+    void my_seminars();
+    void seminar_droppin_func();
+    void seminar_enrolling_func();
+    void seminar_view();
+
+    // Common
+    void addSeminar(Link_prof_res *link);
     void enroll(Seminar* s, role r);
+    void Drop(Seminar* );
+    void showSeminars();
+
+
 
     //FDP functions
-
+    //  Used by administrator
+    void manageFDP();
+    void deleteFDP();
+    void admin_addFDP();
     void addFDP(Link_prof_res *link);
-    void enroll(FDP* project, role r);
 
-    void showdetails();
+    //  Used by professor
+    void my_fdps();
+    void fdp_droppin_func();
+    void fdp_enrolling_func();
+    void fdp_view();
+
+    //  Common
+    void enroll(FDP* project, role r);
+    void Drop(FDP*);
+    void showFDP();
+
+
+
+
+    void showDetails();
     void edit();
     void options();
     virtual void menu(); //must be virtual to be overriden by admin's menu.

@@ -6,7 +6,7 @@
 VirtualCampus::VirtualCampus()
 {
 
-    currentuser=new Administrator("undefined","aaaaaa", this);
+    currentuser=nullptr;
 
 }
 
@@ -43,11 +43,14 @@ VirtualCampus::~VirtualCampus()
 
 
 
-int VirtualCampus::run()   //Function to start the program
+void VirtualCampus::run()   //Function to start the program
 {
 
     int selection;
-    while(true){
+
+    proflist.emplace_back(new Administrator("ADMIN", "adminis", this));
+
+   // while(true){
         fflush(stdout);
         system("clear");
         cout<<"1: Log in as student 2: Log in as administrator"<<endl;
@@ -70,15 +73,118 @@ int VirtualCampus::run()   //Function to start the program
             }
         [[clang::fallthrough]];
         case 2:
-            currentuser = new Administrator("ADMIN", "adminis", this); break;
+            currentuser = proflist[0];
         }
         system("clear");
         currentuser->menu();
-    }
+    //}
 
-
-    return 1;
 }
+
+
+
+void VirtualCampus::start(){
+    loadTeachers();
+    loadDegrees();
+    loadSeminars();
+    loadFDPs();
+
+    cin.get();
+}
+
+
+
+void VirtualCampus::stop()
+{
+    writeTeachers();
+    writeDegrees();
+    writeSeminars();
+    writeFDPs();
+    cin.get();
+}
+
+
+
+void VirtualCampus::loadTeachers()
+{
+
+}
+
+
+
+void VirtualCampus::loadDegrees()
+{
+
+}
+
+
+
+void VirtualCampus::loadSeminars()
+{
+    ifstream inputfile ("Seminars", ios::in | ios::binary);
+    if (inputfile){
+        unsigned long number_of_seminars;
+        inputfile.read(reinterpret_cast<char*>(&number_of_seminars), sizeof (unsigned long));
+        if (number_of_seminars>0){
+            seminalist.reserve(number_of_seminars);
+        }
+        for(unsigned i=0; i<number_of_seminars && !inputfile.eof(); i++){
+            seminalist.emplace_back(new Seminar(this));
+            inputfile>>*seminalist[i];
+            if (inputfile.eof()){
+                cerr<<"Warning, mismatch in sizes for file \"Seminars\"\n";
+            }
+        }
+        inputfile.close();
+    }else{
+        system("touch ./Seminars");
+    }
+}
+
+
+
+void VirtualCampus::loadFDPs()
+{
+
+}
+
+
+
+void VirtualCampus::writeTeachers()
+{
+
+}
+
+
+
+void VirtualCampus::writeDegrees()
+{
+
+}
+
+
+
+void VirtualCampus::writeSeminars()
+{
+    ofstream outputfile("Seminars", ios::trunc | ios::binary);
+    if (!outputfile){
+        cerr<<"ERROR, could not create/open file \"Seminars\"\n";
+    }
+    unsigned long seminar_number = seminalist.size();
+    outputfile.write(reinterpret_cast<char*>(&seminar_number), sizeof(unsigned long));
+    for (auto it: seminalist){
+        outputfile<<(*it);
+    }
+}
+
+
+
+void VirtualCampus::writeFDPs()
+{
+
+}
+
+
 
 
 
@@ -234,6 +340,12 @@ void VirtualCampus::addDegree()
             valid = false;
         }else{
             UCaseWord(id);
+            if(id=="SEM" || id=="FDP"){
+                valid = false;
+                cout<<"\"SEM\" and \"FDP\" are system reserved identifications, please choose another"<<endl;
+                cin.ignore(numeric_limits<char>::max(), '\n');
+                cin.get();
+            }else{
             for (auto it: degreelist){
 
                 if (it->getid()==id){
@@ -241,14 +353,16 @@ void VirtualCampus::addDegree()
                     cout<<"There is already a degree with this identification, choose another"<<endl;
                     cin.ignore(numeric_limits<char>::max(), '\n');
                     cin.get();
+                    break;
                 }
 
+            }
             }
 
         }
 
     }while(!valid);
-    degreelist.push_back(new Degree(name, id.c_str(), this));
+    degreelist.push_back(new Degree(this, name, id.c_str()));
 
 }
 
@@ -313,119 +427,114 @@ void VirtualCampus::manageTeachers()
     char selection;
     do{
         system("clear");
-        cout<<"1: Create teacher 2: Edit teacher 3: Delete teacher 4: Details 5: Select 6: Back"<<endl;
+        cout<<"\t[1] Create teacher\n\t[2] Delete teacher\n\t[3] Show details\n\t'q' Back"<<endl;
         cin>>selection;
         switch (selection) {
         case '1': addTeacher(); break;
-        case '2': {
-            string id;
-            int teach=-1;
-            system("clear");
-            showAllTeach();
-            cout<<"Enter the id of the teacher you want to edit.\n";
-
-            do {
-                cin>>ws>>id;
-                if (id=="cancel"){
-                    break;
-                }else{
-                    teach=findTeacher(id);
-                }
-                if(teach==-1){
-                    system("clear");
-                    cout<<"Invalid ID\n";
-                    cout<<"Enter the id of the teacher you want to edit\n";
-                }
-            }while(teach==-1);
-            system("clear");
-            if (teach!=-1){
-                proflist[unsigned(teach)]->edit();
+        case '2':
+        {
+            Professor *to_delete;
+            vector<Menu<Professor>::Menu_option> e_s_options;
+            e_s_options.reserve(proflist.size());
+          unsigned i=1;
+            for (auto it: proflist){
+                e_s_options.emplace_back(i, nullptr,
+                     it->getname()+"\tID: "+it->getidentifier(), (*it));
+                i++;
             }
-        }break;
+
+            Menu<Professor> edit_selector(e_s_options, "Select the teacher you want to delete");
+            to_delete=edit_selector.run_selector();
+            if (to_delete){
+                unsigned i=0;
+                for (vector<Professor*>::iterator it = proflist.begin(); it!=proflist.end(); it++ , i++){
+                    if (*it == to_delete){
+                        delete to_delete;
+                        proflist.erase(it);
+                        break;
+                    }
+                }
+            }
+
+
+//            string id;
+//            int teach=-1;
+//            system("clear");
+//            showAllTeach();
+//            cout<<"Enter the id of the teacher you want to delete.\n";
+
+//            do {
+//                cin>>ws>>id;
+//                if (id=="cancel"){
+//                    break;
+//                }else{
+//                    teach=findTeacher(id);
+//                }
+//                if(teach==-1){
+//                    system("clear");
+//                    showAllTeach();
+//                    cout<<"Invalid ID\n";
+//                    cout<<"Enter the id of the teacher you want to delete.\n";
+//                }
+//            }while(teach==-1);
+//            system("clear");
+//            if (teach!=-1){
+//              deleteTeacher(2);
+//            }
+        }
+            break;
+
+
         case '3':
         {
-            string id;
-            int teach=-1;
-            system("clear");
-            showAllTeach();
-            cout<<"Enter the id of the teacher you want to delete.\n";
 
-            do {
-                cin>>ws>>id;
-                if (id=="cancel"){
-                    break;
-                }else{
-                    teach=findTeacher(id);
-                }
-                if(teach==-1){
-                    system("clear");
-                    cout<<"Invalid ID\n";
-                    cout<<"Enter the id of the teacher you want to delete.\n";
-                }
-            }while(teach==-1);
-            system("clear");
-            if (teach!=-1){
-                deleteTeacher(unsigned(teach));
+
+
+            vector<Menu<Professor>::Menu_option> e_s_options;
+            e_s_options.reserve(proflist.size());
+          unsigned i=1;
+            for (auto it: proflist){
+                e_s_options.emplace_back(i, &Professor::options,
+                     it->getname()+"\tID: "+it->getidentifier(), (*it));
+                i++;
             }
-        }
-            break;
-        case '4': {
-            string id;
-            int teach=-1;
-            system("clear");
-            cout<<"Enter the id of the teacher you want to show details of.\n";
 
-            do {
-                cin>>ws>>id;
-                if (id=="cancel"){
-                    break;
-                }else{
-                    teach=findTeacher(id);
-                }
-                if(teach==-1){
-                    system("clear");
-                    cout<<"Invalid ID\n";
-                    cout<<"Enter the id of the teacher you want to show details of.\n";
-                }
-            }while(teach==-1);
-            system("clear");
-            if (teach!=-1){
-                proflist[unsigned(teach)]->showdetails();
-                cin.ignore(std::numeric_limits<int>::max(), '\n');
-                cin.get();
-            }
-        }break;
+            Menu<Professor> edit_selector(e_s_options, "Select a teacher");
+            edit_selector.run();
 
-        case '5':
-        {
-            string id;
-            int teach=-1;
-            system("clear");
-            cout<<"Enter the id of the teacher you want to select.\n";
 
-            do {
-                cin>>ws>>id;
-                if (id=="cancel"){
-                    break;
-                }else{
-                    teach=findTeacher(id);
-                }
-                if(teach==-1){
-                    system("clear");
-                    cout<<"Invalid ID\n";
-                    cout<<"Enter the id of the teacher you want to select.\n";
-                }
-            }while(teach==-1);
-            system("clear");
-            if (teach!=-1){
-                proflist[unsigned(teach)]->options();
-            }
+
+
+//            string id;
+//            int teach=-1;
+//            system("clear");
+//            showAllTeach();
+//            cout<<"Enter the id of the teacher you want to select.\n";
+
+//            do {
+//                cin>>ws>>id;
+//                if (id=="cancel"){
+//                    break;
+//                }else{
+//                    teach=findTeacher(id);
+//                }
+//                if(teach==-1){
+//                    system("clear");
+//                    showAllTeach();
+//                    cout<<"Invalid ID\n";
+//                    cout<<"Enter the id of the teacher you want to select.\n";
+//                }
+//            }while(teach==-1);
+//            system("clear");
+//            if (teach!=-1){
+//                proflist[unsigned(teach)]->options();
+//            }
         }
             break;
 
-        case '6': return;
+        case 'q': return;
         default:
-            cout<<"Enter a valid number(1-6)."<<endl;
+            cout<<"Enter a valid number(1-3) or 'q'"<<endl;
         }
     }while(true);
 }
@@ -434,12 +543,6 @@ void VirtualCampus::manageTeachers()
 
 void VirtualCampus::addTeacher()
 {
-
-
-
-
-
-
 
     system("clear");
     bool valid=false;
@@ -576,6 +679,10 @@ void VirtualCampus::manageSeminars()
 
 
     Menu<VirtualCampus> seminarMenu(options,"Manage Seminars", &VirtualCampus::showAllSeminars, this);
+
+    if (seminalist.size()>2){
+        seminarMenu.set_settings({ 'q', menu_config::horizontal, 1, "Enter a valid option", '[', ']', false });
+    }
     seminarMenu.run();
 
 }
@@ -589,13 +696,35 @@ void VirtualCampus::addseminar()
     string id, name;
     Professor* Coord;
     unsigned day, month, year;
+    Date when;
     unsigned seats;
 
     std::string buffer; //Auxiliar string to prevent buffer loops and incorrect insertions
 
 
-    // ----ASKING FOR THE ID-----
+    //---- ASKING FOR THE NAME OF THE SEMINAR-----
 
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    do {
+        system("clear");
+        if (!cin.good()){
+            cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+
+
+        std::cout<<"Enter the name of the new seminar or \'q\' to cancel: ";
+
+    }while(!getline(cin, buffer, '\n') || !checkletters(buffer));
+
+    if (buffer!="q"){
+        name=buffer;
+    }else{
+        return;
+    }
+
+
+    // ----ASKING FOR THE ID-----
 
     do {
         system("clear");
@@ -604,7 +733,7 @@ void VirtualCampus::addseminar()
             cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
-        std::cout<<"Enter the identification (CCCIIII, C=Letter, I=Number) or \'q\' to cancel: \nSEM";
+        std::cout<<"Name: "<<name<<"\nEnter the identification (CCCIIII, C=Letter, I=Number) or \'q\' to cancel: \nSEM";
 
         if (!(std::cin>>std::ws>>buffer) || (!checkResId("SEM"+buffer) && buffer !="q")){
             valid = false;
@@ -621,14 +750,10 @@ void VirtualCampus::addseminar()
                 }
 
         }
-
-
-
     }while(!valid);
 
     //-----WE KEEP ASKING WHILE THE INSERTION IS
     //CORRECT; THE FORMAT IS CORRECT AND IT IS NOT "q"
-
 
     if (buffer!="q"){
         id="SEM"+buffer;
@@ -637,39 +762,15 @@ void VirtualCampus::addseminar()
     }
 
 
-    //---- ASKING FOR THE NAME OF THE SEMINAR-----
-
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    do {
-        system("clear");
-        if (!cin.good()){
-            cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        }
-
-
-        std::cout<<"Enter the new name or \'q\' to cancel: ";
-
-    }while(!getline(cin, buffer, '\n') || !checkletters(buffer));
-
-    if (buffer!="q"){
-        name=buffer;
-    }else{
-        return;
-    }
-
-
-
     //----- ASKING FOR THE MAXIMUM NUMBER OF SEATS----
 
-
     do {
         system("clear");
         if (!cin.good()){
             cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
-        std::cout<<"Enter the new value for the maximum number of seats or \'q\' to cancel:";
+        std::cout<<"Name: "<<name<<"\nID: "<<id<<"\nEnter the value for the maximum number of seats or \'q\' to cancel:";
         std::cin>>std::ws>>buffer;
 
         if (buffer=="q"){
@@ -681,14 +782,13 @@ void VirtualCampus::addseminar()
 
     //----ASKING FOR THE DATE------
 
-
     do {
         system("clear");
         if (!cin.good()){
             cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
-        std::cout<<"Enter the date (day month year) or \'q\' to cancel:";
+        std::cout<<"Name: "<<name<<"\nID: "<<id<<"\nSeats: "<<seats<<"\nEnter the event date (day month year) or \'q\' to cancel:";
         getline(std::cin, buffer, '\n');
 
         if (buffer=="q"){
@@ -696,13 +796,20 @@ void VirtualCampus::addseminar()
         }
 
     }while(!(istringstream(buffer)>>day>>month>>year));
-
-
-
+    when = Date(day, month, year);
 
     //WE CREATE A SELECTOR TO SELECT THE TEACHER
+
+    string selector_name
+            = "Name: "+name
+            +"\nID: "+id
+            +"\nSeats: "+to_string(seats)
+            +"\nDate: "+when.getfancyDate();
+
     if (proflist.size()>0){
-        Menu<Professor> CoordSelector(proflist, User::gimmethename());
+        selector_name+="\nSelect a teacher to be the coordinator";
+
+        Menu<Professor> CoordSelector(proflist, User::gimmethename(), selector_name);
         Coord=CoordSelector.run_selector();
         if (!Coord)
             return;
@@ -710,9 +817,11 @@ void VirtualCampus::addseminar()
 
         // IF WE DIDN'T ABORT WE CREATE THE NEW SEMINAR
 
-        seminalist.push_back(new Seminar(name, id, this, seats, Coord, Date (day, month, year)));
+        seminalist.push_back(new Seminar(this, name, id, seats, Coord, Date (day, month, year)));
     }else{
-        cout<<"Create a teacher first to be the coordinator, Seminar not created\n";
+        system("clear");
+        selector_name+="\nCreate a teacher first to be the coordinator, Seminar not created\n";
+        cout<<selector_name;
         cin.ignore(numeric_limits<char>::max(), '\n');
         cin.get();
     }
@@ -886,7 +995,7 @@ void VirtualCampus::addFDP()
 
         temp_professor= professor_selector.run_selector();
 
-        projectlist.push_back(new FDP(name, id, this, temp_student, temp_professor));
+        projectlist.push_back(new FDP(this, name, id, temp_student, temp_professor));
 
     }else{
 
@@ -895,7 +1004,7 @@ void VirtualCampus::addFDP()
         temp_professor= professor_selector.run_selector();
 
         if (temp_professor){
-            projectlist.push_back(new FDP(name, id, this, temp_student, temp_professor));
+            projectlist.push_back(new FDP(this, name, id, temp_student, temp_professor));
         }
     }
 
@@ -925,6 +1034,12 @@ void VirtualCampus::deleteFDP()
     }
 }
 
+
+
+vector <FDP*>& VirtualCampus::getFDPs()
+{
+    return projectlist;
+}
 
 
 int VirtualCampus::findFDP(string identification)

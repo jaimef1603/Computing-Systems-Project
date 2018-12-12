@@ -94,6 +94,13 @@ Professor* Link_prof_res::getteacher()
 
 
 
+void Link_prof_res::showDetails()
+{
+    resourcePtr->showDetails();
+}
+
+
+
 void Link_prof_res::connectProftoCourse()
 {
     profPtr->addCourse(this);

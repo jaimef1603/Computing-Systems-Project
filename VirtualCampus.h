@@ -17,6 +17,19 @@ private:
     std::vector <FDP*> projectlist;
     User *currentuser;
 
+
+    void loadTeachers();
+    void loadDegrees();
+    void loadSeminars();
+    void loadFDPs();
+
+    void writeTeachers();
+    void writeDegrees();
+    void writeSeminars();
+    void writeFDPs();
+
+
+
 public:
     friend class Administrator;
     VirtualCampus();
@@ -49,6 +62,7 @@ public:
     void selectFDP();
     int findFDP(string identification);
     void showAllFDP();
+    vector <FDP*>& getFDPs();
 
     //Seminar functions
 
@@ -63,7 +77,8 @@ public:
 
 
     void start();
-    int run();
+    void run();
+    void stop();
     void end();
 
 };

@@ -6,6 +6,7 @@
 #include "Link_prof_res.h"
 #include "Link_stu_res.h"
 #include "ArrayList.h"
+#include <fstream>
 
 using namespace std;
 
@@ -37,7 +38,8 @@ private:
 public:
     friend class Link_stu_res;
     friend class Link_prof_res;
-    Seminar(string n="unknown", string id="undefined", VirtualCampus *vc = nullptr, unsigned seatsValue=0, Professor *coord=nullptr,  Date when=Date(1, 1, 1), Professor *spe=nullptr);
+    Seminar(VirtualCampus *vc = nullptr, string n="unknown", string id="undefined", unsigned seatsValue=0, Professor *coord=nullptr,  Date when=Date(1, 1, 1), Professor *spe=nullptr);
+    ~Seminar();
   //  Seminar(string n, string id, unsigned seatsValue, Professor *coord, Date when=Date(1, 1, 1));
     void setmaxseats(unsigned s);
     unsigned getmaxseats()const;
@@ -53,8 +55,12 @@ public:
     void showDetails();
     void options();
     void edit();
+    void coordinatorcanediteverythingbuttheid();
 
 
+    //FOR FILES
+    friend ofstream & operator<< (ofstream& ofs, Seminar& _seminar);
+    friend ifstream& operator>>(ifstream& ifs, Seminar& _seminar);
 
 };
 

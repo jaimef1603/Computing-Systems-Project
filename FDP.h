@@ -32,7 +32,8 @@ public:
     friend class Link_prof_res;
 
 
-    FDP(string n="unknown", string id="undefined", VirtualCampus *vc=nullptr,  Student *stu=nullptr,  Professor *tu =nullptr,Professor *co_tu=nullptr);
+    FDP(VirtualCampus *vc=nullptr, string n="unknown", string id="undefined",  Student *stu=nullptr,  Professor *tu =nullptr,Professor *co_tu=nullptr);
+    ~FDP();
     FDP(const FDP &other);
     FDP& operator= (const FDP &other);
     Link_prof_res* gettutor()const;
@@ -47,6 +48,11 @@ public:
     void editID();
     void options();
     void showDetails();
+
+
+    //FOR FILES
+    friend ofstream & operator<< (ofstream& ofs, FDP& _fdp);
+    friend ifstream& operator>>(ifstream& ifs, FDP& _fdp);
 
 };
 

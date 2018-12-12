@@ -4,6 +4,7 @@
 #include "Link_prof_res.h"
 #include "Link_stu_res.h"
 #include "Menu.h"
+#include <fstream>
 
 using namespace std;
 
@@ -39,6 +40,10 @@ public:
     static Menu<Resource>::menu_option_member gimmetheid();
 
 
+    //FILES
+
+    friend ofstream & operator<< (ofstream& ofs, Resource* _resource);
+    friend ifstream & operator>> (ifstream& ifs, Resource* _resource);
 
 };
 

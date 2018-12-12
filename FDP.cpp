@@ -6,10 +6,12 @@
 #include "Utilities.h"
 #include "VirtualCampus.h"
 
-FDP::FDP(string n, string id, VirtualCampus *vc,  Student *stu, Professor *tu, Professor *co_tu)
+FDP::FDP(VirtualCampus *vc, string n, string id, Student *stu, Professor *tu, Professor *co_tu)
     :Resource(id, n)
 {
     mycampus = vc;
+
+    teachers[0]=teachers[1]=nullptr;
 
     if (stu)
         stu->enroll(this);
@@ -35,6 +37,22 @@ FDP::FDP(const FDP &other)
 
 
 
+FDP::~FDP()
+{
+    if (student){
+        delete student;
+    }
+
+    for (unsigned i =0; i<2; i++){
+        if (teachers[i]){
+            delete teachers[i];
+        }
+    }
+}
+
+
+
+
 FDP& FDP::operator= (const FDP &other)
 {
     this->Resource::operator=(other);
@@ -49,13 +67,7 @@ FDP& FDP::operator= (const FDP &other)
 
 Link_prof_res* FDP::gettutor()const
 {
-    for (int i=0; i<2; i++){
-        if (teachers[i]->getRole()==role::tutor){
-            return teachers[i];
-        }
-
-    }
-    return nullptr;
+    return teachers[0];
 }
 
 
@@ -76,13 +88,7 @@ Link_prof_res* FDP::gettutor()const
 
 Link_prof_res* FDP::getco_tutor()const
 {
-    for (int i=0; i<2; i++){
-        if (teachers[i]->getRole()==role::cotutor){
-            return teachers[i];
-        }
-
-    }
-    return nullptr;
+    return teachers[1];
 }
 
 
@@ -103,10 +109,10 @@ void FDP::editID()
 {
     std::string buffer;
     do {
-       system("clear");
-       cin.clear();
-       std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-       std::cout<<"Enter the new identification (CCCIIII, C=Letter, I=Number) or \'q\' to cancel: \nFDP";
+        system("clear");
+        cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout<<"Enter the new identification (CCCIIII, C=Letter, I=Number) or \'q\' to cancel: \nFDP";
 
     }while(!(std::cin>>std::ws>>buffer) || !checkResId("FDP"+buffer));
 
@@ -130,12 +136,12 @@ void FDP::setstudent(Student* stu)
     if (stu)
         stu->enroll(this);
 
-//    Link_stu_res *newlink = new Link_stu_res(stu, this);
-//    if (newlink!=nullptr && !newlink->checkHealth()){
-//        student=newlink;
-//    }else{
-//        std::cerr<<"FDP::setstudent(Link_stu_res*); incomplete or null link passed, student will not be modified.\n";
-//    }
+    //    Link_stu_res *newlink = new Link_stu_res(stu, this);
+    //    if (newlink!=nullptr && !newlink->checkHealth()){
+    //        student=newlink;
+    //    }else{
+    //        std::cerr<<"FDP::setstudent(Link_stu_res*); incomplete or null link passed, student will not be modified.\n";
+    //    }
 }
 
 
@@ -271,8 +277,8 @@ void FDP::options_removeStudent()
     do {
         system("clear");
         if (!cin.good()){
-                cin.ignore(std::numeric_limits<int>::max(), '\n');
-    }
+            cin.ignore(std::numeric_limits<int>::max(), '\n');
+        }
 
         cout<< "Are you sure you want to remove the current student? (y/n)\n";
 
@@ -301,13 +307,84 @@ void FDP::edit()
 
 void FDP::showDetails()
 {
-  cout<<"ID: "<<this->identification<<endl;
-  cout<<"Title: "<<this->name<<endl;
-  cout<<"Author: "<<this->student->getStudent().getname();
-  for (unsigned i=0; i<2; i++){
-      if (teachers[i]){
-          cout<<teachers[i]->getRoleName()<<": "<<teachers[i]->getteacher()->getname()<<endl;
-      }
-  }
+    cout<<"ID: "<<this->identification<<endl;
+    cout<<"Title: "<<this->name<<endl;
+    cout<<"Author: ";
+    if (student){
+        cout<< this->student->getStudent().getname()<<endl;
+    }else{
+        cout<<"Not assigned\n";
+    }
+    for (unsigned i=0; i<2; i++){
+        if (teachers[i]){
+            cout<<teachers[i]->getRoleName()<<": "<<teachers[i]->getteacher()->getname()<<endl;
+        }
+    }
 
 }
+
+
+
+
+//--------FILE FUNCTIONS--------
+ofstream & operator<< (ofstream& ofs, FDP& _fdp)
+{
+
+    ofs << &_fdp;
+    for(unsigned i=0; i<2; i++){
+        if (_fdp.teachers[i]){
+            const char * tutor_id = _fdp.teachers[i]->getteacher()->getidentifier().c_str();
+            ofs.write(tutor_id, 8*sizeof(char));
+        }else{
+            ofs.write("\0\0\0\0\0\0\0\0", 8*sizeof(char));
+        }
+    }
+    if (_fdp.student){
+        const char * student_id = _fdp.student->getStudent().getidentifier().c_str();
+        ofs.write(student_id, 8*sizeof(char));
+    }else{
+        ofs.write("\0\0\0\0\0\0\0\0", 8*sizeof(char));
+    }
+
+    return ofs;
+}
+
+
+
+ifstream& operator>>(ifstream& ifs, FDP& _fdp)
+{
+    ifs>>&_fdp;
+    string id;
+    char id_buffer [8];
+
+    for(unsigned i=0; i<2; i++){
+        strcpy(id_buffer, "");
+        ifs.read(id_buffer, 8*sizeof(char));
+        id = id_buffer;
+        if (id.length()==7){
+            int index = _fdp.mycampus->findTeacher(id);
+            if (index !=-1){
+                _fdp.mycampus->getTeachers()[unsigned(index)]->enroll(&_fdp, role(i+4));
+            }
+        }
+    }
+    strcpy(id_buffer, "");
+    ifs.read(id_buffer, 8*sizeof(char));
+    id=id_buffer;
+    if (id.length()==7){
+        for (auto it:_fdp.mycampus->getDegrees()){
+            int index = it->findStudent(id);
+            if (index != -1){
+                it->getStudents()[unsigned(index)]->enroll(&_fdp);
+                return ifs;
+            }
+        }
+    }
+
+
+
+    return ifs;
+}
+
+
+

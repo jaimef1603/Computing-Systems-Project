@@ -30,7 +30,7 @@ private:
 
 public:
     Degree();
-    Degree(string n, const char *id,  VirtualCampus *mycampus);
+    Degree(VirtualCampus *mycampus, string n, const char *id);
     ~Degree();
     string getname();
     void setname(string n);

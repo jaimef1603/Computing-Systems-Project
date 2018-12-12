@@ -37,6 +37,9 @@ public:
 
     //Student functions
     void showDetails();
+
+    //professor functions
+    void grade();
 };
 
 #endif // LINK_STU_RES_H

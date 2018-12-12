@@ -84,18 +84,16 @@ void Link_stu_res::setfinalMark(Mark value){
 
 void Link_stu_res::setpartialMark(float value, Date when, int position)
 {
-    for(int i=0;i<position;i++){
-        partial[i]=Mark(value, when);
-    }
+        partial[position]=Mark(value, when);
+
 }
 
 
 
 void Link_stu_res::setpartialMark(Mark value, int position)
 {
-    for(int i=0;i<position;i++){
-        partial[i]=Mark(value);
-    }
+        partial[position]=value;
+
 }
 
 
@@ -161,7 +159,7 @@ void Link_stu_res::showDetails()
 {
     resourcePtr->showDetails();
 
-    if (this->resourcePtr->getname().find_first_of("SEM")!=0 && this->resourcePtr->getname().find_first_of("FDP")!=0){
+    if (this->resourcePtr->getname().find("SEM")!=string::npos && this->resourcePtr->getname().find("FDP")!=string::npos){
 
         cout<<"GRADES:"<<endl
            <<"\tPartial evaluation:"<<endl;
@@ -181,6 +179,75 @@ void Link_stu_res::showDetails()
 
         }
     }
+
+}
+
+
+
+void Link_stu_res::grade()
+{
+    unsigned day, month, year;
+    int value;
+    char selection;
+
+    do {
+    system("clear");
+    cout<<resourcePtr->getname()+" - grades of "+ stuPtr->getname()+ " ID: "+stuPtr->getidentifier()<<endl;
+    cout<<"\t[1] Partial evaluation 1"<<endl
+       <<"\t[2] Partial evaluation 2"<<endl
+            <<"\t[3] Partial evaluation 3"<<endl
+           <<"\t[4] Partial evaluation 4"<<endl
+             <<"\t[5] Final evaluation"<<endl
+            <<"\t'q' Exit"<<endl;
+        if (!cin.good()){
+            cin.clear();
+            cin.ignore(numeric_limits<char>::max(), '\n');
+        }
+        cin>>selection;
+    }while(((selection < '1' || selection> '5') && selection != 'q') || !cin.good());
+    if (selection == 'q')
+    {
+        return;
+    }
+
+
+    do {
+        system("clear");
+        cout<<resourcePtr->getname()+" - grades of "+ stuPtr->getname()+ " ID: "+stuPtr->getidentifier()<<endl;
+        cout<<"Enter the mark: ";
+        if (!cin.good()){
+            cin.clear();
+            cin.ignore(numeric_limits<int>::max(), '\n');
+        }
+        cin>>value;
+    }while(((value < 0 && value !=-1) || value> 10 ) || !cin.good());
+
+
+    {
+           system("clear");
+           cout<<resourcePtr->getname()+" - grades of "+ stuPtr->getname()+ " ID: "+stuPtr->getidentifier()<<endl;
+           cout<<"Enter the date(day month year): ";
+           if (!cin.good()){
+               cin.clear();
+               cin.ignore(numeric_limits<int>::max(), '\n');
+           }
+           cin>>day>>month>>year;
+       }while(!cin.good());
+
+
+    if ((selection - '0'+1) != 5){
+        setpartialMark(value, Date(day, month, year), selection-'0'+1);
+    }
+    else{
+        setfinalMark(value, Date(day, month, year));
+    }
+
+
+
+
+
+
+
 
 }
 

@@ -16,7 +16,7 @@ Degree::Degree():name()
 
 
 
-Degree::Degree(string n, const char *id, VirtualCampus *mycampus)
+Degree::Degree(VirtualCampus *mycampus, string n, const char *id)
 {
     name=n;
     strncpy(this->id, id, 3);
@@ -89,7 +89,7 @@ void Degree::addStudent()
     cout<<"Enter the name of the student: ";
     cin>>name;
 
-    stulist.push_back(new Student(name,this));
+    stulist.push_back(new Student(this, name));
 
 
 
@@ -472,7 +472,7 @@ void Degree::addCourse()
         istringstream(buffer)>>credits;
     }while(credits<1);
     if (id!="cancel" && credits> 0){
-        courselist.push_back(new Course(name, id,this,credits));
+        courselist.push_back(new Course(this, name, id,credits));
     }
 
     //    Course *temp;

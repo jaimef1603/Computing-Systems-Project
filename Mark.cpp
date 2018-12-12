@@ -67,3 +67,27 @@ Date Mark::getdate_graded()
 }
 
 
+
+// ------- FILE HANDLING FUNCTIONS-------
+
+
+
+//ofstream & operator<< (ofstream& ofs, Mark _mark)
+//{
+
+//    ofs.write(reinterpret_cast<char*>(&(day)), sizeof (unsigned));
+//    ofs.write(reinterpret_cast<char*>(&(month)), sizeof (unsigned));
+//    ofs.write(reinterpret_cast<char*>(&(year)), sizeof (unsigned));
+//    return ofs;
+//}
+
+
+//ifstream & operator<< (ifstream& ifs, Mark _mark)
+//{
+
+//    ifs.read(reinterpret_cast<char*>(&(day)), sizeof (unsigned));
+//    ifs.read(reinterpret_cast<char*>(&(month)), sizeof (unsigned));
+//    ifs.read(reinterpret_cast<char*>(&(year)), sizeof (unsigned));
+//    return ifs;
+//}
+

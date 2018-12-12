@@ -1,11 +1,9 @@
 ﻿#include <iostream>
 #include <string>
 #include <sstream>
-#include "Student.h"
-#include "Seminar.h"
-#include "FDP.h"
-#include "Degree.h"
+#include "VirtualCampus.h"
 #include "Menu.h"
+
 
 using namespace std;
 
@@ -22,7 +20,7 @@ Student::Student()
 
 
 
-Student::Student(string n, Degree *d)
+Student::Student(Degree *d, string n)
     :User(), mycourses(), myseminars()
 {
     setname(n);
@@ -188,7 +186,7 @@ void Student::course_enrolling_func()
 
     to_enroll = menu.run_selector();   //Assigning the course to the pointer,
     if (to_enroll){                    // if the selector returns nullptr it means
-                                       //the user aborted the operation so we don't enroll
+        //the user aborted the operation so we don't enroll
         for (auto it: mycourses){
             if (it->getResource() == to_enroll){    //We check if the student is already enrolled in this course.
                 cout<<"You are already enrolled in this course"<<endl;
@@ -312,6 +310,34 @@ void Student::seminar_view()
 
 void Student::seminar_enrolling_func()
 {
+    Seminar * to_enroll = nullptr; //Pointer to the seminar that this will be enrolled in. Will be assigned by the selector
+    string option_name;
+    unsigned i =1;
+    vector<Menu<Seminar>::Menu_option> options;
+    options.reserve(mydegree->getVc().getSeminars().size());
+    for (auto it:mydegree->getVc().getSeminars()){
+        option_name = it->getname()+" ID: "+it->getIdentification();
+        options.emplace_back(i, nullptr, option_name, (*it));
+        i++;
+    }
+
+    Menu<Seminar> menu(options, ("---SEMINARS AVAILABLE---"));
+
+    to_enroll = menu.run_selector();   //Assigning the seminar to the pointer,
+    if (to_enroll){                    // if the selector returns nullptr it means
+        //the user aborted the operation so we don't enroll
+        for (auto it: myseminars){
+            if (it->getResource() == to_enroll){    //We check if the student is already enrolled in this seminar.
+                cout<<"You are already enrolled in this seminar"<<endl;
+                cin.ignore(numeric_limits<int>::max(), '\n');
+                cin.get();
+                return;
+            }
+        }
+        enroll(to_enroll);
+    }
+
+
 
 }
 
@@ -319,6 +345,28 @@ void Student::seminar_enrolling_func()
 
 void Student::seminar_droppin_func()
 {
+
+    Link_stu_res *to_drop;
+    Seminar *Seminar_to_drop;
+    string option_name;
+    unsigned i=1;
+
+    vector<Menu<Link_stu_res>::Menu_option> options;
+
+    options.reserve(myseminars.size());
+    for (auto it:myseminars){
+        option_name = it->getResource()->getname()+" ID: "+it->getResource()->getIdentification();
+        options.emplace_back(i, nullptr, option_name, (*it));
+        i++;
+    }
+
+    Menu<Link_stu_res> menu(options, "---YOUR SEMINARS---");
+
+    to_drop=menu.run_selector();
+    if(to_drop != nullptr){
+        Seminar_to_drop = dynamic_cast<Seminar*>(to_drop->getResource());
+        Drop(Seminar_to_drop);
+    }
 
 }
 
@@ -398,6 +446,8 @@ void Student::fdp_view()
     }else{
         cout<<"You currently don't have an FDP assigned"<<endl;
     }
+    cin.ignore(numeric_limits<char>::max(), '\n');
+    cin.get();
 }
 
 
@@ -405,12 +455,53 @@ void Student::fdp_view()
 void Student::fdp_enrolling_func()
 {
 
+    FDP * to_enroll = nullptr; //Pointer to the seminar that this will be enrolled in. Will be assigned by the selector
+    string option_name;
+    unsigned i =1;
+
+    if (!myfdp){                                    // If the student doesn't have an fdp.
+        vector<Menu<FDP>::Menu_option> options;
+        //options.reserve(mydegree->getVc().getFDPs().size());
+        for (auto it:mydegree->getVc().getFDPs()){
+            if (!(it->getstudent())){
+                option_name = it->getname()+" ID: "+it->getIdentification();
+                options.emplace_back(i, nullptr, option_name, (*it));
+            }
+            i++;
+        }
+
+        Menu<FDP> menu(options, ("---FDPs ASSIGNABLE---\n If you want to propose your own FDP contact an administrator"));
+
+        to_enroll = menu.run_selector();   // Assigning the seminar to the pointer,
+        if (to_enroll){                    // if the selector returns nullptr it means
+            enroll(to_enroll);             // the user aborted the operation so we don't enroll
+        }
+    }else{
+        cout<<"You are already have a Final Degree Project, drop from your current project before";
+        cin.ignore(numeric_limits<int>::max(), '\n');
+        cin.get();
+    }
+
+
 }
 
 
 
 void Student::fdp_droppin_func()
 {
+    char answer;
+    do{
+        if (!cin.good()){
+            cin.clear();
+            cin.ignore(numeric_limits<char>::max(), '\n');
+        }
+        cout<<"Are you sure you want to leave your current PDP? (Y/N)\n this topic will be assignable again"<<endl;
+        cin>>answer;
+    }while( !cin.good() || (answer!='y' && answer!='Y' && answer!='n' && answer!='N' ));
+
+        if (answer=='y' || answer=='Y'){
+            delete myfdp;
+        }
 
 }
 

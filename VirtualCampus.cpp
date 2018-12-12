@@ -205,7 +205,8 @@ void VirtualCampus::manageDegrees()
         if (selection=='0'){
             system("clear");
             showAllDeg();
-            cout<<"1: Create 2: Edit 3: Delete 4: Details 5: Select 6:Back\n";
+            cout<<"\nManage Degrees\n"<<endl;
+            cout<<"\t[1] Create Degree\n \t[2] Edit Degree\n \t[3] Delete Degree\n \t[4] Details Degree\n \t[5] Select Degree\n \t'q' Back\n";
             cin>>selection;
         }
         switch(selection){
@@ -226,11 +227,14 @@ void VirtualCampus::manageDegrees()
                 system("clear");
                 //cout<<"DEGREES:\n";
                 showAllDeg();
-                cout<<"What degree do you want to edit?\n";
+                cout<<"What degree do you want to edit? (Enter (1-"<< degreelist.size()<<")to edit or q to exit)\n";
                 cin>>ws>>buffer;
+                if(buffer=="q"){
+                    return;
+                }
                 istringstream(buffer)>>deg;
                 if ((deg<1 && deg!=-1) || deg >int(degreelist.size())){
-                    cout<<"Select a valid number. (0-"<<degreelist.size()<<") or -1 to exit\nPress any key to retry...";
+                    cout<<"Select a valid number. (1-"<<degreelist.size()<<") or q to exit\nPress any key to retry...";
                     getchar();
                 }
             }while((deg<1 && deg!=-1) || deg >int(degreelist.size()));
@@ -245,11 +249,14 @@ void VirtualCampus::manageDegrees()
                 system("clear");
                 //cout<<"DEGREES:\n";
                 showAllDeg();
-                cout<<"What degree do you want to delete?\n";
+                cout<<"What degree do you want to delete? (Enter (1-"<< degreelist.size()<<")to delete or q to exit)\n";
                 cin>>ws>>buffer;
+                if(buffer=="q"){
+                    return;
+                }
                 istringstream(buffer)>>deg;
                 if ((deg<1 && deg!=-1) || deg >int(degreelist.size())){
-                    cout<<"Select a valid number. (0-"<<degreelist.size()<<") or -1 to exit\nPress any key to retry...";
+                    cout<<"Select a valid number. (0-"<<degreelist.size()<<") or q to exit\nPress any key to retry...";
                     getchar();
                 }
             }while((deg<1 && deg!=-1) || deg >int(degreelist.size()));
@@ -263,11 +270,14 @@ void VirtualCampus::manageDegrees()
             do {
                 system("clear");
                 showAllDeg();
-                cout<<"What degree do you want to show details of?\n";
+                cout<<"What degree do you want to show details of? (Enter (1-"<< degreelist.size()<<")to show details or q to exit)\n";
                 cin>>ws>>buffer;
+                if(buffer=="q"){
+                    return;
+                }
                 istringstream(buffer)>>deg;
                 if ((deg<1 && deg!=-1) || deg >int(degreelist.size())){
-                    cout<<"Select a valid number. (0-"<<degreelist.size()<<") or -1 to exit\nPress any key to retry...";
+                    cout<<"Select a valid number. (0-"<<degreelist.size()<<") or q to exit\nPress any key to retry...";
                     getchar();
                 }
             }while((deg<1 && deg!=-1) || deg >int(degreelist.size()));
@@ -285,11 +295,14 @@ void VirtualCampus::manageDegrees()
             do {
                 system("clear");
                 showAllDeg();
-                cout<<"What degree do you want to select?\n";
+                cout<<"What degree do you want to select? (Enter (1-"<< degreelist.size()<<")to select or q to exit)\n";
                 cin>>ws>>buffer;
+                if(buffer=="q"){
+                    return;
+                }
                 istringstream(buffer)>>deg;
                 if (deg<1 || deg >int(degreelist.size())){
-                    cout<<"Select a valid number. (0-"<<degreelist.size()<<") or -1 to exit\n";
+                    cout<<"Select a valid number. (0-"<<degreelist.size()<<") or q to exit\n";
                 }
             }while((deg<1 && deg!=-1)|| deg >int(degreelist.size()));
             system("clear");
@@ -297,15 +310,17 @@ void VirtualCampus::manageDegrees()
                 degreelist[unsigned(deg)-1]->options();
             }
             break;
-        case '6': return;
+        case 'q' : return;
 
         default:
             system("clear");
             showAllDeg();
-            cout<<"1: Create 2: Edit 3: Delete 4:Details 5: Select 6:Back\n";
-            cout<<"Enter a valid number(1-6)\n"<<endl;
+            cout<<"\t[1] Create\n \t[2] Edit\n \t[3] Delete\n \t[4] Details\n \t[5] Select\n \t'6' Back\n";
+            cout<<"Enter a valid number(1-5) or q\n"<<endl;
             cin>>selection;
             break;
+
+
 
         }
     }while(true);
@@ -319,10 +334,10 @@ void VirtualCampus::addDegree()
     system("clear");
     bool valid = true;
     string name, id;
-    cout<<"Enter the name of the degree (letters a-z, A-Z) or \"cancel\" to exit : ";
+    cout<<"Enter the name of the degree (letters a-z, A-Z) or q to exit : ";
     do{
         cin>>ws>>name;
-        if (name =="cancel"){
+        if (name =="q"){
             return;
         }
     }while(!checkletters(name));
@@ -330,9 +345,9 @@ void VirtualCampus::addDegree()
         valid=true;
         system("clear");
         cout<<"Name: "<<name<<endl;
-        cout<<"Enter the three letter identification or write \"cancel\" to exit: ";
+        cout<<"Enter the three letter identification or write q to exit: ";
         cin>>ws>>id;
-        if (id=="cancel"){
+        if (id=="-1"){
             return;
         }
 
@@ -427,6 +442,7 @@ void VirtualCampus::manageTeachers()
     char selection;
     do{
         system("clear");
+        cout<<"Manage teachers\n"<<endl;
         cout<<"\t[1] Create teacher\n\t[2] Delete teacher\n\t[3] Show details\n\t'q' Back"<<endl;
         cin>>selection;
         switch (selection) {
@@ -443,7 +459,7 @@ void VirtualCampus::manageTeachers()
                 i++;
             }
 
-            Menu<Professor> edit_selector(e_s_options, "Select the teacher you want to delete");
+            Menu<Professor> edit_selector(e_s_options, "Select the teacher you want to delete or q to exit");
             to_delete=edit_selector.run_selector();
             if (to_delete){
                 unsigned i=0;
@@ -499,7 +515,7 @@ void VirtualCampus::manageTeachers()
                 i++;
             }
 
-            Menu<Professor> edit_selector(e_s_options, "Select a teacher");
+            Menu<Professor> edit_selector(e_s_options, "Select a teacher or q to exit");
             edit_selector.run();
 
 
@@ -564,7 +580,7 @@ void VirtualCampus::addTeacher()
         }
 
 
-        std::cout<<"Enter the name or \'q\' to cancel: ";
+        std::cout<<"Enter the name or \'q\' to exit: ";
         if (name=="q"){
             return;
         }

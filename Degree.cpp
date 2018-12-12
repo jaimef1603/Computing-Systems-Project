@@ -301,7 +301,7 @@ void Degree::manageCourses ()
         cout<<"COURSES of "<<this->getname()<<":\n";
         showcourses();
         cout<<"\n";
-        cout<<"1: Create 2: Edit 3: Delete 4: Details 5: Select 6:Back\n";
+        cout<<"\t[1] Create\n \t[2] Edit\n \t[3] Delete\n \t[4] Details\n \t[5] Select\n \t'q' Back\n";
         cin>>selection;
         switch(selection){
         case '1':
@@ -313,7 +313,7 @@ void Degree::manageCourses ()
                 system("clear");
                 cout<<"COURSES:\n";
                 showcourses();
-                cout<<"What course do you want to edit?\n";
+                cout<<"What course do you want to edit? (Enter (1-"<< courselist.size()<<")to edit or -1 to exit)\n";
                 cin>>ws>>buffer;
                 istringstream(buffer)>>cour;
                 if ((cour<1 && cour!=-1 )|| cour > int (courselist.size())){
@@ -332,7 +332,7 @@ void Degree::manageCourses ()
                 system("clear");
                 cout<<"COURSES:\n";
                 showcourses();
-                cout<<"What course do you want to delete?\n";
+                cout<<"What course do you want to delete? (Enter (1-"<< courselist.size()<<")to edit or -1 to exit)\n";
                 cin>>ws>>buffer;
                 istringstream(buffer)>>cour;
                 if ((cour<1 && cour!=-1 )|| cour >int(courselist.size())){
@@ -351,7 +351,7 @@ void Degree::manageCourses ()
                 system("clear");
                 cout<<"COURSES:\n";
                 showcourses();
-                cout<<"What course do you want to show details of?\n";
+                cout<<"What course do you want to show details of?(Enter (1-"<< courselist.size()<<")to edit or -1 to exit)\n";
                 cin>>ws>>buffer;
                 istringstream(buffer)>>cour;
                 if ((cour<1 && cour!=-1 )|| cour >int(courselist.size())){
@@ -376,7 +376,7 @@ void Degree::manageCourses ()
                 system("clear");
                 cout<<"COURSES:\n";
                 showcourses();
-                cout<<"What course do you want to select?\n";
+                cout<<"What course do you want to select?(Enter (1-"<< courselist.size()<<")to edit or -1 to exit)\n";
                 cin>>ws>>buffer;
                 istringstream(buffer)>>cour;
                 if ((cour<1 && cour!=-1 )|| cour >int(courselist.size())){
@@ -391,7 +391,7 @@ void Degree::manageCourses ()
             }
             break;
 
-        case '6': return;
+        case 'q': return;
 
         default:
             cout<<"Enter a valid number(1-6).\n"<<endl;
@@ -432,15 +432,18 @@ void Degree::addCourse()
     string buffer;
     int credits=0;
     do{
-        cout<<"Enter the name of the course: ";
+        cout<<"Enter the name of the course (letters a-z, A-Z) or -1 to exit : ";
         cin>>ws>>name;
+        if(name=="-1"){
+            return;
+        }
     }while(!checkletters(name));
     do {
         valid = true;
-        cout<<"New course ID CCCIIII (C=char, I=number) or \"cancel\" to exit: "<<this->id;
+        cout<<"New course ID CCCIIII (C=char, I=number) or -1 to exit: "<<this->id;
         cin>>ws>>id;
-        if (id=="cancel"){
-            break;
+        if (id=="-1"){
+            return;
         }
         id=this->id+id;
 
@@ -564,7 +567,7 @@ void Degree::edit()     //Function to edit degree's attributes (name)
             string newname;
             bool valid=false;
             system("clear");
-            cout<<"Enter the new name (letters a-z, A-Z) or \"cancel\" to exit\n"<<endl;
+            cout<<"Enter the new name (letters a-z, A-Z) or \"cancel\" to exit"<<endl;
             do {
                 cin>>ws>>newname;
                 if (newname=="cancel"){
@@ -608,7 +611,8 @@ void Degree::options()     //Degree's options
 
     do {
         system("clear");
-        cout<<"1: Courses\n2: Students\n3: Back\n";
+        cout<<"Degree options\n"<<endl;
+        cout<<"\t[1] Courses\n \t[2] Students\n \t'q' Back\n";
         cin>>selection;
         switch (selection) {
         case '1':
@@ -619,7 +623,7 @@ void Degree::options()     //Degree's options
             system("clear");
             manageStudents();
             break;
-        case '3': return;
+        case 'q': return;
         default:
             cout<<"Enter a valid number(1-3).\n"<<endl;
             cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');

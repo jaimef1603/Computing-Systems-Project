@@ -105,7 +105,7 @@ void Course::edit()            //Function to edit Course attributes (name , id a
     do{
 
         system("clear");
-        cout<<"1: Edit name 2:Edit ID 3: Edit credits 4: Back\n";
+        cout<<"\t[1] Edit name\n \t[2] Edit ID\n \t[3] Edit credits\n \t'q' Back\n";
         cin>>ws>>selection;
         switch (selection) {
         case '1':{
@@ -121,9 +121,12 @@ void Course::edit()            //Function to edit Course attributes (name , id a
             string buffer;
             int newc;
             system("clear");
-            cout<<"Enter the new value for credits.\n"<<endl;
             do{
-                cin>>ws>>buffer;
+            cout<<"Enter the new value for credits or \'q\' to cancel: "<<endl;
+            cin>>ws>>buffer;
+            if(buffer=="q"){
+                break;
+             }
                 istringstream(buffer)>>newc;
                 if (newc <=0){
                     system("clear");
@@ -132,7 +135,7 @@ void Course::edit()            //Function to edit Course attributes (name , id a
             }while(newc<=0);
             setcredits(newc);
         }break;
-        case '4': return;
+        case 'q': return;
         default:
             cout<<"Enter a valid number(1-4).\n\tPress any key to retry."<<endl;
             getchar();
@@ -167,7 +170,7 @@ void Course::options()      //Course's options
     do {
         system("clear");
         cout<<"Options of Course "<<this->getIdentification()<<":"<<endl;
-        cout<<"1: Add Student \n2: Remove student \n3: Back\n";
+        cout<<"\t[1] Add Student\n \t[2] Remove Student\n \t'q' Back\n";
         cin>>ws>>selection;
         switch (selection) {
         case '1':{
@@ -176,9 +179,9 @@ void Course::options()      //Course's options
             do{
                 system("clear");
                 degree->showstudents();
-                cout<<"Enter the identification of the student you want to add or \"cancel\" to exit: ";
+                cout<<"Enter the identification of the student you want to add or q to exit: ";
                 cin>>identification;
-                if(identification=="cancel"){
+                if(identification=="q"){
                     break;
                 }else{
                     index=degree->findStudent(identification);
@@ -193,11 +196,15 @@ void Course::options()      //Course's options
             string buffer;
             int selection =-1;
             do {
+                system("clear");
                 for (unsigned i=0; i<studentlist.size(); i++){
                     cout<<i+1<<": "<<studentlist[i]->getStudent().getidentifier()<<endl;
                 }
-                cout << "Select the student you want to remove (1-"<<studentlist.size()<<") or -1 to cancel: ";
+                cout << "Select the student you want to remove (1-"<<studentlist.size()<<") or q to cancel: ";
                 cin>>ws>>buffer;
+                if(buffer=="q"){
+                    break;
+                }
                 istringstream(buffer)>>selection;
             }while((selection<1 && selection !=-1)||selection>int(studentlist.size()));
             if (selection!=-1){
@@ -206,7 +213,7 @@ void Course::options()      //Course's options
 
         }
             break;
-        case '3': return;
+        case 'q': return;
         default:
             cout<<"Select a valid number (1-3)"<<endl;
             cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');

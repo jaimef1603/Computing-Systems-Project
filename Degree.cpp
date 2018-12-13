@@ -635,34 +635,46 @@ void Degree::options()     //Degree's options
 
 
 
-//void Degree::editcourse()
-//{
-//    int selection,field, newcredits;
-//    string newid;
-//    cout<<"Select the course you want to edit (1-"<<course_number+1<<")"<<endl;
-//    for (int i=0; i<course_number; i++){
-//        cout<<i+1<<": "<<courselist[i].getIdentification()<<endl;
-//    }
-//    cin>>selection;
-//    do{
-//        system("clear");
-//        cout<<"Select the field you want to edit (1-2)\n1: id\n2: credits\n"<<endl;
-//        cin>>field;
-//        switch (field) {
-//        case 1:
-//            cout<<"Enter the new id: ";
-//            cin>>newid;
-//            courselist[selection-1].setIdentification(newid);
-//            break;
-//        case 2:
-//            cout<<"Enter the new value for credits: ";
-//            cin>>newcredits;
-//            courselist[selection-1].setcredits(newcredits);
-//            break;
-//        default:
-//            cout<<"Enter a valid number(1-5).\n\tPress any key to retry.\n"<<endl;
-//            getchar();
-//            break;
-//        }
-//    }while(true);
-//}
+//---------- FILE HANDLING-----------------
+
+
+ ofstream & operator<< (ofstream& ofs, Degree& _degree)
+{
+     unsigned long length = _degree.name.size();
+     const char *name = _degree.name.c_str();
+     ofs.write(reinterpret_cast<char*>(&(length)), sizeof (unsigned long));
+     ofs.write(name,  static_cast<long>(length * sizeof (char)));
+     ofs.write(_degree.id,  4 * sizeof (char));
+     unsigned long student_number = _degree.stulist.size();
+     unsigned long course_number = _degree.courselist.size();
+     ofs.write(reinterpret_cast<char*>(&student_number), sizeof (unsigned long));
+     ofs.write(reinterpret_cast<char*>(&course_number), sizeof (unsigned long));
+     return ofs;
+}
+
+
+
+ifstream & operator>> (ifstream& ifs, Degree& _degree)
+{
+    unsigned long length;
+    ifs.read(reinterpret_cast<char*>(&(length)), sizeof (unsigned long));
+    char * name=new char[length];
+    ifs.read(name,  static_cast<long>(length * sizeof (char)));
+    _degree.name=name;
+    //char * id=new char [8];
+    ifs.read(_degree.id, 4 * sizeof (char));
+    //delete [] id;
+    unsigned long student_number;
+    unsigned long course_number;
+    ifs.read(reinterpret_cast<char*>(&student_number), sizeof (unsigned long));
+    ifs.read(reinterpret_cast<char*>(&course_number), sizeof (unsigned long));
+    if (student_number>0){
+        _degree.stulist.reserve(student_number);
+    }
+    if (course_number>0){
+        _degree.courselist.reserve(course_number);
+    }
+
+    delete [] name;
+    return ifs;
+}

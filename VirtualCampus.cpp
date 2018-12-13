@@ -48,35 +48,33 @@ void VirtualCampus::run()   //Function to start the program
 
     int selection;
 
-    proflist.emplace_back(new Administrator("ADMIN", "adminis", this));
+    // while(true){
+    fflush(stdout);
+    system("clear");
+    cout<<"1: Log in as student 2: Log in as administrator"<<endl;
+    cin>>selection;
+    switch (selection)
+    {
 
-   // while(true){
-        fflush(stdout);
-        system("clear");
-        cout<<"1: Log in as student 2: Log in as administrator"<<endl;
-        cin>>selection;
-        switch (selection)
-        {
+    case 1:
+        if(degreelist.size()>0 ){
+            if (degreelist[0]->getStudents().size()>0){
 
-        case 1:
-            if(degreelist.size()>0 ){
-                if (degreelist[0]->getStudents().size()>0){
-
-                    currentuser = degreelist[0]->getStudents()[0];
-                    break;
-                }
-            }else{
-                cerr<<"NO STUDENT HAS BEEN YET CREATED; LOGGING IN AS ADMINISTRATOR\n";
-                cin.ignore(50, '\n');
-                cin.get();
-
+                currentuser = degreelist[0]->getStudents()[0];
+                break;
             }
-        [[clang::fallthrough]];
-        case 2:
-            currentuser = proflist[0];
+        }else{
+            cerr<<"NO STUDENT HAS BEEN YET CREATED; LOGGING IN AS ADMINISTRATOR\n";
+            cin.ignore(50, '\n');
+            cin.get();
+
         }
-        system("clear");
-        currentuser->menu();
+        [[clang::fallthrough]];
+    case 2:
+        currentuser = new Administrator(this, "ADMIN", "adminis");
+    }
+    system("clear");
+    currentuser->menu();
     //}
 
 }
@@ -84,11 +82,17 @@ void VirtualCampus::run()   //Function to start the program
 
 
 void VirtualCampus::start(){
+
+    ifstream directory("Data/", ios::in);
+    if (!directory){
+        cerr<<"Creating data directory";
+        system("mkdir ./Data");
+    }
+    directory.close();
     loadTeachers();
     loadDegrees();
     loadSeminars();
     loadFDPs();
-
     cin.get();
 }
 
@@ -96,10 +100,21 @@ void VirtualCampus::start(){
 
 void VirtualCampus::stop()
 {
+
     writeTeachers();
     writeDegrees();
     writeSeminars();
     writeFDPs();
+
+//    fstream directory("./Data/", ios::out);
+
+
+//    if (directory){
+
+//    }else{
+//        cerr<<"Data directory not found, session not saved\n";
+//    }
+//    directory.close();
     cin.get();
 }
 
@@ -108,6 +123,27 @@ void VirtualCampus::stop()
 void VirtualCampus::loadTeachers()
 {
 
+    ifstream inputfile ("Data/Professors", ios::in |ios::ate| ios::binary);
+    if (inputfile){
+        if(inputfile.tellg()>0){
+            inputfile.seekg(0, ios::beg);
+            unsigned long number_of_professors;
+            inputfile.read(reinterpret_cast<char*>(&number_of_professors), sizeof (unsigned long));
+            if (number_of_professors>0){
+                proflist.reserve(number_of_professors);
+            }
+            for(unsigned i=0; i<number_of_professors && !inputfile.eof(); i++){
+                proflist.emplace_back(new Professor(this));
+                inputfile>>*proflist[i];
+                if (inputfile.eof()){
+                    cerr<<"Warning, missmatch in sizes for file \"Professors\"\n";
+                }
+            }
+        }
+        inputfile.close();
+    }else{
+        system("touch ./Data/Professors");
+    }
 }
 
 
@@ -115,30 +151,70 @@ void VirtualCampus::loadTeachers()
 void VirtualCampus::loadDegrees()
 {
 
+    ifstream directory ("Data/Degrees/", ios::in);
+    if (directory){
+        directory.close();
+        ifstream inputfile ("Data/Degrees/Degrees", ios::in |ios::ate| ios::binary);
+        if (inputfile){
+            if(inputfile.tellg()>0){
+                inputfile.seekg(0, ios::beg);
+                unsigned long number_of_degrees;
+                inputfile.read(reinterpret_cast<char*>(&number_of_degrees), sizeof (unsigned long));
+                if (number_of_degrees>0){
+                    degreelist.reserve(number_of_degrees);
+                }
+                for(unsigned i=0; i<number_of_degrees && !inputfile.eof(); i++){
+                    degreelist.emplace_back(new Degree(this));
+                    inputfile>>*degreelist[i];
+
+//                    degreelist[i]->loadCourses();
+//                    degreelist[i]->loadStudents();
+
+                    if (inputfile.eof()){
+                        cerr<<"Warning, missmatch in sizes for file \"Degrees\"\n";
+                    }
+                }
+                inputfile.close();
+            }
+        }else{
+            system("touch ./Data/Degrees/Degrees");
+        }
+
+    }else{
+        cerr<<"Creating degrees directory";
+        system("mkdir ./Data/Degrees");
+    }
+
+
+
 }
 
 
 
 void VirtualCampus::loadSeminars()
 {
-    ifstream inputfile ("Seminars", ios::in | ios::binary);
+    ifstream inputfile ("Data/Seminars", ios::in |ios::ate| ios::binary);
     if (inputfile){
-        unsigned long number_of_seminars;
-        inputfile.read(reinterpret_cast<char*>(&number_of_seminars), sizeof (unsigned long));
-        if (number_of_seminars>0){
-            seminalist.reserve(number_of_seminars);
-        }
-        for(unsigned i=0; i<number_of_seminars && !inputfile.eof(); i++){
-            seminalist.emplace_back(new Seminar(this));
-            inputfile>>*seminalist[i];
-            if (inputfile.eof()){
-                cerr<<"Warning, mismatch in sizes for file \"Seminars\"\n";
+        if(inputfile.tellg()>0){
+            inputfile.seekg(0, ios::beg);
+            unsigned long number_of_seminars;
+            inputfile.read(reinterpret_cast<char*>(&number_of_seminars), sizeof (unsigned long));
+            if (number_of_seminars>0){
+                seminalist.reserve(number_of_seminars);
             }
+            for(unsigned i=0; i<number_of_seminars && !inputfile.eof(); i++){
+                seminalist.emplace_back(new Seminar(this));
+                inputfile>>*seminalist[i];
+                if (inputfile.eof()){
+                    cerr<<"Warning, missmatch in sizes for file \"Seminars\"\n";
+                }
+            }
+            inputfile.close();
         }
-        inputfile.close();
     }else{
-        system("touch ./Seminars");
+        system("touch ./Data/Seminars");
     }
+
 }
 
 
@@ -153,20 +229,37 @@ void VirtualCampus::loadFDPs()
 void VirtualCampus::writeTeachers()
 {
 
+    ofstream outputfile("Data/Professors", ios::trunc | ios::binary);
+    if (!outputfile){
+        cerr<<"ERROR, could not create/open file \"Professors\"\n";
+    }
+    unsigned long professor_number = proflist.size();
+    outputfile.write(reinterpret_cast<char*>(&professor_number), sizeof(unsigned long));
+    for (auto it: proflist){
+        outputfile<<(*it);
+    }
 }
 
 
 
 void VirtualCampus::writeDegrees()
 {
-
+    ofstream outputfile("Data/Degrees/Degrees", ios::trunc | ios::binary);
+    if (!outputfile){
+        cerr<<"ERROR, could not create/open file \"Degrees\"\n";
+    }
+    unsigned long degree_number = degreelist.size();
+    outputfile.write(reinterpret_cast<char*>(&degree_number), sizeof(unsigned long));
+    for (auto it: degreelist){
+        outputfile<<(*it);
+    }
 }
 
 
 
 void VirtualCampus::writeSeminars()
 {
-    ofstream outputfile("Seminars", ios::trunc | ios::binary);
+    ofstream outputfile("Data/Seminars", ios::trunc | ios::binary);
     if (!outputfile){
         cerr<<"ERROR, could not create/open file \"Seminars\"\n";
     }
@@ -361,17 +454,17 @@ void VirtualCampus::addDegree()
                 cin.ignore(numeric_limits<char>::max(), '\n');
                 cin.get();
             }else{
-            for (auto it: degreelist){
+                for (auto it: degreelist){
 
-                if (it->getid()==id){
-                    valid = false;
-                    cout<<"There is already a degree with this identification, choose another"<<endl;
-                    cin.ignore(numeric_limits<char>::max(), '\n');
-                    cin.get();
-                    break;
+                    if (it->getid()==id){
+                        valid = false;
+                        cout<<"There is already a degree with this identification, choose another"<<endl;
+                        cin.ignore(numeric_limits<char>::max(), '\n');
+                        cin.get();
+                        break;
+                    }
+
                 }
-
-            }
             }
 
         }
@@ -443,7 +536,7 @@ void VirtualCampus::manageTeachers()
     do{
         system("clear");
         cout<<"Manage teachers\n"<<endl;
-        cout<<"\t[1] Create teacher\n\t[2] Delete teacher\n\t[3] Show details\n\t'q' Back"<<endl;
+        cout<<"\t[1] Create teacher (or Administrator)\n\t[2] Delete teacher\n\t[3] Show details\n\t'q' Back"<<endl;
         cin>>selection;
         switch (selection) {
         case '1': addTeacher(); break;
@@ -452,10 +545,10 @@ void VirtualCampus::manageTeachers()
             Professor *to_delete;
             vector<Menu<Professor>::Menu_option> e_s_options;
             e_s_options.reserve(proflist.size());
-          unsigned i=1;
+            unsigned i=1;
             for (auto it: proflist){
                 e_s_options.emplace_back(i, nullptr,
-                     it->getname()+"\tID: "+it->getidentifier(), (*it));
+                                         it->getname()+"\tID: "+it->getidentifier(), (*it));
                 i++;
             }
 
@@ -473,30 +566,30 @@ void VirtualCampus::manageTeachers()
             }
 
 
-//            string id;
-//            int teach=-1;
-//            system("clear");
-//            showAllTeach();
-//            cout<<"Enter the id of the teacher you want to delete.\n";
+            //            string id;
+            //            int teach=-1;
+            //            system("clear");
+            //            showAllTeach();
+            //            cout<<"Enter the id of the teacher you want to delete.\n";
 
-//            do {
-//                cin>>ws>>id;
-//                if (id=="cancel"){
-//                    break;
-//                }else{
-//                    teach=findTeacher(id);
-//                }
-//                if(teach==-1){
-//                    system("clear");
-//                    showAllTeach();
-//                    cout<<"Invalid ID\n";
-//                    cout<<"Enter the id of the teacher you want to delete.\n";
-//                }
-//            }while(teach==-1);
-//            system("clear");
-//            if (teach!=-1){
-//              deleteTeacher(2);
-//            }
+            //            do {
+            //                cin>>ws>>id;
+            //                if (id=="cancel"){
+            //                    break;
+            //                }else{
+            //                    teach=findTeacher(id);
+            //                }
+            //                if(teach==-1){
+            //                    system("clear");
+            //                    showAllTeach();
+            //                    cout<<"Invalid ID\n";
+            //                    cout<<"Enter the id of the teacher you want to delete.\n";
+            //                }
+            //            }while(teach==-1);
+            //            system("clear");
+            //            if (teach!=-1){
+            //              deleteTeacher(2);
+            //            }
         }
             break;
 
@@ -508,10 +601,10 @@ void VirtualCampus::manageTeachers()
 
             vector<Menu<Professor>::Menu_option> e_s_options;
             e_s_options.reserve(proflist.size());
-          unsigned i=1;
+            unsigned i=1;
             for (auto it: proflist){
                 e_s_options.emplace_back(i, &Professor::options,
-                     it->getname()+"\tID: "+it->getidentifier(), (*it));
+                                         it->getname()+"\tID: "+it->getidentifier(), (*it));
                 i++;
             }
 
@@ -521,30 +614,30 @@ void VirtualCampus::manageTeachers()
 
 
 
-//            string id;
-//            int teach=-1;
-//            system("clear");
-//            showAllTeach();
-//            cout<<"Enter the id of the teacher you want to select.\n";
+            //            string id;
+            //            int teach=-1;
+            //            system("clear");
+            //            showAllTeach();
+            //            cout<<"Enter the id of the teacher you want to select.\n";
 
-//            do {
-//                cin>>ws>>id;
-//                if (id=="cancel"){
-//                    break;
-//                }else{
-//                    teach=findTeacher(id);
-//                }
-//                if(teach==-1){
-//                    system("clear");
-//                    showAllTeach();
-//                    cout<<"Invalid ID\n";
-//                    cout<<"Enter the id of the teacher you want to select.\n";
-//                }
-//            }while(teach==-1);
-//            system("clear");
-//            if (teach!=-1){
-//                proflist[unsigned(teach)]->options();
-//            }
+            //            do {
+            //                cin>>ws>>id;
+            //                if (id=="cancel"){
+            //                    break;
+            //                }else{
+            //                    teach=findTeacher(id);
+            //                }
+            //                if(teach==-1){
+            //                    system("clear");
+            //                    showAllTeach();
+            //                    cout<<"Invalid ID\n";
+            //                    cout<<"Enter the id of the teacher you want to select.\n";
+            //                }
+            //            }while(teach==-1);
+            //            system("clear");
+            //            if (teach!=-1){
+            //                proflist[unsigned(teach)]->options();
+            //            }
         }
             break;
 
@@ -563,6 +656,7 @@ void VirtualCampus::addTeacher()
     system("clear");
     bool valid=false;
     string ident, name;
+    char permissions;
 
     std::string buffer; //Auxiliar string to prevent buffer loops and incorrect insertions
 
@@ -619,23 +713,36 @@ void VirtualCampus::addTeacher()
 
     //-----WE KEEP ASKING WHILE THE INSERTION IS
     //CORRECT; THE FORMAT IS CORRECT AND IT IS NOT "q"
+    do {
+        if(!cin.good()){
+            cin.clear();
+            cin.ignore(numeric_limits<char>::max(), '\n');
+        }
+        system("clear");
+        cout<<"\t[1] Create as teacher\t[2] Create as administrator\t\'q\' Cancel\n";
+        cin>>ws>>permissions;
+    }while(permissions != '1' && permissions != '2' && permissions!='q');
 
-
-    proflist.push_back(new Professor (name, ident, this));
-}
-
-
-
-void VirtualCampus::deleteTeacher(unsigned index)
-{
-    if (index < proflist.size()){
-        delete proflist[index];
-        proflist.erase(proflist.begin()+index);
-    }else {
-        cerr<<"VirtualCampus::deleteTeacher(int); Invalid index\n";
+    if (permissions=='1'){
+        proflist.push_back(new Professor (this, name, ident));
+    }else if (permissions=='2'){
+        proflist.push_back(new Administrator (this, name, ident));
     }
 
 }
+
+
+
+//void VirtualCampus::deleteTeacher(unsigned index)
+//{
+//    if (index < proflist.size()){
+//        delete proflist[index];
+//        proflist.erase(proflist.begin()+index);
+//    }else {
+//        cerr<<"VirtualCampus::deleteTeacher(int); Invalid index\n";
+//    }
+
+//}
 
 
 
@@ -755,15 +862,15 @@ void VirtualCampus::addseminar()
             valid = false;
         }else{
 
-                for (auto it: seminalist){
-                    if (it->getIdentification()=="SEM"+buffer){
-                        valid = false;
-                        cout<<"There is already a seminar with this identification, choose another"<<endl;
-                        cin.ignore(numeric_limits<char>::max(), '\n');
-                        cin.get();
-                    }
-
+            for (auto it: seminalist){
+                if (it->getIdentification()=="SEM"+buffer){
+                    valid = false;
+                    cout<<"There is already a seminar with this identification, choose another"<<endl;
+                    cin.ignore(numeric_limits<char>::max(), '\n');
+                    cin.get();
                 }
+
+            }
 
         }
     }while(!valid);
@@ -852,9 +959,10 @@ void VirtualCampus::deleteSeminar()
     Menu<Seminar> deleteSelector(seminalist, Resource::gimmetheid());
     Seminar *to_remove=deleteSelector.run_selector();
     if (to_remove){
-        for (vector<Seminar*>::iterator it = seminalist.begin(); it!=seminalist.end(); it++){
+        for (auto it = seminalist.begin(); it!=seminalist.end(); it++){
             if ((*it)==to_remove){
                 seminalist.erase(it);
+                break;
             }
         }
         delete to_remove;
@@ -1056,6 +1164,7 @@ vector <FDP*>& VirtualCampus::getFDPs()
 {
     return projectlist;
 }
+
 
 
 int VirtualCampus::findFDP(string identification)

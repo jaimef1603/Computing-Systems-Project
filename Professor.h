@@ -25,7 +25,7 @@ protected:
 
 public:
     Professor();
-    Professor(string n, string ident, VirtualCampus *vc);
+    Professor(VirtualCampus *vc = nullptr, string n = string(), string ident = string());
     Professor(const Professor &other);
     void setidentifier(string ident);
     string getidentifier();
@@ -96,6 +96,13 @@ public:
     void edit();
     void options();
     virtual void menu(); //must be virtual to be overriden by admin's menu.
+
+
+    //FILE HANDLING
+
+
+    friend ofstream & operator<< (ofstream& ofs, Professor& _professor);
+    friend ifstream & operator>> (ifstream& ifs, Professor& _professor);
 
 
 };

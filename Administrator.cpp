@@ -1,8 +1,8 @@
-#include "Administrator.h"
+﻿#include "Administrator.h"
 #include "VirtualCampus.h"
 #include <sstream>
 
-Administrator::Administrator(string n,string id, VirtualCampus *vc):Professor(n, id, vc){
+Administrator::Administrator(VirtualCampus *vc, string n,string id):Professor(vc, n, id){
 
 }
 

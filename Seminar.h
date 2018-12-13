@@ -38,7 +38,7 @@ private:
 public:
     friend class Link_stu_res;
     friend class Link_prof_res;
-    Seminar(VirtualCampus *vc = nullptr, string n="unknown", string id="undefined", unsigned seatsValue=0, Professor *coord=nullptr,  Date when=Date(1, 1, 1), Professor *spe=nullptr);
+    Seminar(VirtualCampus *vc = nullptr, string n="unknown", string id="undefined", unsigned seatsValue=0, Professor *coord=nullptr,  Date when=Date(1, 1, 2018), Professor *spe=nullptr);
     ~Seminar();
   //  Seminar(string n, string id, unsigned seatsValue, Professor *coord, Date when=Date(1, 1, 1));
     void setmaxseats(unsigned s);

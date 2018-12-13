@@ -11,7 +11,7 @@ private:
     unsigned month;
     unsigned year;
 public:
-    Date(unsigned d=1, unsigned m=1, unsigned y=1);
+    Date(unsigned d=1, unsigned m=1, unsigned y=2018);
     Date(const Date &other);
     Date& operator = (const Date &d);
     unsigned getday();

@@ -3,7 +3,7 @@
 #include <string.h>
 #include <iostream>
 #include "Menu.h"
-
+#include <fstream>
 
 using namespace std;
 
@@ -22,9 +22,12 @@ public:
     string getname();
     static Menu<User>::menu_option_member gimmethename();
 
-    //virtual void addCourse(Link_us_res *link);
-    //virtual void addSeminar(Link_us_res *link);
-    //virtual void addFDP(Link_us_res *link);
+    //FILE HANDLING
+
+
+
+    friend ofstream & operator<< (ofstream& ofs, User* _user);
+    friend ifstream & operator>> (ifstream& ifs, User* _user);
 };
 
 #endif // USER_H

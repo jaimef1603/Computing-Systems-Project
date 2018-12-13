@@ -87,7 +87,7 @@ Link_prof_res* Seminar::getcoordinator()const
 
 void Seminar::addteacher(Link_prof_res *newteacher)
 {
-    if (newteacher->getRole()==role::speaker){
+    if (newteacher->getRole()==role::coordinator){
 
         if(teachers[0]!=nullptr)
             delete teachers[0];
@@ -95,7 +95,7 @@ void Seminar::addteacher(Link_prof_res *newteacher)
         teachers[0]=newteacher;
         return;
     }
-    if (newteacher->getRole()==role::coordinator){
+    if (newteacher->getRole()==role::speaker){
 
         if(teachers[1]!=nullptr)
             delete teachers[1];
@@ -345,6 +345,20 @@ ofstream & operator<< (ofstream& ofs, Seminar& _seminar)
     ofs.write(reinterpret_cast<char*>(&_seminar.maxseats), sizeof(unsigned));
     unsigned long student_number = _seminar.students.size();
     ofs.write(reinterpret_cast<char*>(&student_number), sizeof (unsigned long));
+
+
+
+    for(unsigned i=0; i<2; i++){
+        if (_seminar.teachers[i]){
+            const char * teacher_id = _seminar.teachers[i]->getteacher()->getidentifier().c_str();
+            ofs.write(teacher_id, 8*sizeof(char));
+        }else{
+            ofs.write("\0\0\0\0\0\0\0\0", 8*sizeof(char));
+        }
+    }
+
+
+
     return ofs;
 }
 
@@ -358,6 +372,26 @@ ifstream& operator>>(ifstream& ifs, Seminar& _seminar)
     unsigned long student_number;
     ifs.read(reinterpret_cast<char*>(&student_number), sizeof (unsigned long));
     _seminar.students.reserve(student_number);
+
+
+    string id;
+    char id_buffer [8];
+
+    for(unsigned i=0; i<2; i++){
+        strcpy(id_buffer, "");
+        ifs.read(id_buffer, 8*sizeof(char));
+        id = id_buffer;
+        if (id.length()==7){
+            int index = _seminar.mycampus->findTeacher(id);
+            if (index !=-1){
+                _seminar.mycampus->getTeachers()[unsigned(index)]->enroll(&_seminar, role(i));
+            }
+        }
+    }
+
+
+
+
     return ifs;
 }
 

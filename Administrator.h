@@ -11,7 +11,7 @@ private:
     void admin_submenu();
     void professor_submenu();
 public:
-    Administrator(string n="undefined",string id= "xxxxxx", VirtualCampus *vc=nullptr);
+    Administrator( VirtualCampus *vc=nullptr, string n="undefined",string id= "unknown");
 
     //Polymorphism starts
     void menu();

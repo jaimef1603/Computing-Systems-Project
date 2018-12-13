@@ -27,35 +27,32 @@ Menu<User>::menu_option_member User::gimmethename()
     return &User::name;
 }
 
-//void User::addCourse(Link_us_res *link){
-//    std::cerr<<"This object can't add Course"<<std::endl;
-//}
-//void User::addSeminar(Link_us_res *link){
-//    std::cerr<<"This object can't add Seminar"<<std::endl;
-//}
-//void User::addFDP(Link_us_res *link){
-//    std::cerr<<"This object can't add FDP"<<std::endl;
-//}
+
+/* _______________________________________
+  |                                       |
+  |------------FILE HANDLING--------------|
+  |_______________________________________|
+*/
 
 
-//char selection;
-//do {
-//    system ("clear");
-//    cout<<"1: Seminars \n2: Courses \n3:FDPs \n4: Back\n";
-//    cin>>selection;
-//switch (selection) {
-//case '1':
+ofstream & operator<< (ofstream& ofs, User* _user)
+{
+    unsigned long length = _user->name.size();
+    const char *name = _user->name.c_str();
+    ofs.write(reinterpret_cast<char*>(&(length)), sizeof (unsigned long));
+    ofs.write(name,  static_cast<long>(length * sizeof (char)));
+    return ofs;
+}
 
-//case '2':
 
-//case '3':
 
-//case '4': return;
-
-//default: cout<<"Select a valid number (1-4)\n\tPress any key to retry."<<endl;
-
-//    getchar();
-//    break;
-
-//}
-//}while(true);
+ifstream & operator>> (ifstream& ifs,User* _user)
+{
+   unsigned long length;
+   ifs.read(reinterpret_cast<char*>(&(length)), sizeof (unsigned long));
+   char * name=new char[length];
+   ifs.read(name,  static_cast<long>(length * sizeof (char)));
+   _user->name=name;
+   delete [] name;
+   return ifs;
+}

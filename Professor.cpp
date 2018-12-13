@@ -12,7 +12,7 @@ Professor::Professor()
 
 
 
-Professor::Professor(string n, string ident, VirtualCampus *vc)
+Professor::Professor(VirtualCampus *vc, string n, string ident )
     :User(), courselist(), fdplist(), seminarlist()
 {
     setname(n);
@@ -109,7 +109,9 @@ void Professor::manageCourses()
                 cin>>index;
             }while ((index<0 && index !=-1) || index>=int(courselist.size()));
 
-            delete courselist[unsigned(index)];
+            if(index!=-1){
+                delete courselist[unsigned(index)];
+            }
         }
             break;
         case '3': return;
@@ -379,7 +381,10 @@ void Professor::manageSeminars()
                 cin>>index;
             }while (!cin.good() || (index<0 && index !=-1) || index>int(seminarlist.size()));
 
-            delete seminarlist[unsigned(index-1)];
+            if(index!=-1){
+                delete seminarlist[unsigned(index-1)];
+
+            }
         }
             break;
         case '3': return;
@@ -457,7 +462,7 @@ void Professor::seminar_droppin_func()
             cout<<"Selected: "<<to_drop->getResource()->getname()
                <<" ID: "<<to_drop->getResource()->getIdentification()
               <<"\nYou are currently the coordinator of this Seminar, thus you can not leave it."
-                "\nIf you want to leave this semminar you must contact an administrator"<<endl;
+                "\nIf you want to leave this seminar you must contact an administrator"<<endl;
             cin.ignore(numeric_limits<char>::max(), '\n');
             cin.get();
         }
@@ -680,7 +685,15 @@ void Professor::deleteFDP()
             }while(!(proceed=='Y' || proceed=='y' || proceed=='N' || proceed=='n'));
 
             if (proceed=='Y' || proceed=='y'){
-                delete dynamic_cast<FDP*> (to_remove->getResource());
+                for (auto it = mycampus->getFDPs().begin(); it!=mycampus->getFDPs().end(); it++)
+                {
+                    if (*it==to_remove->getResource()){
+                        delete (*it);
+                        mycampus->getFDPs().erase(it);
+                        break;
+                    }
+                }
+
             }
 
         }else{
@@ -952,26 +965,26 @@ void Professor::fdp_view()
         FDP* resourcePtr = dynamic_cast<FDP*>(selected_fdp->getResource());
         if (selected_fdp->getRole()==role::tutor){
 
-           while(true){
-            do {
-                system("clear");
-                if (!cin.good()){
-                    cin.clear();
-                    cin.ignore(numeric_limits<char>::max(), '\n');
+            while(true){
+                do {
+                    system("clear");
+                    if (!cin.good()){
+                        cin.clear();
+                        cin.ignore(numeric_limits<char>::max(), '\n');
+                    }
+                    selected_fdp->getResource()->showDetails();
+                    cout<<"\t[1] Edit Name \"q\" exit "<<endl;
+                    cin>>ws>>willyouedit;
+                }while(!cin.good() && willyouedit!='q' && willyouedit!='1');
+
+                //!cin.good() ||
+
+                if (willyouedit == 'q'){
+                    return;
+                }else{
+                    resourcePtr->editName();
                 }
-                selected_fdp->getResource()->showDetails();
-                cout<<"\t[1] Edit Name \"q\" exit "<<endl;
-                cin>>ws>>willyouedit;
-            }while(!cin.good() && willyouedit!='q' && willyouedit!='1');
-
-            //!cin.good() ||
-
-            if (willyouedit == 'q'){
-                return;
-            }else{
-                resourcePtr->editName();
             }
-           }
         }else{
             selected_fdp->getResource()->showDetails();
             cin.ignore(numeric_limits<char>::max(), '\n');
@@ -1094,27 +1107,27 @@ void Professor::options()    //Function of professor's options
 
 
 
-//    char selection;
-//    do {
-//        system ("clear");
-//        cout<<"1: Seminars \n2: Courses \n3: FDPs \n4: Back\n";
-//        cin>>selection;
-//        switch (selection) {
-//        case '1':
-//            manageSeminars(); break;
-//        case '2':
-//            manageCourses(); break;
-//        case '3':
-//            manageFDP(); break;
-//        case '4': return;
+    //    char selection;
+    //    do {
+    //        system ("clear");
+    //        cout<<"1: Seminars \n2: Courses \n3: FDPs \n4: Back\n";
+    //        cin>>selection;
+    //        switch (selection) {
+    //        case '1':
+    //            manageSeminars(); break;
+    //        case '2':
+    //            manageCourses(); break;
+    //        case '3':
+    //            manageFDP(); break;
+    //        case '4': return;
 
-//        default:
-//            cout<<"Select a valid number (1-4)\n\tPress any key to retry."<<endl;
-//            getchar();
-//            break;
+    //        default:
+    //            cout<<"Select a valid number (1-4)\n\tPress any key to retry."<<endl;
+    //            getchar();
+    //            break;
 
-//        }
-//    }while(true);
+    //        }
+    //    }while(true);
 }
 
 
@@ -1130,4 +1143,49 @@ void Professor::menu()
     Menu<Professor> menu(options, "---WELCOME TO YOUR MAIN MENU---", &Professor::showDetails, this);
 
     menu.run();
+}
+
+
+
+/* _______________________________________
+  |                                       |
+  |-------------FILE HANDLING-------------|
+  |_______________________________________|
+*/
+
+
+ofstream & operator<< (ofstream& ofs, Professor& _professor)
+{
+
+    ofs << &_professor;
+    const char *id = _professor.identifier.c_str();
+    ofs.write(id,  8 * sizeof (char));
+    unsigned long seminar_number = _professor.seminarlist.size();
+    unsigned long course_number = _professor.courselist.size();
+    unsigned long fdp_number = _professor.fdplist.size();
+    ofs.write(reinterpret_cast<char*>(&seminar_number), sizeof(unsigned long));
+    ofs.write(reinterpret_cast<char*>(&course_number), sizeof(unsigned long));
+    ofs.write(reinterpret_cast<char*>(&fdp_number), sizeof(unsigned long));
+    return ofs;
+}
+
+
+
+ifstream& operator>>(ifstream& ifs, Professor& _professor)
+{
+    ifs>>&_professor;
+    char id [8];
+    ifs.read(id, 8 * sizeof (char));
+     _professor.identifier=id;
+
+     unsigned long seminar_number = _professor.seminarlist.size();
+     unsigned long course_number = _professor.courselist.size();
+     unsigned long fdp_number = _professor.fdplist.size();
+     ifs.read(reinterpret_cast<char*>(&seminar_number), sizeof(unsigned long));
+     ifs.read(reinterpret_cast<char*>(&course_number), sizeof(unsigned long));
+     ifs.read(reinterpret_cast<char*>(&fdp_number), sizeof(unsigned long));
+     _professor.seminarlist.reserve(seminar_number);
+     _professor.courselist.reserve(course_number);
+     _professor.fdplist.reserve(fdp_number);
+    return ifs;
 }

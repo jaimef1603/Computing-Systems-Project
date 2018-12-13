@@ -30,7 +30,7 @@ private:
 
 public:
     Degree();
-    Degree(VirtualCampus *mycampus, string n, const char *id);
+    Degree(VirtualCampus *mycampus, string n = "undefined", const char *id="unknown");
     ~Degree();
     string getname();
     void setname(string n);
@@ -59,6 +59,10 @@ public:
     void options();
     static Menu<Degree>::menu_option_member gimme_the_name();
 
+
+
+    friend ofstream & operator<< (ofstream& ofs, Degree& _degree);
+    friend ifstream & operator>> (ifstream& ifs, Degree& _degree);
 
 };
 

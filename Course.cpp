@@ -105,6 +105,7 @@ void Course::edit()            //Function to edit Course attributes (name , id a
     do{
 
         system("clear");
+        cout<<"EDIT COURSE\n"<<endl;
         cout<<"\t[1] Edit name\n \t[2] Edit ID\n \t[3] Edit credits\n \t'q' Back\n";
         cin>>ws>>selection;
         switch (selection) {
@@ -179,7 +180,7 @@ void Course::options()      //Course's options
             do{
                 system("clear");
                 degree->showstudents();
-                cout<<"Enter the identification of the student you want to add or q to exit: ";
+                cout<<"Enter the identification of the student you want to add or \'q\' to cancel: ";
                 cin>>identification;
                 if(identification=="q"){
                     break;
@@ -200,7 +201,7 @@ void Course::options()      //Course's options
                 for (unsigned i=0; i<studentlist.size(); i++){
                     cout<<i+1<<": "<<studentlist[i]->getStudent().getidentifier()<<endl;
                 }
-                cout << "Select the student you want to remove (1-"<<studentlist.size()<<") or q to cancel: ";
+                cout << "Select the student you want to remove (1-"<<studentlist.size()<<") or \'q\' to cancel: ";
                 cin>>ws>>buffer;
                 if(buffer=="q"){
                     break;
@@ -215,7 +216,7 @@ void Course::options()      //Course's options
             break;
         case 'q': return;
         default:
-            cout<<"Select a valid number (1-3)"<<endl;
+            cout<<"Select a valid number (1-2) or \'q\' to cancel"<<endl;
             cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             cin.get();
             break;

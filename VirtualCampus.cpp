@@ -294,6 +294,7 @@ void VirtualCampus::manageDegrees()
     string buffer;
     char selection='0';
     int deg;
+    system("clear");
     do{
         if (selection=='0'){
             system("clear");
@@ -320,14 +321,14 @@ void VirtualCampus::manageDegrees()
                 system("clear");
                 //cout<<"DEGREES:\n";
                 showAllDeg();
-                cout<<"What degree do you want to edit? (Enter (1-"<< degreelist.size()<<")to edit or q to exit)\n";
+                cout<<"What degree do you want to edit? (Enter (1-"<< degreelist.size()<<") to edit or \'q\' to cancel)\n";
                 cin>>ws>>buffer;
                 if(buffer=="q"){
                     return;
                 }
                 istringstream(buffer)>>deg;
                 if ((deg<1 && deg!=-1) || deg >int(degreelist.size())){
-                    cout<<"Select a valid number. (1-"<<degreelist.size()<<") or q to exit\nPress any key to retry...";
+                    cout<<"Select a valid number. (1-"<<degreelist.size()<<") or \'q\' to cancel\nPress any key to retry...\n";
                     getchar();
                 }
             }while((deg<1 && deg!=-1) || deg >int(degreelist.size()));
@@ -342,14 +343,14 @@ void VirtualCampus::manageDegrees()
                 system("clear");
                 //cout<<"DEGREES:\n";
                 showAllDeg();
-                cout<<"What degree do you want to delete? (Enter (1-"<< degreelist.size()<<")to delete or q to exit)\n";
+                cout<<"What degree do you want to delete? (Enter (1-"<< degreelist.size()<<")to delete or \'q\' to cancel)\n";
                 cin>>ws>>buffer;
                 if(buffer=="q"){
                     return;
                 }
                 istringstream(buffer)>>deg;
                 if ((deg<1 && deg!=-1) || deg >int(degreelist.size())){
-                    cout<<"Select a valid number. (0-"<<degreelist.size()<<") or q to exit\nPress any key to retry...";
+                    cout<<"Select a valid number. (0-"<<degreelist.size()<<") or \'q\' to cancel\nPress any key to retry...";
                     getchar();
                 }
             }while((deg<1 && deg!=-1) || deg >int(degreelist.size()));
@@ -363,14 +364,14 @@ void VirtualCampus::manageDegrees()
             do {
                 system("clear");
                 showAllDeg();
-                cout<<"What degree do you want to show details of? (Enter (1-"<< degreelist.size()<<")to show details or q to exit)\n";
+                cout<<"What degree do you want to show details of? (Enter (1-"<< degreelist.size()<<")to show details or \'q\' to cancel)\n";
                 cin>>ws>>buffer;
                 if(buffer=="q"){
                     return;
                 }
                 istringstream(buffer)>>deg;
                 if ((deg<1 && deg!=-1) || deg >int(degreelist.size())){
-                    cout<<"Select a valid number. (0-"<<degreelist.size()<<") or q to exit\nPress any key to retry...";
+                    cout<<"Select a valid number. (0-"<<degreelist.size()<<") or \'q\' to cancel\nPress any key to retry...";
                     getchar();
                 }
             }while((deg<1 && deg!=-1) || deg >int(degreelist.size()));
@@ -388,7 +389,7 @@ void VirtualCampus::manageDegrees()
             do {
                 system("clear");
                 showAllDeg();
-                cout<<"What degree do you want to select? (Enter (1-"<< degreelist.size()<<")to select or q to exit)\n";
+                cout<<"What degree do you want to select? (Enter (1-"<< degreelist.size()<<")to select or \'q\' to cancel)\n";
                 cin>>ws>>buffer;
                 if(buffer=="q"){
                     return;
@@ -424,11 +425,13 @@ void VirtualCampus::manageDegrees()
 
 void VirtualCampus::addDegree()
 {
-    system("clear");
+
     bool valid = true;
     string name, id;
-    cout<<"Enter the name of the degree (letters a-z, A-Z) or q to exit : ";
+
     do{
+        system("clear");
+        cout<<"Enter the name of the degree (letters a-z, A-Z) or \'q\' to cancel: ";
         cin>>ws>>name;
         if (name =="q"){
             return;
@@ -438,9 +441,9 @@ void VirtualCampus::addDegree()
         valid=true;
         system("clear");
         cout<<"Name: "<<name<<endl;
-        cout<<"Enter the three letter identification or write q to exit: ";
+        cout<<"Enter the three letter identification or \'q\' to cancel: ";
         cin>>ws>>id;
-        if (id=="-1"){
+        if (id=="q"){
             return;
         }
 
@@ -539,7 +542,9 @@ void VirtualCampus::manageTeachers()
         cout<<"\t[1] Create teacher (or Administrator)\n\t[2] Delete teacher\n\t[3] Show details\n\t'q' Back"<<endl;
         cin>>selection;
         switch (selection) {
-        case '1': addTeacher(); break;
+        case '1':
+            addTeacher();
+            break;
         case '2':
         {
             Professor *to_delete;
@@ -674,7 +679,7 @@ void VirtualCampus::addTeacher()
         }
 
 
-        std::cout<<"Enter the name or \'q\' to exit: ";
+        std::cout<<"Enter the name or \'q\' to cancel: ";
         if (name=="q"){
             return;
         }
@@ -704,7 +709,7 @@ void VirtualCampus::addTeacher()
                 if (it->getidentifier()==ident){
                     valid = false;
                     system("clear");
-                    cout<<"ID already used, choose a different one\n ";
+                    cout<<"ID already used, choose a different one\n";
                     cout<<"Enter the new ID (7 chars) or \'q\' to exit: ";
                 }
             }
@@ -719,7 +724,7 @@ void VirtualCampus::addTeacher()
             cin.ignore(numeric_limits<char>::max(), '\n');
         }
         system("clear");
-        cout<<"\t[1] Create as teacher\t[2] Create as administrator\t\'q\' Cancel\n";
+        cout<<"\t[1] Create as teacher\n\t[2] Create as administrator\n\t\'q\' Back\n";
         cin>>ws>>permissions;
     }while(permissions != '1' && permissions != '2' && permissions!='q');
 

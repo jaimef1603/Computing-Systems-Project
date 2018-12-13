@@ -35,6 +35,8 @@ public:
     void addResource(ArrayList<Link_prof_res*> &list, Link_prof_res *link);
     void removeResource(Link_prof_res *link);
 
+
+
     //Course functions
     //  Used by administrator
     void manageCourses();
@@ -49,8 +51,10 @@ public:
     //  Common
     void addCourse(Link_prof_res *link);
     void enroll(Course* c, role r);
-    void Drop(Course* );
+    void Drop(Course* s);
     void showCourses();
+
+
 
     //Seminar functions
     //  Used by administrator
@@ -66,7 +70,7 @@ public:
     // Common
     void addSeminar(Link_prof_res *link);
     void enroll(Seminar* s, role r);
-    void Drop(Seminar* );
+    void Drop(Seminar* s);
     void showSeminars();
 
 
@@ -86,9 +90,8 @@ public:
 
     //  Common
     void enroll(FDP* project, role r);
-    void Drop(FDP*);
+    void Drop(FDP* s);
     void showFDP();
-
 
 
 

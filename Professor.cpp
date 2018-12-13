@@ -90,7 +90,9 @@ void Professor::manageCourses()
 {
     char selection;
     do {
-        cout<<"COURSES:\n 1: Add 2: Delete 3: Back\n"<<endl;
+        system("clear");
+        cout<<"COURSES:\n";
+        cout<<"\t[1] Add Course\n \t[2] Delete Course\n \t'q' Back\n";
         cin>>selection;
 
         switch (selection) {
@@ -105,16 +107,23 @@ void Professor::manageCourses()
                 for(unsigned i=0; i<courselist.size(); i++){
                     cout<<courselist[i]->getResource()->getIdentification()<<endl;
                 }
-                cout<<"Enter the id of the course you want to remove?\n";
+                cout<<"Enter the id of the course you want to remove or \'q\' to cancel\n";
                 cin>>index;
+                if(index=='q'){
+                    return;
+                }
             }while ((index<0 && index !=-1) || index>=int(courselist.size()));
 
-            if(index!=-1){
+            if(index!='q'){
                 delete courselist[unsigned(index)];
             }
         }
             break;
-        case '3': return;
+        case 'q': return;
+        default:
+            cout<<"Select a valid number (1-2) or \'q\' to cancel\n\tPress any key to retry."<<endl;
+            getchar();
+            break;
         }
     }while (true);
 }
@@ -131,19 +140,22 @@ void Professor::selectCourseAndAdd(){     //Function to add a course
     do {
         system("clear");
         mycampus->showAllDeg();
-        cout<<"Select the Degree to choose a Course: 1- "<<mycampus->getDegrees().size()<<")"<<endl;
+        cout<<"Select the Degree to choose a Course: (1- "<<mycampus->getDegrees().size()<<") or \'q\' to cancel"<<endl;
         cin>>index;
-    }while((index<1 && index!=-1)|| index> int(mycampus->getDegrees().size()));
+        if(index=='q'){
+            return;
+        }
+    }while((index!='q') && index> int(mycampus->getDegrees().size()));
 
-    if (index!=-1){
+    if (index!='q'){
         current= mycampus->getDegrees()[unsigned(index)-1];
 
         do {
             system("clear");
             current->showcourses();
-
+            cout<<"Enter the identification of the course or \'q\' to cancel"<<endl;
             cin>>ws>>identification;
-            if (identification == "cancel"){
+            if (identification == "q"){
                 break;
             }
             valid=current->findCourse(identification);
@@ -152,7 +164,9 @@ void Professor::selectCourseAndAdd(){     //Function to add a course
         if (valid!=-1){
             do {
                 system("clear");
-                cout<<"Select Role:\n 1: Named Chair\n 2: Associated\n 3: Cancel";
+                cout<<"Select Role:\n";
+                cout<<"\t[1] Named Chair\n \t[2] Associated\n \t'q' Back\n";
+
                 cin>>r;
                 switch (r) {
                 case '1':
@@ -161,8 +175,11 @@ void Professor::selectCourseAndAdd(){     //Function to add a course
                 case '2':
                     enroll(current->getCourses()[unsigned(valid)], role::associated);
                     return;
-                case '3': return;
-                default: break;
+                case 'q': return;
+                default:
+                    cout<<"Select a valid number (1-2) or \'q\' to cancel\n\tPress any key to retry."<<endl;
+                    getchar();
+                    break;
                 }
 
             }while(true);
@@ -325,7 +342,9 @@ void Professor::manageSeminars()
 {
     char selection;
     do {
-        cout<<"SEMINARS:\n 1: Add 2: Delete 3: Back\n"<<endl;
+        system("clear");
+        cout<<"SEMINARS:\n";
+        cout<<"\t[1] Add Seminar\n \t[2] Delete Seminar\n \t'q' Back\n";
         cin>>selection;
 
         switch (selection) {
@@ -337,9 +356,9 @@ void Professor::manageSeminars()
             do {
                 system("clear");
                 mycampus->showAllSeminars();
-                cout<<"Enter the id of the seminar you want to add?\n";
+                cout<<"Enter the id of the seminar you want to add or \'q\' to cancel\n";
                 cin>>identification;
-                if (identification == "cancel"){
+                if (identification == "q"){
                     break;
                 }
                 valid=mycampus->findSeminar(identification);
@@ -347,7 +366,7 @@ void Professor::manageSeminars()
             if (valid!=-1){
                 do {
                     system("clear");
-                    cout<<"Select Role: \n1: Speaker\n2: Coordinator";
+                    cout<<"Select Role: \n1: Speaker\n2: Coordinator or \'q\' to cancel";
                     cin>>r;
                     switch (r) {
                     case '1':
@@ -356,7 +375,7 @@ void Professor::manageSeminars()
                     case '2':
                         enroll(mycampus->getSeminars()[unsigned(valid)], role::coordinator);
                         return;
-                    case '3': return;
+                    case 'q': return;
                     default: break;
                     }
 
@@ -377,8 +396,11 @@ void Professor::manageSeminars()
                 for(unsigned i=0; i<seminarlist.size(); i++){
                     cout<<i+1<<": "<<seminarlist[i]->getResource()->getIdentification()<<endl;
                 }
-                cout<<"Select the seminar you want to remove?\n";
+                cout<<"Select the seminar you want to remove or \'q\' to cancel\n";
                 cin>>index;
+                if(index=='q'){
+                    break;
+                }
             }while (!cin.good() || (index<0 && index !=-1) || index>int(seminarlist.size()));
 
             if(index!=-1){
@@ -387,9 +409,9 @@ void Professor::manageSeminars()
             }
         }
             break;
-        case '3': return;
+        case 'q': return;
         default:
-            cout<<"Select a valid number (1-3)\n\tPress any key to retry."<<endl;
+            cout<<"Select a valid number (1-2) or \'q\' to cancel\n\tPress any key to retry."<<endl;
             getchar();
             break;
         }
@@ -713,9 +735,9 @@ void Professor::admin_addFDP()
         do {
             system("clear");
             mycampus->showAllFDP();
-            cout<<"Enter the id of the FDP you want to add?\n";
+            cout<<"Enter the id of the FDP you want to add or \'q\' to cancel\n";
             cin>>identification;
-            if (identification == "cancel"){
+            if (identification == "q"){
                 break;
             }
             valid=mycampus->findFDP(identification);
@@ -723,7 +745,8 @@ void Professor::admin_addFDP()
         if (valid!=-1){
             do {
                 system("clear");
-                cout<<"Select Role: \n1: Tutor\n2: Co-tutor";
+                cout<<"Select Role:\n";
+                cout<<"\t[1] Tutor\n \t[2] Co-tutor\n \t'q' Back\n";
                 cin>>r;
                 switch (r) {
                 case '1':
@@ -732,8 +755,11 @@ void Professor::admin_addFDP()
                 case '2':
                     enroll(mycampus->getFDPs()[unsigned(valid)], role::tutor);
                     return;
-                case '3': return;
-                default: break;
+                case 'q': return;
+                default:
+                    cout<<"Select a valid number (1-2) or \'q\' to cancel\n\tPress any key to retry."<<endl;
+                    getchar();
+                    break;
                 }
 
             }while(true);
@@ -1034,14 +1060,14 @@ void Professor::edit()    //Edit Professor's attributes(name, id)
             string newname;
             bool valid=false;
             system("clear");
-            cout<<"Enter the new name (letters a-z, A-Z) or \"cancel\" to exit\n"<<endl;
+            cout<<"Enter the new name (letters a-z, A-Z) or \'q\' to cancel\n"<<endl;
             do {
                 cin>>ws>>newname;
-                if (newname=="cancel"){
+                if (newname=="q"){
                     break;
                 }
                 if (!(valid=checkletters(newname))){
-                    cout<<"Enter a valid name (letters a-z, A-Z) or \"cancel\" to exit\n"<<endl;
+                    cout<<"Enter a valid name (letters a-z, A-Z) or \'q\' to cancel\n"<<endl;
                 }
             }while (!valid);
             if (valid){
@@ -1053,17 +1079,17 @@ void Professor::edit()    //Edit Professor's attributes(name, id)
             string ident;
             bool valid=false;
             system("clear");
-            cout<<"Enter the new ID (7 chars) or \"cancel\" to exit: ";
+            cout<<"Enter the new ID (7 chars) or \'q\' to cancel ";
             do{
                 cin>>ident;
-                if (ident=="cancel"){
+                if (ident=="q"){
                     return;
                 }
                 if (ident.length()==7 && checkletters(ident)){
                     valid = true;
                 }else{
                     system("clear");
-                    cout<<"Enter the new ID (7 chars) or \"cancel\" to exit: ";
+                    cout<<"Enter the new ID (7 chars) or \'q\' to cancel ";
                 }
             }while (!valid);
 

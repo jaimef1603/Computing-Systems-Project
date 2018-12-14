@@ -74,71 +74,8 @@ Date::Date(const Date &other)
     month=other.month;
     year=other.year;
 
-
-//    unsigned d=other.day, m=other.month, y=other.year;
-//    if((m>0 && m<13) && y>0){
-
-//        switch(m){
-//            case 1:
-//            case 3:
-//            case 5:
-//            case 7:
-//            case 8:
-//            case 10:
-//            case 12:
-//                if(d>=1 && d<=31){
-//                    day=d;
-//                }else{
-//                    day=1;
-//                    cerr<<"Not correct date, setting day to 1"<<endl;
-//                }
-//              break;
-//            case 4:
-//            case 6:
-//            case 9:
-//            case 11:
-//                if(d>=1 && d<=30){
-//                    day=d;
-//                 }else{
-//                    day=1;
-//                    cerr<<"Not correct date, setting day to 1"<<endl;
-//                 }
-//              break;
-//            case 2:
-//                if((y%4==0 && y%100!=0) || y%400==0){
-//                    if(d>=1 && d<=29){
-//                        day =d;
-//                     }else{
-//                        day=1;
-//                        cerr<<"Not correct date, setting day to 1"<<endl;
-//                     }
-//                }else{
-//                    if(d>=1 && d<=28){
-//                        day=d;
-//                     }else{
-//                        day=1;
-//                        cerr<<"Not correct date, setting day to 1"<<endl;
-//                     }
-//                 }
-//              break;
-//            }
-//    }else{
-//        if (y<=0){
-//            year=2018;
-//            cerr<<"Not correct date, setting year to 2018"<<endl;
-//        }else{
-//            year=y;
-//        }
-//        if (m<=0 || m>=13){
-//            month=1;
-//            cerr<<"Not correct date, setting month to 1"<<endl;
-//        }else{
-//            month=m;
-//        }
-
-//    }
-
 }
+
 
 
 Date& Date::operator=(const Date &d)
@@ -305,10 +242,14 @@ void Date::setyear(unsigned y)
     }
 }
 
+
+
 string Date::getfancyDate()
 {
     return to_string(day)+"/"+to_string(month)+"/"+to_string(year);
 }
+
+
 
 std::ostream& operator<<(std::ostream& os, const Date & dat)
 {

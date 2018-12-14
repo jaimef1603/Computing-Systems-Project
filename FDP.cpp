@@ -6,6 +6,7 @@
 #include "Utilities.h"
 #include "VirtualCampus.h"
 
+
 FDP::FDP(VirtualCampus *vc, string n, string id, Student *stu, Professor *tu, Professor *co_tu)
     :Resource(id, n)
 {
@@ -72,20 +73,6 @@ Link_prof_res* FDP::gettutor()const
 
 
 
-//void FDP::settutor(Professor* t)
-//{
-//    Link_prof_res *newlink= new Link_prof_res(t, this, role::tutor);
-//    if (newlink!=nullptr && !newlink->checkHealth()){
-//        teachers[0]=newlink;
-//        newlink->connectProftoFDP();
-//        newlink->connectResource();
-//    }else{
-//        std::cerr<<"FDP::settutor(Link_prof_res*); incomplete or null link passed, tutor will not be modified.\n";
-//    }
-//}
-
-
-
 Link_prof_res* FDP::getco_tutor()const
 {
     return teachers[1];
@@ -93,32 +80,38 @@ Link_prof_res* FDP::getco_tutor()const
 
 
 
-//void FDP::setco_tutor(Professor* c_t)
-//{
-//    Link_prof_res *newlink= new Link_prof_res(c_t, this, role::cotutor);
-//    if (newlink!=nullptr && !newlink->checkHealth()){
-//        teachers[1]=newlink;
-//    }else{
-//        std::cerr<<"FDP::setco_tutor(Link_prof_res*); incomplete or null link passed, co_tutor will not be modified.\n";
-//    }
-//}
-
-
-
 void FDP::editID()
 {
     std::string buffer;
+    bool valid;
     do {
-        system("clear");
-        cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        std::cout<<"Enter the new identification (CCCIIII, C=Letter, I=Number) or \'q\' to cancel: \nFDP";
+        do {
+            system("clear");
+            if (!cin.good()){
+                cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            }
+            std::cout<<"Enter the new identification (CCCIIII, C=Letter, I=Number) or \'q\' to cancel: \nFDP";
 
-    }while(!(std::cin>>std::ws>>buffer) || !checkResId("FDP"+buffer));
+        }while(!(std::cin>>std::ws>>buffer) || (!checkResId("FDP"+buffer) && buffer !="q"));
 
-    if (buffer!="q"){
-        identification="FDP"+buffer;
-    }
+        if (buffer!="q"){
+            valid = true;
+            for (auto it: this->mycampus->getFDPs()){
+                if (it->getIdentification()=="FDP"+buffer){
+                    valid = false;
+                    cout<<"There is already a final degree project with this identification, choose another"<<endl;
+                    cin.ignore(numeric_limits<char>::max(), '\n');
+                    cin.get();
+                }
+
+            }
+        }else{
+            return;
+        }
+    }while (!valid);
+
+    identification="FDP"+buffer;
 }
 
 
@@ -136,12 +129,6 @@ void FDP::setstudent(Student* stu)
     if (stu)
         stu->enroll(this);
 
-    //    Link_stu_res *newlink = new Link_stu_res(stu, this);
-    //    if (newlink!=nullptr && !newlink->checkHealth()){
-    //        student=newlink;
-    //    }else{
-    //        std::cerr<<"FDP::setstudent(Link_stu_res*); incomplete or null link passed, student will not be modified.\n";
-    //    }
 }
 
 
@@ -243,6 +230,7 @@ void FDP::options_settttutor()
 }
 
 
+
 void FDP::options_ssseeeetCo_tuttor()
 {
     Menu<Professor> professorSelector(mycampus->getTeachers(), Professor::gimmethename(), "Choose a teacher to set the co-tutor");
@@ -325,7 +313,6 @@ void FDP::showDetails()
 
 
 
-
 //--------FILE FUNCTIONS--------
 ofstream & operator<< (ofstream& ofs, FDP& _fdp)
 {
@@ -338,12 +325,6 @@ ofstream & operator<< (ofstream& ofs, FDP& _fdp)
         }else{
             ofs.write("\0\0\0\0\0\0\0\0", 8*sizeof(char));
         }
-    }
-    if (_fdp.student){
-        const char * student_id = _fdp.student->getStudent().getidentifier().c_str();
-        ofs.write(student_id, 8*sizeof(char));
-    }else{
-        ofs.write("\0\0\0\0\0\0\0\0", 8*sizeof(char));
     }
 
     return ofs;
@@ -368,20 +349,6 @@ ifstream& operator>>(ifstream& ifs, FDP& _fdp)
             }
         }
     }
-    strcpy(id_buffer, "");
-    ifs.read(id_buffer, 8*sizeof(char));
-    id=id_buffer;
-    if (id.length()==7){
-        for (auto it:_fdp.mycampus->getDegrees()){
-            int index = it->findStudent(id);
-            if (index != -1){
-                it->getStudents()[unsigned(index)]->enroll(&_fdp);
-                return ifs;
-            }
-        }
-    }
-
-
 
     return ifs;
 }

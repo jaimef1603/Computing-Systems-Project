@@ -1,7 +1,7 @@
 ﻿#ifndef DEGREE_H
 #define DEGREE_H
 #include <string>
-#include "Student.h"
+//#include "Student.h"
 #include "Course.h"
 #include "FDP.h"
 #include <vector>
@@ -9,6 +9,7 @@
 
 using namespace std;
 
+class Student;
 class VirtualCampus;
 class Degree
 {
@@ -19,9 +20,13 @@ private:
     vector <Student*> stulist;
     vector <Course*> courselist;
 
+    //Course functions
+
     void addCourse();
     void deleteCourse(unsigned index);
     void editcourse();
+
+    //Student functions
 
     void addStudent();
     void deleteStudent(unsigned index);
@@ -59,11 +64,30 @@ public:
     void options();
     static Menu<Degree>::menu_option_member gimme_the_name();
 
-
+    //For files
 
     friend ofstream & operator<< (ofstream& ofs, Degree& _degree);
     friend ifstream & operator>> (ifstream& ifs, Degree& _degree);
 
+    //Course functions for files
+
+    bool loadCourses();
+    bool writeCourses();
+
+    //Students functions for files
+
+    bool loadStudents();
+    bool writeStudents();
+
+    //CourseLinks functions for files
+
+    bool loadCoursesLinks();
+    bool writeCoursesLinks();
+
+    //SeminarLinks functions for files
+
+    bool loadSeminarsLinks();
+    bool writeSeminarsLinks();
 };
 
 #endif // DEGREE_H

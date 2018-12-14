@@ -24,7 +24,7 @@ public:
     void pushBack(const A&&);
     bool remove(const A&);
     bool removeByIndex(unsigned index);
-    //A& operator[] (unsigned index);
+
     ArrayList<A>& operator = ( const ArrayList<A>& );
     ArrayList<A>& operator = ( const ArrayList<A>&& );
     ArrayList<A>& operator = ( const vector<A>& );

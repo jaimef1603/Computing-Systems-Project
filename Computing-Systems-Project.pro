@@ -22,7 +22,7 @@ SOURCES += \
     Link_stu_res.cpp \
     Link_prof_res.cpp \
     Utilities.cpp \
-    Menu.tpp
+    Menu.tpp \
 
 HEADERS += \
     Administrator.h \

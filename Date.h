@@ -21,6 +21,7 @@ public:
     unsigned getyear();
     void setyear(unsigned y);
     std::string getfancyDate();
+
     friend std::ostream& operator<<(std::ostream& os, const Date & dat);
     friend std::ostream& operator<<(std::ostream& os, const Date && dat);
 };

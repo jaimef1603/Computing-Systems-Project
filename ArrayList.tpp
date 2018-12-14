@@ -1,8 +1,4 @@
 ﻿
-
-
-
-
 //------------CONSTRUCTORS------------------------
 template <typename A>
 ArrayList<A>::ArrayList()
@@ -145,16 +141,6 @@ bool ArrayList<A>::removeByIndex(unsigned index)
         return false;
     }
 }
-
-
-
-//template <typename A>
-//A& ArrayList<A>::operator[](unsigned index)
-//{
-
-// return this[index];
-
-//}
 
 
 

@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include "ArrayList.h"
+
 using namespace std;
 
 bool checkletters (const char str[]);

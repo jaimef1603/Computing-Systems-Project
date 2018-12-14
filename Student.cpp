@@ -74,7 +74,8 @@ Student& Student::operator=(const Student &s)
 
 
 
-ostream& operator<<(ostream& os, const Student& stu){
+ostream& operator<<(ostream& os, const Student& stu)
+{
     os<<stu.SIN<<endl;
     return os;
 }
@@ -120,7 +121,6 @@ string Student::getidentifier()
         }
     }
     return ident;
-    //convertir a string el SIN (es int) y retornar el resultado
 }
 
 
@@ -198,8 +198,6 @@ void Student::course_enrolling_func()
         enroll(to_enroll);
     }
 
-
-
 }
 
 
@@ -228,8 +226,6 @@ void Student::course_droppin_func()
         Drop(Course_to_drop);
     }
 
-
-
 }
 
 
@@ -246,7 +242,8 @@ void Student::Drop(Course *c)
 
 
 
-void Student::addCourse(Link_stu_res *link){
+void Student::addCourse(Link_stu_res *link)
+{
     mycourses.pushFront(link);
 }
 
@@ -274,6 +271,7 @@ void Student::showCourses()
         i++;
     }
 }
+
 
 
 /* _______________________________________
@@ -337,8 +335,6 @@ void Student::seminar_enrolling_func()
         enroll(to_enroll);
     }
 
-
-
 }
 
 
@@ -398,11 +394,10 @@ void Student::Drop(Seminar *s)
 
 
 
-
-void Student::addSeminar(Link_stu_res *link){
+void Student::addSeminar(Link_stu_res *link)
+{
     myseminars.pushFront(link);
 }
-
 
 
 
@@ -482,7 +477,6 @@ void Student::fdp_enrolling_func()
         cin.get();
     }
 
-
 }
 
 
@@ -527,7 +521,8 @@ void Student::Dropfdp()
 
 
 
-void Student::addFDP(Link_stu_res *link){
+void Student::addFDP(Link_stu_res *link)
+{
     if(myfdp==nullptr){
         myfdp=link;
     }
@@ -589,3 +584,59 @@ void Student::removeResource(Link_stu_res *link)
 
 }
 
+
+
+ofstream & operator<< (ofstream& ofs, Student& _student)
+{
+    unsigned long fdpid_length=0;
+
+    ofs << &_student;
+    const char *id = _student.getidentifier().c_str();
+    ofs.write(id,  8 * sizeof (char));
+    unsigned long seminar_number = _student.myseminars.size();
+    unsigned long course_number = _student.mycourses.size();
+    ofs.write(reinterpret_cast<char*>(&seminar_number), sizeof(unsigned long));
+    ofs.write(reinterpret_cast<char*>(&course_number), sizeof(unsigned long));
+
+    if (_student.myfdp){
+        fdpid_length = _student.myfdp->getResource()->getIdentification().length()+1;
+        const char *fdpid = _student.myfdp->getResource()->getIdentification().c_str();
+        ofs.write(reinterpret_cast<char*>(&fdpid_length), sizeof (unsigned long));
+        ofs.write(fdpid, fdpid_length*sizeof (char));
+    }else{
+        ofs.write(reinterpret_cast<char*>(&fdpid_length), sizeof (unsigned long));
+
+    }
+    return ofs;
+}
+
+
+
+ifstream& operator>>(ifstream& ifs, Student& _student)
+{
+    unsigned long fdpid_length;
+
+    ifs>>&_student;
+    char id [8];
+    ifs.read(id, 8 * sizeof (char));
+     _student.SIN=unsigned(atoi(id));
+
+     unsigned long seminar_number = _student.myseminars.size();
+     unsigned long course_number = _student.mycourses.size();
+     ifs.read(reinterpret_cast<char*>(&seminar_number), sizeof(unsigned long));
+     ifs.read(reinterpret_cast<char*>(&course_number), sizeof(unsigned long));
+     ifs.read(reinterpret_cast<char*>(&fdpid_length), sizeof(unsigned long));
+    _student.myseminars.reserve(seminar_number);
+    _student.mycourses.reserve(course_number);
+    if(fdpid_length>0){
+        char *fdpid=new char[fdpid_length];
+        ifs.read(fdpid, unsigned(fdpid_length*sizeof (char)));
+        int index = _student.mydegree->getVc().findFDP(fdpid);
+        if (index!=-1){
+            _student.enroll(_student.mydegree->getVc().getFDPs()[unsigned(index)]);
+        }else{
+            cerr<<"Student: "<<_student.getidentifier()<<"; FDP "<<fdpid<<" not found, missmatch in database\n";
+        }
+    }
+    return ifs;
+}

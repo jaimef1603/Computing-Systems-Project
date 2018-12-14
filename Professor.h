@@ -49,7 +49,7 @@ public:
     //  Common
     void addCourse(Link_prof_res *link);
     void enroll(Course* c, role r);
-    void Drop(Course* );
+    void Drop(Course* s);
     void showCourses();
 
     //Seminar functions
@@ -66,9 +66,8 @@ public:
     // Common
     void addSeminar(Link_prof_res *link);
     void enroll(Seminar* s, role r);
-    void Drop(Seminar* );
+    void Drop(Seminar* s);
     void showSeminars();
-
 
 
     //FDP functions
@@ -100,7 +99,7 @@ public:
 
     //FILE HANDLING
 
-
+    virtual ofstream& loadtofile(ofstream & file);
     friend ofstream & operator<< (ofstream& ofs, Professor& _professor);
     friend ifstream & operator>> (ifstream& ifs, Professor& _professor);
 

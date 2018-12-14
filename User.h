@@ -22,9 +22,8 @@ public:
     string getname();
     static Menu<User>::menu_option_member gimmethename();
 
+
     //FILE HANDLING
-
-
 
     friend ofstream & operator<< (ofstream& ofs, User* _user);
     friend ifstream & operator>> (ifstream& ifs, User* _user);

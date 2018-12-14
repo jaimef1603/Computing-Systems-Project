@@ -124,7 +124,6 @@ void Seminar::showDetails()    //Function to show seminar details
 
 void Seminar::options()    //Function which contains the option menu of seminar
 {
-   //Set coordinator, set speaker, add student, remove student, edit
 
     vector <Menu<Seminar>::Menu_option> options;
 
@@ -186,14 +185,13 @@ void Seminar::options_removestudent()     //Function to remove a student from a 
     vector<Menu<Link_stu_res>::Menu_option> selector_options;
 
 
-
-     for (unsigned i=0; i<students.size(); i++){
-         selector_options.push_back(Menu<Link_stu_res>::Menu_option(i+1, nullptr, to_string(students[i]->getStudent().getSIN()), students[i]));
-     }
-     Menu<Link_stu_res> studentSelector (selector_options, "Select the student you want to remove");
-        selected_student = studentSelector.run_selector();
-        if (selected_student)
-            delete selected_student;
+    for (unsigned i=0; i<students.size(); i++){
+        selector_options.push_back(Menu<Link_stu_res>::Menu_option(i+1, nullptr, to_string(students[i]->getStudent().getSIN()), students[i]));
+    }
+    Menu<Link_stu_res> studentSelector (selector_options, "Select the student you want to remove");
+    selected_student = studentSelector.run_selector();
+    if (selected_student)
+        delete selected_student;
 
 }
 
@@ -233,17 +231,35 @@ void Seminar::coordinatorcanediteverythingbuttheid()    //Function which contain
 void Seminar::editID()     //Function to edit the identification of a seminar
 {
     std::string buffer;
+    bool valid;
     do {
-       system("clear");
-       cin.clear();
-       std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-       std::cout<<"Enter the new identification (CCCIIII, C=Letter, I=Number) or \'q\' to cancel: \nSEM";
+        do {
+            system("clear");
+            if (!cin.good()){
+                cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            }
+            std::cout<<"Enter the new identification (CCCIIII, C=Letter, I=Number) or \'q\' to cancel: \nSEM";
 
-    }while(!(std::cin>>std::ws>>buffer) || !checkResId("SEM"+buffer));
+        }while(!(std::cin>>std::ws>>buffer) || (!checkResId("SEM"+buffer) && buffer !="q"));
 
-    if (buffer!="q"){
-        identification="SEM"+buffer;
-    }
+        if (buffer!="q"){
+            valid = true;
+            for (auto it: this->mycampus->getSeminars()){
+                if (it->getIdentification()=="SEM"+buffer){
+                    valid = false;
+                    cout<<"There is already a seminar with this identification, choose another"<<endl;
+                    cin.ignore(numeric_limits<char>::max(), '\n');
+                    cin.get();
+                }
+
+            }
+        }else{
+            return;
+        }
+    }while (!valid);
+
+    identification="SEM"+buffer;
 }
 
 
@@ -253,15 +269,15 @@ void Seminar::editDate()    //Function to edit the date of a seminar
     unsigned day, month, year;
     std::string buffer;
     do {
-       system("clear");
-       cin.clear();
-       std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-       std::cout<<"Enter the new date (day month year) or \'q\' to cancel:";
-       getline(std::cin, buffer, '\n');
+        system("clear");
+        cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout<<"Enter the new date (day month year) or \'q\' to cancel:";
+        getline(std::cin, buffer, '\n');
 
-               if (buffer=="q"){
-                  return;
-               }
+        if (buffer=="q"){
+            return;
+        }
 
     }while(!(istringstream(buffer)>>day>>month>>year));
 
@@ -277,15 +293,15 @@ void Seminar::editMaxseats()    //Function to edit the maximum number of seats o
     unsigned newValue;
     std::string buffer;
     do {
-       system("clear");
-       cin.clear();
-       std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-       std::cout<<"Enter the new value for the maximum number of seats or \'q\' to cancel:";
-       std::cin>>std::ws>>buffer;
+        system("clear");
+        cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout<<"Enter the new value for the maximum number of seats or \'q\' to cancel:";
+        std::cin>>std::ws>>buffer;
 
-               if (buffer=="q"){
-                  return;
-               }
+        if (buffer=="q"){
+            return;
+        }
 
     }while(!(istringstream(buffer)>>newValue)  && newValue>students.size());
 
@@ -325,17 +341,17 @@ void Seminar::removeprofessor(Link_prof_res *link)
             flag = true;
         }
     }
-        if (!flag){
-            cerr<<"Seminar::removeprofessor(Link_prof_res*); No teacher removed.\n";
-        }
+    if (!flag){
+        cerr<<"Seminar::removeprofessor(Link_prof_res*); No teacher removed.\n";
+    }
 
 }
 
 
 
-
-
 // ---------------------FUNCTIONS FOR FILE HANDLING-----------------
+
+
 
 ofstream & operator<< (ofstream& ofs, Seminar& _seminar)
 {
@@ -346,8 +362,6 @@ ofstream & operator<< (ofstream& ofs, Seminar& _seminar)
     unsigned long student_number = _seminar.students.size();
     ofs.write(reinterpret_cast<char*>(&student_number), sizeof (unsigned long));
 
-
-
     for(unsigned i=0; i<2; i++){
         if (_seminar.teachers[i]){
             const char * teacher_id = _seminar.teachers[i]->getteacher()->getidentifier().c_str();
@@ -356,8 +370,6 @@ ofstream & operator<< (ofstream& ofs, Seminar& _seminar)
             ofs.write("\0\0\0\0\0\0\0\0", 8*sizeof(char));
         }
     }
-
-
 
     return ofs;
 }
@@ -385,12 +397,11 @@ ifstream& operator>>(ifstream& ifs, Seminar& _seminar)
             int index = _seminar.mycampus->findTeacher(id);
             if (index !=-1){
                 _seminar.mycampus->getTeachers()[unsigned(index)]->enroll(&_seminar, role(i));
+            }else{
+                cerr<<"Seminar: "+_seminar.identification+"; Teacher "+id+" Not found, missmatch in database\n";
             }
         }
     }
-
-
-
 
     return ifs;
 }

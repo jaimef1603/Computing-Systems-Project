@@ -19,6 +19,7 @@ private:
     Link_prof_res   *teachers[2];
 
     //--------------------------------------
+
     void addteacher(Link_prof_res *newteacher);
     void addstudent(Link_stu_res *newstudent);
     void removestudent(Link_stu_res *student);
@@ -33,11 +34,18 @@ public:
     Course& operator= (const Course&);
     int getcredits();
     void setcredits(int c);
+    vector<Link_stu_res*>& getStudents();
     void edit();
     void editID();
     void options();
     void showDetails();
     void grade();
+
+
+    //FOR FILES
+
+    friend ofstream & operator<< (ofstream& ofs, Course& _course);
+    friend ifstream& operator>>(ifstream& ifs, Course& _course);
 
 
 };

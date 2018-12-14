@@ -35,12 +35,16 @@ Menu<User>::menu_option_member User::gimmethename()
 */
 
 
+
 ofstream & operator<< (ofstream& ofs, User* _user)
 {
-    unsigned long length = _user->name.size();
-    const char *name = _user->name.c_str();
+    unsigned long length = _user->name.size()+1;
+    char *name = nullptr;
+    name = new char[length];
+    strcpy(name,_user->name.c_str());
     ofs.write(reinterpret_cast<char*>(&(length)), sizeof (unsigned long));
-    ofs.write(name,  static_cast<long>(length * sizeof (char)));
+    ofs.write(name,  length * sizeof (char));
+    delete [] name;
     return ofs;
 }
 

@@ -80,12 +80,9 @@ class Menu<T>::Menu_option{
 public:
     friend class Menu<T>;
 
-//    Menu_option(unsigned opt, Menu<T>::menu_option_handler moh,  std::string* t=nullptr, T* obj=nullptr);
-//    Menu_option(unsigned opt, Menu<T>::menu_option_handler moh,  std::string* t=nullptr, T& obj = T());
     Menu_option(unsigned opt, Menu<T>::menu_option_handler moh,  std::string t=std::string(), T* obj=nullptr);
     Menu_option(unsigned opt, Menu<T>::menu_option_handler moh,  std::string t=std::string(), T& obj = T());
     bool is_selected(unsigned opt);
-
 
 
 private:

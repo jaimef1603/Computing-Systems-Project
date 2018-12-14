@@ -99,12 +99,20 @@ void Course::setcredits(int c)
 
 
 
+vector<Link_stu_res*>& Course::getStudents()
+{
+    return studentlist;
+}
+
+
+
 void Course::edit()            //Function to edit Course attributes (name , id and credits)
 {
     char selection;
     do{
 
         system("clear");
+        cout<<"Edit Course:\n"<<endl;
         cout<<"\t[1] Edit name\n \t[2] Edit ID\n \t[3] Edit credits\n \t'q' Back\n";
         cin>>ws>>selection;
         switch (selection) {
@@ -149,17 +157,35 @@ void Course::edit()            //Function to edit Course attributes (name , id a
 void Course::editID()     //Function to edit the id of a course
 {
     std::string buffer;
+    bool valid;
     do {
-       system("clear");
-       cin.clear();
-       std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-       std::cout<<"Enter the new identification (CCCIIII, C=Letter, I=Number) or \'q\' to cancel: \n"<<degree->getid();
+        do {
+            system("clear");
+            if (!cin.good()){
+                cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            }
+            std::cout<<"Enter the new identification (CCCIIII, C=Letter, I=Number) or \'q\' to cancel: \n"<<degree->getid();
 
-    }while(!(std::cin>>std::ws>>buffer) || !checkResId(degree->getid()+buffer));
+        }while(!(std::cin>>std::ws>>buffer) || (!checkResId(degree->getid()+buffer) && buffer !="q"));
 
-    if (buffer!="q"){
-        identification=degree->getid()+buffer;
-    }
+        if (buffer!="q"){
+            valid = true;
+            for (auto it: this->degree->getCourses()){
+                if (it->getIdentification()==degree->getid()+buffer){
+                    valid = false;
+                    cout<<"There is already a course with this identification, choose another"<<endl;
+                    cin.ignore(numeric_limits<char>::max(), '\n');
+                    cin.get();
+                }
+
+            }
+        }else{
+            return;
+        }
+    }while (!valid);
+
+    identification=degree->getid()+buffer;
 }
 
 
@@ -179,7 +205,7 @@ void Course::options()      //Course's options
             do{
                 system("clear");
                 degree->showstudents();
-                cout<<"Enter the identification of the student you want to add or q to exit: ";
+                cout<<"Enter the identification of the student you want to add or \'q\'  to cancel: ";
                 cin>>identification;
                 if(identification=="q"){
                     break;
@@ -200,7 +226,7 @@ void Course::options()      //Course's options
                 for (unsigned i=0; i<studentlist.size(); i++){
                     cout<<i+1<<": "<<studentlist[i]->getStudent().getidentifier()<<endl;
                 }
-                cout << "Select the student you want to remove (1-"<<studentlist.size()<<") or q to cancel: ";
+                cout << "Select the student you want to remove (1-"<<studentlist.size()<<") or \'q\' to cancel: ";
                 cin>>ws>>buffer;
                 if(buffer=="q"){
                     break;
@@ -330,14 +356,58 @@ void Course::grade()
 
 
 
+// ---------------------FUNCTIONS FOR FILE HANDLING-----------------
 
-//void Course::addUser(User *newUser){
-//link_us_res *newLink= new(newUser, this)
-//newLink->checkUserKind(newUser.getidentifier()); (returns if teacher or student)
-//if teacher add to teachers[2] if there aren't two teachers yet;
-//if student add to studentlist
-//and add to courselist of student.
-//studentlist.pushFront(newLink);
-//newLink->connectCourseUser();
+ofstream & operator<< (ofstream& ofs, Course& _course)
+{
 
-//}
+    ofs << &_course;
+    unsigned long student_number = _course.studentlist.size();
+    ofs.write(reinterpret_cast<char*>(&student_number), sizeof (unsigned long));
+
+    for(unsigned i=0; i<2; i++){
+        if (_course.teachers[i]){
+            const char * teacher_id = _course.teachers[i]->getteacher()->getidentifier().c_str();
+            role teacher_role = _course.teachers[i]->getRole();
+            ofs.write(teacher_id, 8*sizeof(char));
+            ofs.write(reinterpret_cast<char*>(&teacher_role), sizeof (role));
+        }else{
+            ofs.write("\0\0\0\0\0\0\0\0", 8*sizeof(char));
+        }
+    }
+
+
+
+    return ofs;
+}
+
+
+
+ifstream& operator>>(ifstream& ifs, Course& _course)
+{
+    ifs>>&_course;
+    unsigned long student_number;
+    ifs.read(reinterpret_cast<char*>(&student_number), sizeof (unsigned long));
+    _course.studentlist.reserve(student_number);
+
+    string id;
+    char id_buffer [8];
+    role role_buffer;
+    for(unsigned i=0; i<2; i++){
+        strcpy(id_buffer, "");
+        ifs.read(id_buffer, 8*sizeof(char));
+        id = id_buffer;
+        if (id.length()==7){
+            ifs.read(reinterpret_cast<char*>(&role_buffer), sizeof (role));
+            int index = _course.degree->getVc().findTeacher(id);
+            if (index !=-1){
+                _course.degree->getVc().getTeachers()[unsigned(index)]->enroll(&_course, role_buffer);
+            }else{
+                cerr<<"Course: "+_course.identification+"; Teacher "+id+" Not found, missmatch in database\n";
+            }
+        }
+    }
+
+
+    return ifs;
+}

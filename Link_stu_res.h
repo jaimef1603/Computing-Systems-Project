@@ -36,9 +36,11 @@ public:
     void destroy();
 
     //Student functions
+
     void showDetails();
 
-    //professor functions
+    //Professor functions
+
     void grade();
 };
 

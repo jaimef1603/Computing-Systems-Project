@@ -62,7 +62,8 @@ void Resource::setname(string n)
 
 
 
-string Resource::getname(){
+string Resource::getname()
+{
     return name;
 }
 
@@ -110,7 +111,7 @@ Menu<Resource>::menu_option_member Resource::gimmetheid()
 
  ofstream & operator<< (ofstream& ofs, Resource* _resource)
 {
-     unsigned long length = _resource->name.size();
+     unsigned long length = _resource->name.size()+1;
      const char *name = _resource->name.c_str();
      const char *id = _resource->identification.c_str();
      ofs.write(reinterpret_cast<char*>(&(length)), sizeof (unsigned long));

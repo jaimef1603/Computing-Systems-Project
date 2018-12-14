@@ -38,7 +38,8 @@ Link_us_res& Link_us_res::operator=(const Link_us_res& other)
 
 
 
-Resource* Link_us_res::getResource(){
+Resource* Link_us_res::getResource()
+{
     return resourcePtr;
 }
 

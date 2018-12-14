@@ -16,6 +16,7 @@ private:
     Link_stu_res *student;
 
     //---------------
+
     void addteacher(Link_prof_res *newteacher);
     void addstudent(Link_stu_res *newstudent);
     void removestudent(Link_stu_res *student);

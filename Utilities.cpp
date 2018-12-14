@@ -141,16 +141,3 @@ template <typename A> void ListshowAll(ArrayList<A> arrL)
 
 }
 
-
-
-//template <typename A> void ListshowAllDetails(vector<A> vect)
-//{
-
-//}
-
-
-
-//template <typename A> void ListshowAllDetails(ArrayList<A> arrL)
-//{
-
-//}

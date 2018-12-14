@@ -4,7 +4,9 @@
 #include "Professor.h"
 #include "Seminar.h"
 #include "Degree.h"
+#include "Student.h"
 #include <vector>
+
 class Administrator;
 class VirtualCampus
 {
@@ -18,21 +20,26 @@ private:
     User *currentuser;
 
 
-    void loadTeachers();
-    void loadDegrees();
-    void loadSeminars();
-    void loadFDPs();
+    //For files
+    char * data_dir;
+    bool recover;
 
-    void writeTeachers();
-    void writeDegrees();
-    void writeSeminars();
-    void writeFDPs();
+    bool loadTeachers();
+    bool loadDegrees();
+    bool loadSeminars();
+    bool loadFDPs();
 
+    bool writeTeachers();
+    bool writeDegrees();
+    bool writeSeminars();
+    bool writeFDPs();
+
+    bool login(string &ret_ident);
 
 
 public:
     friend class Administrator;
-    VirtualCampus();
+    VirtualCampus(string dat="Data");
     ~VirtualCampus();
 
     //Teacher functions
@@ -80,6 +87,7 @@ public:
     void run();
     void stop();
     void end();
+
 
 };
 

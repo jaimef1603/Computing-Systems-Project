@@ -7,7 +7,7 @@ Administrator::Administrator(VirtualCampus *vc, string n,string id):Professor(vc
 }
 
 
-void Administrator::admin_submenu ()
+void Administrator::admin_submenu()
 {
     vector<Menu<VirtualCampus>::Menu_option> admin_options;
     admin_options.reserve(4);
@@ -21,79 +21,52 @@ void Administrator::admin_submenu ()
 }
 
 
+
 void Administrator::professor_submenu()
 {
     Professor::menu();
 }
 
+
+
 void Administrator::menu()
 {
-
 
     vector<Menu<Administrator>::Menu_option> options;
     options.reserve(2);
     options.emplace_back(1, &Administrator::admin_submenu, "Access the administrator menu", this);
-    options.emplace_back(2, &Administrator::professor_submenu, "Acces the professor menu", this);
+    options.emplace_back(2, &Administrator::professor_submenu, "Access the professor menu", this);
 
 
-        Menu<Administrator> menu(options, "---WELCOME TO YOUR MAIN MENU---\n You currently have administration rights");// &Administrator::showDetails, this);
+        Menu<Administrator> menu(options, "---WELCOME TO YOUR MAIN MENU---\n You currently have administration rights");
 
         menu.run();
 
-
 }
 
-//}
-
-//void Administrator::manageResource()
-//{
-//    system("clear");
-//    int selection;
-//    cout<<"1: Create\n2: Edit\n";
-//    cin>>selection;
-//    switch(selection){
-//    case 1:
-//        createResource();
-//        break;
-//    case 2:
-//        editResource();
-//        break;
-//    }
-//}
 
 
-//void Administrator::createResource()
-//{
-//    system("clear");
-//    int selection;
-//    cout<<"1 create course\n2 create seminar\n3 create fdp\n";
-//    cin>>selection;
-//    switch (selection) {
-//    case 1: mycampus->addCourse();
-//        break;
-//    case 2: mycampus->addseminar();
-//        break;
-//    case 3: mycampus->addFDP();
-//        break;
-//    default: break;
-//    }
-//}
+ofstream& Administrator::loadtofile(ofstream & file)
+{
+   file<<*this;
+   return file;
+}
 
 
 
-//void Administrator::editResource()
-//{
-//    system("clear");
-//    int selection;
-//    cout<<"1 edit course\n2 edit seminar\n3 edit fdp\n";
-//    cin>>selection;
-//    switch (selection) {
-//    case 1: mycampus->editcourse();
-//        break;
-//    case 2: mycampus->editseminar();
-//        break;
-//    case 3: mycampus->editFDP();
-//        break;
-//    default: break;
-//    }
-//}
+ofstream & operator<< (ofstream& ofs, Administrator& _admin)
+{
+    bool isadmin = true;
+    ofs.write(reinterpret_cast<char*>(&isadmin), sizeof (bool));
+    ofs << &_admin;
+    const char *id = _admin.identifier.c_str();
+    ofs.write(id,  8 * sizeof (char));
+    unsigned long seminar_number = _admin.seminarlist.size();
+    unsigned long course_number = _admin.courselist.size();
+    unsigned long fdp_number = _admin.fdplist.size();
+    ofs.write(reinterpret_cast<char*>(&seminar_number), sizeof(unsigned long));
+    ofs.write(reinterpret_cast<char*>(&course_number), sizeof(unsigned long));
+    ofs.write(reinterpret_cast<char*>(&fdp_number), sizeof(unsigned long));
+    return ofs;
+}
+

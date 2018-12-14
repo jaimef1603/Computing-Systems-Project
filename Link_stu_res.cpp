@@ -21,7 +21,6 @@ Link_stu_res::Link_stu_res(const Link_stu_res& other)
     :Link_us_res (other)
 {
     this->stuPtr=other.stuPtr;
-    //falta por iniciar las notas
 }
 
 
@@ -36,7 +35,6 @@ Link_stu_res::~Link_stu_res()
 Link_stu_res& Link_stu_res::operator= (const Link_stu_res &other)
 {
     this->Link_us_res::operator=(other);
-    //falta por copiar las notas
     return *this;
 }
 
@@ -159,7 +157,7 @@ void Link_stu_res::showDetails()
 {
     resourcePtr->showDetails();
 
-    if (this->resourcePtr->getname().find("SEM")!=string::npos && this->resourcePtr->getname().find("FDP")!=string::npos){
+    if (this->resourcePtr->getIdentification().find("SEM")==string::npos && this->resourcePtr->getIdentification().find("FDP")==string::npos){
 
         cout<<"GRADES:"<<endl
            <<"\tPartial evaluation:"<<endl;
@@ -223,7 +221,7 @@ void Link_stu_res::grade()
     }while(((value < 0 && value !=-1) || value> 10 ) || !cin.good());
 
 
-    {
+       do{
            system("clear");
            cout<<resourcePtr->getname()+" - grades of "+ stuPtr->getname()+ " ID: "+stuPtr->getidentifier()<<endl;
            cout<<"Enter the date(day month year): ";
@@ -235,19 +233,12 @@ void Link_stu_res::grade()
        }while(!cin.good());
 
 
-    if ((selection - '0'+1) != 5){
-        setpartialMark(value, Date(day, month, year), selection-'0'+1);
+    if ((selection - '0'-1) != 5){
+        setpartialMark(value, Date(day, month, year), selection-'0'-1);
     }
     else{
         setfinalMark(value, Date(day, month, year));
     }
-
-
-
-
-
-
-
 
 }
 

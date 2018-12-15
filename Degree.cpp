@@ -151,7 +151,7 @@ void Degree::manageStudents()
                     cout<<"What student do you want to delete? (enter \'q\' to cancel)\n";
                     cout<<"Select a valid number. (1-"<<stulist.size()<<") or \'q\' to cancel.\n \tPress any key to retry.";
                 }
-            }while((stu!='q') || stu >int(stulist.size()));
+            }while(stu >int(stulist.size()));
             system("clear");
             if (stu!='q'){
                 deleteStudent(unsigned(stu)-1);
@@ -180,7 +180,7 @@ void Degree::manageStudents()
                     cout<<"What student do you want to show details of? (enter \'q\' to cancel)\n";
                     cout<<"Select a valid number. (1-"<<stulist.size()<<") or \'q\' to cancel.\n \tPress any key to retry.";
                 }
-            }while((stu!='q') || stu >int(stulist.size()));
+            }while(stu >int(stulist.size()));
             system("clear");
             if (stu!='q'){
 
@@ -191,7 +191,7 @@ void Degree::manageStudents()
                         cin.ignore(numeric_limits<char>::max(), '\n');
                     }
                     stulist[unsigned(stu)-1]->showDetails();
-                    cout<<"\t[1] Edit Name \'q\' Back "<<endl;
+                    cout<<"\t[1] Edit Name\n\t \'q\' Back "<<endl;
                     cin>>ws>>willyouedit;
                 }while(!cin.good() && willyouedit!='q' && willyouedit!='1');
 
@@ -324,7 +324,7 @@ void Degree::manageCourses ()
 
                     istringstream(buffer)>>cour;
                 }
-            }while((cour!='q')|| cour >int (courselist.size()));
+            }while(cour >int (courselist.size()));
             system("clear");
             if(cour!='q'){
                 courselist[unsigned(cour)-1]->edit();
@@ -343,12 +343,12 @@ void Degree::manageCourses ()
                 }
 
                 istringstream(buffer)>>cour;
-                if ((cour!='q')|| cour >int(courselist.size())){
+                if (cour >int(courselist.size())){
                     cout<<"Select a valid number. (1-"<<courselist.size()<<") or \'q\' to cancel.\n \tPress any key to retry.";
                     cin.ignore(50, '\n');
                     getchar();
                 }
-            }while((cour!='q') || cour >int(courselist.size()));
+            }while(cour >int(courselist.size()));
             system("clear");
             if(cour!='q'){
                 deleteCourse(unsigned(cour)-1);
@@ -367,12 +367,12 @@ void Degree::manageCourses ()
                 }
 
                 istringstream(buffer)>>cour;
-                if ((cour!='q' )|| cour >int(courselist.size())){
+                if (cour >int(courselist.size())){
                     cout<<"Select a valid number. (1-"<<courselist.size()<<") or \'q\' to cancel.\n \tPress any key to retry.";
                     cin.ignore(50, '\n');
                     getchar();
                 }
-            }while((cour!='q' ) || cour >int(courselist.size()));
+            }while(cour >int(courselist.size()));
             system("clear");
 
             if(cour!='q'){
@@ -397,12 +397,12 @@ void Degree::manageCourses ()
                 }
 
                 istringstream(buffer)>>cour;
-                if ((cour!='q' )|| cour >int(courselist.size())){
+                if (cour >int(courselist.size())){
                     cout<<"Select a valid number. (1-"<<courselist.size()<<") or \'q\' to cancel.\n \tPress any key to retry.";
                     cin.ignore(50, '\n');
                     getchar();
                 }
-            }while((cour!='q' ) || cour >int(courselist.size()));
+            }while(cour >int(courselist.size()));
             system("clear");
             if(cour!='q'){
                 courselist[unsigned(cour)-1]->options();
@@ -450,6 +450,7 @@ void Degree::addCourse()
     string buffer;
     int credits=0;
     do{
+        system("clear");
         cout<<"Enter the name of the course (letters a-z, A-Z) or \'q\' to cancel : ";
         cin>>ws>>name;
         if(name=="q"){
@@ -457,6 +458,7 @@ void Degree::addCourse()
         }
     }while(!checkletters(name));
     do {
+        system("clear");
         valid = true;
         cout<<"New course ID CCCIIII (C=char, I=number) or \'q\' to cancel: "<<this->id;
         cin>>ws>>id;

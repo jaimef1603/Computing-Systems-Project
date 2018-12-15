@@ -87,7 +87,7 @@ void Professor::manageCourses()
     do{
         system("clear");
         cout<<"COURSES:\n";
-        cout<<"\t[1] Add Course\n\t [2] Delete Course\n\t 'q' Back\n";
+        cout<<"\t[1] Add Course\n\t[2] Delete Course\n\t'q' Back\n";
         cin>>selection;
 
         switch (selection) {
@@ -109,7 +109,7 @@ void Professor::manageCourses()
                     return;
                 }
 
-            }while ((index !='q') || index>=int(courselist.size()));
+            }while (index>=int(courselist.size()));
 
             if(index!='q'){
                 delete courselist[unsigned(index)];
@@ -142,12 +142,16 @@ void Professor::selectCourseAndAdd()       //Function to add a course
         cin>>index;
 
         if(index=='q'){
-            return;
+            break;
         }
 
-    }while((index!='q')|| index> int(mycampus->getDegrees().size()));
+    }while(index> int(mycampus->getDegrees().size()));
 
-    if (index!='q'){
+    if(index=='q'){
+        return;
+    }else{
+
+   // if (index!='q'){
         current= mycampus->getDegrees()[unsigned(index)-1];
 
         do {

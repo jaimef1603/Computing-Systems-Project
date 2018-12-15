@@ -171,11 +171,11 @@ void VirtualCampus::manageDegrees()
                     return;
                 }
                 istringstream(buffer)>>deg;
-                if ((deg!='q') || deg >int(degreelist.size())){
+                if (deg >int(degreelist.size())){
                     cout<<"Select a valid number. (1-"<<degreelist.size()<<") or \'q\' to cancel\nPress any key to retry...";
                     getchar();
                 }
-            }while((deg!='q') || deg >int(degreelist.size()));
+            }while(deg >int(degreelist.size()));
             system("clear");
             if (deg!='q'){
                 degreelist[unsigned(deg)-1]->edit();
@@ -193,11 +193,11 @@ void VirtualCampus::manageDegrees()
                     return;
                 }
                 istringstream(buffer)>>deg;
-                if ((deg!='q') || deg >int(degreelist.size())){
+                if (deg >int(degreelist.size())){
                     cout<<"Select a valid number. (0-"<<degreelist.size()<<") or \'q\' to cancel\nPress any key to retry...";
                     getchar();
                 }
-            }while((deg!='q') || deg >int(degreelist.size()));
+            }while(deg >int(degreelist.size()));
             system("clear");
             if (deg!='q'){
                 deleteDegree(unsigned(deg)-1);
@@ -214,11 +214,11 @@ void VirtualCampus::manageDegrees()
                     return;
                 }
                 istringstream(buffer)>>deg;
-                if ((deg!='q') || deg >int(degreelist.size())){
+                if (deg >int(degreelist.size())){
                     cout<<"Select a valid number. (0-"<<degreelist.size()<<") or \'q\' to cancel\nPress any key to retry...";
                     getchar();
                 }
-            }while((deg!='q') || deg >int(degreelist.size()));
+            }while(deg >int(degreelist.size()));
             system("clear");
             if (deg!='q'){
                 degreelist[unsigned(deg)-1]->showdetails();
@@ -239,10 +239,10 @@ void VirtualCampus::manageDegrees()
                     return;
                 }
                 istringstream(buffer)>>deg;
-                if ((deg!='q') || deg >int(degreelist.size())){
+                if (deg >int(degreelist.size())){
                     cout<<"Select a valid number. (0-"<<degreelist.size()<<") or \'q\' to cancel\n";
                 }
-            }while((deg!='q')|| deg >int(degreelist.size()));
+            }while(deg >int(degreelist.size()));
             system("clear");
             if (deg!='q'){
                 degreelist[unsigned(deg)-1]->options();
@@ -869,7 +869,7 @@ void VirtualCampus::addFDP()
     }
 
 
-    Menu<Degree> degree_selector(degreelist, Degree::gimme_the_name(), "Select a degree to select a student or q to skip");
+    Menu<Degree> degree_selector(degreelist, Degree::gimme_the_name(), "Select a degree to select a student or \'q\' to cancel");
 
     temp_degree = degree_selector.run_selector();
     if (temp_degree){

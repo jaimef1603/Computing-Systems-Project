@@ -92,7 +92,9 @@ void Degree::addStudent()
     if(name=="q"){
         return;
     }
-    stulist.push_back(new Student(this, name));
+    Student *there_is_a_new_face_in_class = new Student(this, name);
+    stulist.push_back(there_is_a_new_face_in_class);
+    there_is_a_new_face_in_class->showDetails();
 
 }
 
@@ -126,7 +128,6 @@ void Degree::manageStudents()
             selection='0';
             system("clear");
             addStudent();
-            (*(stulist.end()-1))->showDetails();
             cin.ignore();
             getchar();
             break;

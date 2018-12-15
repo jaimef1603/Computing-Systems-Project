@@ -133,7 +133,9 @@ bool VirtualCampus::loadDegrees()
 	if (inputfile){
 	    if(inputfile.tellg()>0){
 		inputfile.seekg(0, ios::beg);
+		unsigned long student_count;
 		unsigned long number_of_degrees;
+		inputfile.read(reinterpret_cast<char*>(&student_count), sizeof (unsigned long));
 		inputfile.read(reinterpret_cast<char*>(&number_of_degrees), sizeof (unsigned long));
 		if (number_of_degrees>0){
 		    degreelist.reserve(number_of_degrees);
@@ -169,6 +171,9 @@ bool VirtualCampus::loadDegrees()
 			cerr<<"Warning, missmatch in sizes for file \"Degrees\"\n";
 		    }
 		}
+
+		Student::setCount(student_count>0? student_count:0);
+
 		inputfile.close();
 		system("mv Data/Degrees/Degrees Data/Degrees/Degrees.back");
 	    }
@@ -315,7 +320,9 @@ bool VirtualCampus::writeDegrees()
     if (!outputfile){
 	cerr<<"ERROR, could not create/open file \"Degrees\"\n";
     }
+    unsigned long student_count = Student::getCount();
     unsigned long degree_number = degreelist.size();
+    outputfile.write(reinterpret_cast<char*>(&student_count), sizeof(unsigned long));
     outputfile.write(reinterpret_cast<char*>(&degree_number), sizeof(unsigned long));
     for (auto it: degreelist){
 	outputfile<<(*it);

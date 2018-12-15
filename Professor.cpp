@@ -95,25 +95,45 @@ void Professor::manageCourses()
             selectCourseAndAdd();
             break;
         case '2':{
-            int index;
-            do{
-                system("clear");
-                cout<<"Courses of "<<this->getidentifier()<<" :"<<endl;
-                for(unsigned i=0; i<courselist.size(); i++){
-                    cout<<courselist[i]->getResource()->getIdentification()<<endl;
-                }
-                cout<<"Enter the id of the course you want to remove or \'q\' to cancel\n";
-                cin>>index;
+            Link_prof_res * selected_course;
 
-                if(index=='q'){
-                    return;
-                }
 
-            }while (index>=int(courselist.size()));
-
-            if(index!='q'){
-                delete courselist[unsigned(index)];
+            vector<Menu<Link_prof_res>::Menu_option> delete_options;
+            delete_options.reserve(courselist.size());
+            unsigned i=1;
+            for ( auto _course: courselist){
+                delete_options.emplace_back(i, nullptr, _course->getResource()->getname()+"\tID: "+_course->getResource()->getIdentification(), _course);
             }
+
+            Menu<Link_prof_res> delete_selector (delete_options, "Choose the course you want to remove: ");
+            selected_course = delete_selector.run_selector();
+
+
+            if (selected_course)
+                delete selected_course;
+
+
+
+
+//            int index;
+//            do{
+//                system("clear");
+//                cout<<"Courses of "<<this->getidentifier()<<" :"<<endl;
+//                for(unsigned i=0; i<courselist.size(); i++){
+//                    cout<<courselist[i]->getResource()->getIdentification()<<endl;
+//                }
+//                cout<<"Enter the id of the course you want to remove or \'q\' to cancel\n";
+//                cin>>index;
+
+//                if(index=='q'){
+//                    return;
+//                }
+
+//            }while (index>=int(courselist.size()));
+
+//            if(index!='q'){
+//                delete courselist[unsigned(index)];
+//            }
         }
             break;
         case 'q': return;
@@ -129,65 +149,66 @@ void Professor::manageCourses()
 
 void Professor::selectCourseAndAdd()       //Function to add a course
 {
-    int index;
-    char r;
-    Degree *current;
-    string identification;
-    int valid=-1;
+    char roletobe;
+    Degree* selected_degree = nullptr;
+    Course* selected_course = nullptr;
+    vector<Menu<Degree>::Menu_option> selector_options;
+    selector_options.reserve(mycampus->getDegrees().size());
+    unsigned i=1;
+    for ( auto _degree: mycampus->getDegrees()){
+        selector_options.emplace_back(i, nullptr, _degree->getname()+"\tID: "+_degree->getid(), _degree);
+    }
 
-    do {
-        system("clear");
-        mycampus->showAllDeg();
-        cout<<"Select the Degree to choose a Course: (1- "<<mycampus->getDegrees().size()<<") or \'q\' to cancel"<<endl;
-        cin>>index;
+    Menu<Degree> degree_selector (selector_options, "Select the Degree to choose a Course: ");
+    selected_degree = degree_selector.run_selector();
 
-        if(index=='q'){
-            break;
+
+    if (selected_degree){
+
+
+        vector<Menu<Course>::Menu_option> courses_options;
+        selector_options.reserve(selected_degree->getCourses().size());
+        unsigned i=1;
+        for ( auto _course: selected_degree->getCourses()){
+            courses_options.emplace_back(i, nullptr, _course->getname()+"\tID: "+_course->getIdentification(), _course);
         }
 
-    }while(index> int(mycampus->getDegrees().size()));
+        Menu<Course> course_selector (courses_options, "Select the Course:");
+        selected_course = course_selector.run_selector();
 
-    if(index=='q'){
-        return;
-    }else{
+    if (selected_course){
 
-   // if (index!='q'){
-        current= mycampus->getDegrees()[unsigned(index)-1];
+        for (auto _course: courselist){
+            if (selected_course==_course->getResource()){
+                cout<<"This professor is already enrolled in this course\n";
+                cin.ignore(numeric_limits<int>::max(), '\n');
+                cin.get();
+                return;
+            }
+        }
 
         do {
             system("clear");
-            current->showcourses();
-            cout<<"Enter the identification of the course or \'q\' to cancel"<<endl;
-            cin>>ws>>identification;
-            if (identification == "q"){
+            cout<<"Select Role:\n";
+            cout<<"\t[1] Named Chair\n\t[2] Associated\n\t'q' Back";
+            cin>>roletobe;
+            switch (roletobe) {
+            case '1':
+                enroll(selected_course, role::named_chair);
+                return;
+            case '2':
+                enroll(selected_course, role::associated);
+                return;
+            case 'q': return;
+            default:
+                cout<<"Select a valid number or \'q\' to cancel\n\tPress any key to retry"<<endl;
                 break;
             }
-            valid=current->findCourse(identification);
 
-        }while(valid==-1);
-        if (valid!=-1){
-            do {
-                system("clear");
-                cout<<"Select Role:\n";
-                cout<<"\t[1] Named Chair\n\t[2] Associated\n\t'q' Back";
-                cin>>r;
-                switch (r) {
-                case '1':
-                    enroll(current->getCourses()[unsigned(valid)], role::named_chair);
-                    return;
-                case '2':
-                    enroll(current->getCourses()[unsigned(valid)], role::associated);
-                    return;
-                case 'q': return;
-                default:
-                    cout<<"Select a valid number or \'q\' to cancel\n\tPress any key to retry"<<endl;
-                    break;
-                }
+        }while(true);
 
-            }while(true);
-
-        }
     }
+}
 
 }
 
@@ -1156,8 +1177,8 @@ void Professor::menu()
 
 ofstream& Professor::loadtofile(ofstream & file)
 {
-   file<<*this;
-   return file;
+    file<<*this;
+    return file;
 }
 
 
@@ -1186,16 +1207,16 @@ ifstream& operator>>(ifstream& ifs, Professor& _professor)
     ifs>>&_professor;
     char id [8];
     ifs.read(id, 8 * sizeof (char));
-     _professor.identifier=id;
+    _professor.identifier=id;
 
-     unsigned long seminar_number = _professor.seminarlist.size();
-     unsigned long course_number = _professor.courselist.size();
-     unsigned long fdp_number = _professor.fdplist.size();
-     ifs.read(reinterpret_cast<char*>(&seminar_number), sizeof(unsigned long));
-     ifs.read(reinterpret_cast<char*>(&course_number), sizeof(unsigned long));
-     ifs.read(reinterpret_cast<char*>(&fdp_number), sizeof(unsigned long));
-     _professor.seminarlist.reserve(seminar_number);
-     _professor.courselist.reserve(course_number);
-     _professor.fdplist.reserve(fdp_number);
+    unsigned long seminar_number = _professor.seminarlist.size();
+    unsigned long course_number = _professor.courselist.size();
+    unsigned long fdp_number = _professor.fdplist.size();
+    ifs.read(reinterpret_cast<char*>(&seminar_number), sizeof(unsigned long));
+    ifs.read(reinterpret_cast<char*>(&course_number), sizeof(unsigned long));
+    ifs.read(reinterpret_cast<char*>(&fdp_number), sizeof(unsigned long));
+    _professor.seminarlist.reserve(seminar_number);
+    _professor.courselist.reserve(course_number);
+    _professor.fdplist.reserve(fdp_number);
     return ifs;
 }

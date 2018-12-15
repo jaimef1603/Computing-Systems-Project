@@ -163,26 +163,39 @@ void Seminar::options_speaker()   //Function to choose the speaker of a seminar
 
 void Seminar::options_addstudent()    //Function to add a student to a seminar
 {
-        Degree *selected_degree;
-        Student *selected_student;
-        Menu<Degree> degreeSelector(mycampus->getDegrees(), Degree::gimme_the_name(), "Select the degree that the student belongs to");
+    Degree *selected_degree;
+    Student *selected_student;
+    Menu<Degree> degreeSelector(mycampus->getDegrees(), Degree::gimme_the_name(), "Select the degree that the student belongs to");
 
-        selected_degree = degreeSelector.run_selector();
-        if (selected_degree){
+    selected_degree = degreeSelector.run_selector();
+    if (selected_degree){
 
-            if(this->maxseats==this->students.size()){
-                cout<<"\nThere are not free seats in this seminar";
-                getchar();
-                return;
-            }
-
-            Menu<Student> studentSelector(selected_degree->getStudents(), Student::gimmethename(), "Select the student");
-            selected_student = studentSelector.run_selector();
-            if (selected_student)
-            {
-                   selected_student->enroll(this);
-            }
+        if(this->maxseats==this->students.size()){
+            cout<<"\nThere are not free seats in this seminar";
+            getchar();
+            return;
         }
+
+        Menu<Student> studentSelector(selected_degree->getStudents(), Student::gimmethename(), "Select the student");
+        selected_student = studentSelector.run_selector();
+        if (selected_student)
+        {
+
+
+            for (auto _student : students){
+
+                if(selected_student->getSIN()==_student->getStudent().getSIN()){
+                    cout   <<"\tThe student with ID: "<<_student->getStudent().getidentifier()
+                          <<" is already enrolled in this seminar"<<endl;
+                    cin.ignore(numeric_limits<int>::max(), '\n');
+                    cin.get();
+                    return;
+                }
+            }
+            selected_student->enroll(this);
+
+        }
+    }
 }
 
 

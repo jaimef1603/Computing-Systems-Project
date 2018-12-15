@@ -31,7 +31,7 @@ private:
      void removeResource(Link_stu_res *link);
 
 public:
-    static unsigned count;
+    static unsigned long count;
     friend class Link_stu_res;
     Student();
     Student(Degree *d, string n="undefined");
@@ -40,8 +40,8 @@ public:
     Student& operator=(const Student&);
     friend ostream& operator<<(ostream& os, const Student& stu);
 
-    void setCount(unsigned c);
-    unsigned getCount();
+    static void setCount(unsigned long c);
+    static unsigned long getCount();
     unsigned getSIN();
     void setSIN(unsigned s);
     string getidentifier();

@@ -7,7 +7,7 @@
 
 using namespace std;
 
-unsigned Student::count;
+unsigned long Student::count;
 
 Student::Student()
     :User(),mycourses(), myseminars()
@@ -82,14 +82,14 @@ ostream& operator<<(ostream& os, const Student& stu)
 
 
 
-void Student::setCount(unsigned c)
+void Student::setCount(unsigned long c)
 {
     count = c;
 }
 
 
 
-unsigned Student::getCount()
+unsigned long Student::getCount()
 {
     return count;
 }

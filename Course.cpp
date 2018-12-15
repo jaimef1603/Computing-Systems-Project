@@ -130,18 +130,20 @@ void Course::edit()            //Function to edit Course attributes (name , id a
             int newc;
             system("clear");
             do{
-            cout<<"Enter the new value for credits or \'q\' to cancel: "<<endl;
-            cin>>ws>>buffer;
-            if(buffer=="q"){
-                break;
-             }
+                cout<<"Enter the new value for credits or \'q\' to cancel: "<<endl;
+                cin>>ws>>buffer;
+                if(buffer=="q"){
+                    break;
+                }
                 istringstream(buffer)>>newc;
                 if (newc <=0){
                     system("clear");
                     cout<<"Enter a valid value for credits\n";
                 }
             }while(newc<=0);
-            setcredits(newc);
+            if(buffer!="q"){
+                setcredits(newc);
+            }
         }break;
         case 'q': return;
         default:
@@ -196,11 +198,18 @@ void Course::options()      //Course's options
     do {
         system("clear");
         cout<<"Options of Course "<<this->getIdentification()<<":"<<endl;
+        cout<<"  Students:\n";
+        for (auto _student : studentlist){
+            cout<<"\t"<<_student->getStudent().getname()
+               <<"\tID: "<<_student->getStudent().getidentifier()<<endl;
+        }
         cout<<"\t[1] Add Student\n \t[2] Remove Student\n \t'q' Back\n";
         cin>>ws>>selection;
         switch (selection) {
         case '1':{
             string identification;
+            Student *to_enroll=nullptr;
+            bool valid=true;
             int index=-1;
             do{
                 system("clear");
@@ -214,7 +223,19 @@ void Course::options()      //Course's options
                 }
             }while(index==-1);
             if (index!=-1){
-                degree->getStudents()[unsigned(index)]->enroll(this);
+                to_enroll=degree->getStudents()[unsigned(index)];
+                for (auto _student : studentlist){
+
+                    if(to_enroll->getSIN()==_student->getStudent().getSIN()){
+                        cout   <<"\tThe student with ID: "<<_student->getStudent().getidentifier()
+                              <<" is already enrolled in this course"<<endl;
+                        cin.ignore(numeric_limits<int>::max(), '\n');
+                        cin.get();
+                        valid = false;
+                    }
+                }
+                if(valid)
+                    to_enroll->enroll(this);
             }
             break;
         }
@@ -287,21 +308,21 @@ void Course::addteacher(Link_prof_res *newteacher)
             teachers[0]=newteacher;
             return;
         }
-    if (newteacher->getRole()==role::associated){
-        if(teachers[1]!=nullptr){
-            if (teachers[1]->getRole()!=role::named_chair){
-                delete teachers[1];
+        if (newteacher->getRole()==role::associated){
+            if(teachers[1]!=nullptr){
+                if (teachers[1]->getRole()!=role::named_chair){
+                    delete teachers[1];
+                    teachers[1]=newteacher;
+                    return;
+                }else{
+                    cout<<"All places in "<<this->getIdentification()<<" are ocupied by named chair professors.\n";
+                }
+
+            }else{
                 teachers[1]=newteacher;
                 return;
-            }else{
-                cout<<"All places in "<<this->getIdentification()<<" are ocupied by named chair professors.\n";
             }
-
-        }else{
-            teachers[1]=newteacher;
-            return;
         }
-    }
 
     }
 }

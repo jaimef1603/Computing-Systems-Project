@@ -219,14 +219,14 @@ void Course::options()      //Course's options
                 if(identification=="q"){
                     break;
                 }else{
-                    index=degree->findStudent(identification);
+                    index=degree->findStudent(identification);     //index is the position where the student is in stulist
                 }
             }while(index==-1);
-            if (index!=-1){
+            if (index!=-1){                                             //if index==-1 means that the student is not in stulist
                 to_enroll=degree->getStudents()[unsigned(index)];
                 for (auto _student : studentlist){
 
-                    if(to_enroll->getSIN()==_student->getStudent().getSIN()){
+                    if(to_enroll->getSIN()==_student->getStudent().getSIN()){        //we check if the student is already in the students enrolled in the course
                         cout   <<"\tThe student with ID: "<<_student->getStudent().getidentifier()
                               <<" is already enrolled in this course"<<endl;
                         cin.ignore(numeric_limits<int>::max(), '\n');
@@ -234,7 +234,7 @@ void Course::options()      //Course's options
                         valid = false;
                     }
                 }
-                if(valid)
+                if(valid)    //if the student is not enrolled, we enroll it
                     to_enroll->enroll(this);
             }
             break;
@@ -253,8 +253,8 @@ void Course::options()      //Course's options
                     break;
                 }
                 istringstream(buffer)>>selection;
-            }while((selection<1 && selection !=-1)||selection>int(studentlist.size()));
-            if (selection!=-1){
+            }while(selection>int(studentlist.size()));
+            if (selection!='q'){
                 delete studentlist[unsigned(selection)-1];
             }
 
@@ -315,7 +315,7 @@ void Course::addteacher(Link_prof_res *newteacher)
                     teachers[1]=newteacher;
                     return;
                 }else{
-                    cout<<"All places in "<<this->getIdentification()<<" are ocupied by named chair professors.\n";
+                    cout<<"All places in "<<this->getIdentification()<<" are occupied by named chair professors.\n";
                 }
 
             }else{

@@ -2,6 +2,9 @@
 #include "Utilities.h"
 #include <sstream>
 #include "Menu.h"
+#include <iostream>
+
+using namespace std;
 
 VirtualCampus::VirtualCampus(string dat)
 {
@@ -185,7 +188,6 @@ void VirtualCampus::manageDegrees()
             selection='0';
             do {
                 system("clear");
-                //cout<<"DEGREES:\n";
                 showAllDeg();
                 cout<<"What degree do you want to delete? (Enter (1-"<< degreelist.size()<<")to delete or \'q\' to cancel)\n";
                 cin>>ws>>buffer;
@@ -268,16 +270,17 @@ void VirtualCampus::addDegree()
 {
     system("clear");
     bool valid = true;
-    string name, id;
-
+    string id;
+    char name[40];
     do{
         system("clear");
         cout<<"Enter the name of the degree (letters a-z, A-Z) or \'q\' to cancel:";
-        cin>>ws>>name;
+        cin.ignore(numeric_limits<char>::max(), '\n');
+        cin.getline(name, 50);
         if (name =="q"){
             return;
         }
-    }while(!checkletters(name));
+    }while(!checkletters(name));         //we continue asking for the name until all the characters are letters
     do{
         valid=true;
         system("clear");
@@ -288,19 +291,19 @@ void VirtualCampus::addDegree()
             return;
         }
 
-        if (!checkletters(id) || id.length()!=3){
-            valid = false;
-        }else{
-            UCaseWord(id);
-            if(id=="SEM" || id=="FDP"){
+        if (!checkletters(id) || id.length()!=3){       //if the id characters are not letters or the length is not 3
+            valid = false;                              //we change valid to false
+        }else{                                          //if the id characters are only letters and the length is 3 we continue
+            UCaseWord(id);                              //we change the id to uppercase
+            if(id=="SEM" || id=="FDP"){                 //we check if the id is different of the id reserved for other resources
                 valid = false;
                 cout<<"\"SEM\" and \"FDP\" are system reserved identifications, please choose another"<<endl;
                 cin.ignore(numeric_limits<char>::max(), '\n');
                 cin.get();
-            }else{
-                for (auto it: degreelist){
+            }else{                                       //if the id is different from the one reserved
+                for (auto it: degreelist){               //we check if there is already a degree with that identification
 
-                    if (it->getid()==id){
+                    if (it->getid()==id){                //if it is, we change valid to false
                         valid = false;
                         cout<<"There is already a degree with this identification, choose another"<<endl;
                         cin.ignore(numeric_limits<char>::max(), '\n');
@@ -419,7 +422,6 @@ void VirtualCampus::manageTeachers()
         }
             break;
 
-
         case '3':
         {
             vector<Menu<Professor>::Menu_option> e_s_options;
@@ -466,14 +468,13 @@ void VirtualCampus::addTeacher()
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
 
+        std::cout<<"Enter the name or \'q\' to cancel: ";     
 
-        std::cout<<"Enter the name or \'q\' to cancel: ";
-        if (name=="q"){
-            return;
-        }
+    }while(!getline(cin, name, '\n') || (!checkletters(name) && name!="q"));      //we continue asking the name until its characters are letters
 
-    }while(!getline(cin, name, '\n') || !checkletters(name));
-
+    if (name=="q"){
+       return;         //If "q" was inserted we abort
+    }
 
     // ----ASKING FOR THE ID-----
 
@@ -491,8 +492,8 @@ void VirtualCampus::addTeacher()
             system("clear");
             cout<<"Enter the new ID (7 chars) or \'q\' to cancel: ";
         }else{
-            for (auto it: proflist){
-                if (it->getidentifier()==ident){
+            for (auto it: proflist){                    //we check if there is already a teacher with that identification
+                if (it->getidentifier()==ident){        //if it is, we change vaid to false
                     valid = false;
                     system("clear");
                     cout<<"ID already used, choose a different one\n";
@@ -504,6 +505,7 @@ void VirtualCampus::addTeacher()
 
     //-----WE KEEP ASKING WHILE THE INSERTION IS
     //CORRECT; THE FORMAT IS CORRECT AND IT IS NOT "q"
+
     do {
         if(!cin.good()){
             cin.clear();
@@ -513,6 +515,9 @@ void VirtualCampus::addTeacher()
         cout<<"\t[1] Create as teacher\n\t[2] Create as administrator\n\t\'q\' Back\n";
         cin>>ws>>permissions;
     }while(permissions != '1' && permissions != '2' && permissions!='q');
+
+
+    //we create a professor or an administrator according to the role selected
 
     if (permissions=='1'){
         proflist.push_back(new Professor (this, name, ident));
@@ -616,12 +621,12 @@ void VirtualCampus::addseminar()
 
         std::cout<<"Enter the name of the new seminar or \'q\' to cancel: ";
 
-    }while(!getline(cin, buffer, '\n') || !checkletters(buffer));
+    }while(!getline(cin, buffer, '\n') || (!checkletters(buffer) && buffer!="q"));
 
     if (buffer!="q"){
         name=buffer;
     }else{
-        return;
+        return;     //If "q" was inserted we abort
     }
 
 
@@ -636,12 +641,13 @@ void VirtualCampus::addseminar()
         }
         std::cout<<"Name: "<<name<<"\nEnter the identification (CCCIIII, C=Letter, I=Number) or \'q\' to cancel: \nSEM";
 
-        if (!(std::cin>>std::ws>>buffer) || (!checkResId("SEM"+buffer) && buffer !="q")){
-            valid = false;
-        }else{
+        //we check if the id is correct (SEMCCCC)
 
+        if (!(std::cin>>std::ws>>buffer) || (!checkResId("SEM"+buffer) && buffer !="q")){
+            valid = false;                            //if it is not correct, we change valid to false
+        }else{                                        //we check if there is already a seminar with that identification
             for (auto it: seminalist){
-                if (it->getIdentification()=="SEM"+buffer){
+                if (it->getIdentification()=="SEM"+buffer){      //if there is, we change valid to false
                     valid = false;
                     cout<<"There is already a seminar with this identification, choose another"<<endl;
                     cin.ignore(numeric_limits<char>::max(), '\n');
@@ -799,6 +805,7 @@ vector<Seminar*>& VirtualCampus::getSeminars()
 */
 
 
+
 void VirtualCampus::manageFDPs()
 {
 
@@ -843,12 +850,12 @@ void VirtualCampus::addFDP()
     if (buffer!="q"){
         id="FDP"+buffer;
     }else{
-        return; //IF "q" was inserted we abort
+        return; //If "q" was inserted we abort
     }
 
 
-
     //---- ASKING FOR THE NAME OF THE FDP-----
+
 
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     do {
@@ -860,12 +867,12 @@ void VirtualCampus::addFDP()
 
         std::cout<<"Enter the title or \'q\' to cancel: ";
 
-    }while(!getline(cin, buffer, '\n') || !checkletters(buffer));
+    }while(!getline(cin, buffer, '\n') || (!checkletters(buffer) && buffer!="q"));
 
     if (buffer!="q"){
         name=buffer;
     }else{
-        return;
+        return;    //If "q" was inserted we abort
     }
 
 

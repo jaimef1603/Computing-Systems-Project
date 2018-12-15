@@ -74,7 +74,8 @@ void Link_stu_res::setfinalMark(float value, Date when)
 
 
 
-void Link_stu_res::setfinalMark(Mark value){
+void Link_stu_res::setfinalMark(Mark value)
+{
     final=Mark(value);
 }
 
@@ -104,10 +105,12 @@ void Link_stu_res::setpartialMark(Mark value[])
 }
 
 
+
 Mark& Link_stu_res::getfinalMark()
 {
     return final;
 }
+
 
 
 Mark* Link_stu_res::getpartiaMark()

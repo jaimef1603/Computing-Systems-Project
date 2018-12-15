@@ -171,7 +171,7 @@ void Seminar::options_addstudent()    //Function to add a student to a seminar
     if (selected_degree){
 
         if(this->maxseats==this->students.size()){
-            cout<<"\nThere are not free seats in this seminar";
+            cout<<"\nThere are not free seats in this seminar...";
             getchar();
             return;
         }

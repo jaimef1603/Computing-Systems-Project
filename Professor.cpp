@@ -108,33 +108,9 @@ void Professor::manageCourses()
             Menu<Link_prof_res> delete_selector (delete_options, "Choose the course you want to remove: ");
             selected_course = delete_selector.run_selector();
 
-
             if (selected_course)
                 delete selected_course;
-
-
-
-
-//            int index;
-//            do{
-//                system("clear");
-//                cout<<"Courses of "<<this->getidentifier()<<" :"<<endl;
-//                for(unsigned i=0; i<courselist.size(); i++){
-//                    cout<<courselist[i]->getResource()->getIdentification()<<endl;
-//                }
-//                cout<<"Enter the id of the course you want to remove or \'q\' to cancel\n";
-//                cin>>index;
-
-//                if(index=='q'){
-//                    return;
-//                }
-
-//            }while (index>=int(courselist.size()));
-
-//            if(index!='q'){
-//                delete courselist[unsigned(index)];
-//            }
-        }
+             }
             break;
         case 'q': return;
         default:
@@ -164,7 +140,6 @@ void Professor::selectCourseAndAdd()       //Function to add a course
 
 
     if (selected_degree){
-
 
         vector<Menu<Course>::Menu_option> courses_options;
         selector_options.reserve(selected_degree->getCourses().size());
@@ -211,6 +186,7 @@ void Professor::selectCourseAndAdd()       //Function to add a course
 }
 
 }
+
 
 
 void Professor::my_courses()
@@ -383,14 +359,14 @@ void Professor::manageSeminars()
                 if (identification == "q"){
                     break;
                 }
-                valid=mycampus->findSeminar(identification);
-            }while(valid==-1);
-            if (valid!=-1){
+                valid=mycampus->findSeminar(identification);        //valid is the position the seminar has in the seminarlist
+            }while(valid==-1);                                      //if valid == -1, means that the seminar was not found
+            if (valid!=-1){                                         //if valid != -1, we continue
                 do {
                     system("clear");
                     cout<<"Select Role: \n\t[1] Speaker\n\t[2] Coordinator\n\t\'q \' Back";
                     cin>>r;
-                    switch (r) {
+                    switch (r) {                                    //we enroll the teacher with the selected role
                     case '1':
                         enroll(mycampus->getSeminars()[unsigned(valid)], role::speaker);
                         return;
@@ -765,15 +741,15 @@ void Professor::admin_addFDP()
             if (identification == "q"){
                 break;
             }
-            valid=mycampus->findFDP(identification);
-        }while(valid==-1);
-        if (valid!=-1){
+            valid=mycampus->findFDP(identification);          //valid is the position where the FDp is in the projectlist
+        }while(valid==-1);                                    //valid==-1 means that the FDP was not found
+        if (valid!=-1){                                       //if valid !=-1 we continue
             do {
                 system("clear");
                 cout<<"Select Role:\n";
                 cout<<"\n\t[1] Tutor\n\t[2] Co-tutor\n\t'q' Back";
                 cin>>r;
-                switch (r) {
+                switch (r) {                                   //we enroll the teacher with the selected role
                 case '1':
                     enroll(mycampus->getFDPs()[unsigned(valid)], role::tutor);
                     return;
@@ -889,7 +865,6 @@ void Professor::fdp_droppin_func()
                         break;
                     }
                 }
-
 
             }
         }
@@ -1080,19 +1055,22 @@ void Professor::edit()    //Edit Professor's attributes(name, id)
         cin>>selection;
         switch (selection) {
         case '1':{
-            string newname;
+            char newname[40];
             bool valid=false;
-            system("clear");
-            cout<<"Enter the new name (letters a-z, A-Z) or \'q\' to cancel\n"<<endl;
+
             do {
-                cin>>ws>>newname;
+                system("clear");
+                cout<<"Enter the new name (letters a-z, A-Z) or \'q\' to cancel\n"<<endl;
+                cin.ignore(numeric_limits<char>::max(), '\n');
+                cin.getline(newname, 50);
                 if (newname=="q"){
                     break;
                 }
-                if (!(valid=checkletters(newname))){
+                                                                  //we check if the name characters are only letters
+                if (!(valid=checkletters(newname))){             //if valid=false, means that there is some character that is not a letter
                     cout<<"Enter a valid name (letters a-z, A-Z) or \'q\' to cancel\n"<<endl;
                 }
-            }while (!valid);
+            }while (!valid);          //we do this until all the character of the name are letters
             if (valid){
                 this->setname(newname);
             }
@@ -1108,13 +1086,13 @@ void Professor::edit()    //Edit Professor's attributes(name, id)
                 if (ident=="q"){
                     return;
                 }
-                if (ident.length()==7){
-                    valid = true;
-                }else{
+                if (ident.length()==7){         //if the length of the id=7 it is correct
+                    valid = true;               //so we change valid to true
+                }else{                          //if the length is different from 7, valid stays as false
                     system("clear");
                     cout<<"Enter the new ID (7 chars) or \'q\' to exit: ";
                 }
-            }while (!valid);
+            }while (!valid);                   //we do this until the length of the id=7
 
             if (valid){
                 this->identifier=ident;

@@ -85,10 +85,10 @@ Menu<Degree>::menu_option_member Degree::gimme_the_name()
 void Degree::addStudent()
 {
 
-    string name;
+    char name[40];
     cout<<"Enter the name of the student or \'q\' to cancel: ";
-    cin>>name;
-
+    cin.ignore(numeric_limits<char>::max(), '\n');
+    cin.getline(name, 50);
     if(name=="q"){
         return;
     }
@@ -447,13 +447,15 @@ int Degree::findCourse(string identification)     //Function to find a course in
 void Degree::addCourse()
 {
     bool valid;
-    string id, name;
+    string id;
+    char name[40];
     string buffer;
     int credits=0;
     do{
         system("clear");
         cout<<"Enter the name of the course (letters a-z, A-Z) or \'q\' to cancel : ";
-        cin>>ws>>name;
+        cin.ignore(numeric_limits<char>::max(), '\n');
+        cin.getline(name, 50);
         if(name=="q"){
             return;
         }
@@ -468,12 +470,12 @@ void Degree::addCourse()
         }
         id=this->id+id;
 
-        if (!checkResId(id)){
-            valid = false;
-        }else{
+        if (!checkResId(id)){       //we check if the id is correct (LLLNNNN) or not
+            valid = false;          //if it is not correct, we say that valid is false
+        }else{                      //if we get here, valid is true so we check if there is already a course with that identification or not
             for (auto it: courselist){
                 if (it->getIdentification()==id){
-                    valid = false;
+                    valid = false;                        // if there ir, we say that valid is false
                     cout<<"There is already a course with this identification, choose another"<<endl;
                     cin.ignore(numeric_limits<char>::max(), '\n');
                     cin.get();
@@ -483,8 +485,7 @@ void Degree::addCourse()
 
         }
 
-
-    }while(!valid);
+    }while(!valid);             //we do this until the identification is correct and the identification is not used by any other course
     do {
         system("clear");
         cout<<"ID: "<<id<<endl;
@@ -541,20 +542,22 @@ void Degree::edit()     //Function to edit degree's attributes (name)
         cin>>selection;
         switch (selection) {
         case '1':{
-            string newname;
+            char newname[40];
             bool valid=false;
 
             do {
                 system("clear");
                 cout<<"Enter the new name (letters a-z, A-Z) or \'q\' to cancel"<<endl;
-                cin>>ws>>newname;
+                cin.ignore(numeric_limits<char>::max(), '\n');
+                cin.getline(newname, 50);
                 if (newname=="q"){
                     break;
                 }
-                if (!(valid=checkletters(newname))){
+                                                               //checkletters returns true if the name characters are only letters
+                if (!(valid=checkletters(newname))){           //and false if there is a character that is not a letter
                     cout<<"Enter a valid name (letters a-z, A-Z) or \'q\' to exit\n"<<endl;
                 }
-            }while (!valid);
+            }while (!valid);       //we do this until the name characters are only letters
             if (valid){
                 this->setname(newname);
             }

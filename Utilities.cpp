@@ -4,7 +4,8 @@
 
 using namespace std;
 
-bool checkletters (const char str[]){
+bool checkletters (const char str[])
+{
 
     for (int i=0; i<static_cast<int>(strlen(str)); i++){
         if (!((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z') || (str[i] == ' '))){
@@ -15,12 +16,14 @@ bool checkletters (const char str[]){
 }
 
 
-bool checkletters (const string str){
+
+bool checkletters (const string str)
+{
 
     char *aux = new char [str.size()];
     strcpy(aux, str.c_str());
     for (int i=0; i<static_cast<int>(str.length()); i++){
-        if (!((aux[i] >= 'a' && aux[i] <= 'z') || (aux[i] >= 'A' && aux[i] <= 'Z') || (aux[i] == ' '))){
+        if (!((aux[i] >= 'a' && aux[i] <= 'z') || (aux[i] >= 'A' && aux[i] <= 'Z') || (aux[i] == ' ' || aux[i]==','))){
             delete [] aux;
             return false;
         }
@@ -30,7 +33,10 @@ bool checkletters (const string str){
 
 }
 
-void cleanWord (char str[]){
+
+
+void cleanWord (char str[])
+{
 
     for (int i=static_cast<int>(strlen(str)); i>1; i--){
         if (str[strlen(str)]==' ' && strlen(str)>1){
@@ -46,7 +52,10 @@ void cleanWord (char str[]){
     }
 }
 
-void cleanWord (string str){
+
+
+void cleanWord (string str)
+{
     int length = static_cast<int>(str.length());
     char *aux = new char [length+1];
     strcpy(aux, str.c_str());
@@ -90,6 +99,8 @@ bool checkStuId(string id)
 
 }
 
+
+
 bool checkResId(string identification)
 {
     if (identification.length()!=7){
@@ -116,11 +127,13 @@ bool checkResId(string identification)
 
 
 
-void UCaseWord(string& word){
+void UCaseWord(string& word)
+{
     for (unsigned i=0; i<word.length(); i++){
         word[i] = char (toupper(word[i]));
     }
 }
+
 
 
 template <typename A> void ListshowAll(vector<A> vect)
@@ -158,6 +171,7 @@ string removeSpaces (string &&line)
     return ret;
 
 }
+
 
 
 template <typename A> void ListshowAll(ArrayList<A> arrL)

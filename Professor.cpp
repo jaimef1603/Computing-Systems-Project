@@ -97,7 +97,6 @@ void Professor::manageCourses()
         case '2':{
             Link_prof_res * selected_course;
 
-
             vector<Menu<Link_prof_res>::Menu_option> delete_options;
             delete_options.reserve(courselist.size());
             unsigned i=1;
@@ -110,7 +109,7 @@ void Professor::manageCourses()
 
             if (selected_course)
                 delete selected_course;
-        }
+            }
             break;
         case 'q': return;
         default:
@@ -133,6 +132,7 @@ void Professor::selectCourseAndAdd()       //Function to add a course
     unsigned i=1;
     for ( auto _degree: mycampus->getDegrees()){
         selector_options.emplace_back(i, nullptr, _degree->getname()+"\tID: "+_degree->getid(), _degree);
+        i++;
     }
 
     Menu<Degree> degree_selector (selector_options, "Select the Degree to choose a Course: ");
@@ -146,6 +146,7 @@ void Professor::selectCourseAndAdd()       //Function to add a course
         unsigned i=1;
         for ( auto _course: selected_degree->getCourses()){
             courses_options.emplace_back(i, nullptr, _course->getname()+"\tID: "+_course->getIdentification(), _course);
+            i++;
         }
 
         Menu<Course> course_selector (courses_options, "Select the Course:");
@@ -1056,7 +1057,7 @@ void Professor::edit()    //Edit Professor's attributes(name, id)
         switch (selection) {
         case '1':{
             string newname;
-
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
             do {
                 system("clear");
                 cout<<"Enter the new name (letters a-z, A-Z) or \'q\' to cancel\n"<<endl;

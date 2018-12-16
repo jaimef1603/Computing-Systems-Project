@@ -280,7 +280,8 @@ void Course::showDetails()        //Function to show course's details
     cout<<"Teachers: "<<endl;
     for (int i=0; i<2; i++){
         if(teachers[i]!=nullptr){
-            cout<<"\t"<<teachers[i]->getteacher()->getidentifier()<<": "<<teachers[i]->getRoleName()<<endl;
+            cout<<"\t"<<teachers[i]->getteacher()->getname()<<": "<<teachers[i]->getRoleName()<<endl;
+            //cout<<"\t"<<teachers[i]->getteacher()->getidentifier()<<": "<<teachers[i]->getRoleName()<<endl;
         }
     }
     cout<<"Number of students: "<<studentlist.size()<<endl;

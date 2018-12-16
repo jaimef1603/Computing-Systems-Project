@@ -85,6 +85,7 @@ void FDP::editID()
     std::string buffer;
     bool valid;
     do {
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         do {
             system("clear");
             if (!cin.good()){

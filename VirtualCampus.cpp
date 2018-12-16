@@ -272,6 +272,7 @@ void VirtualCampus::addDegree()
     bool valid = true;
     string id;
     string name;
+    //cin.ignore(numeric_limits<streamsize>::max(), '\n');
     do{
         system("clear");
         cout<<"Enter the name of the degree (letters a-z, A-Z) or \'q\' to cancel:";
@@ -837,7 +838,7 @@ void VirtualCampus::addFDP()
 
     // ----ASKING FOR THE ID-----
 
-
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     do {
         system("clear");
         if (!cin.good()){

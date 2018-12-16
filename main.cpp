@@ -6,7 +6,7 @@ using namespace std;
 int main()
 {
 
-     VirtualCampus v1;
+     VirtualCampus v1("DataSample");
 
      v1.start();
 

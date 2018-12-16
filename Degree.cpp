@@ -84,16 +84,15 @@ Menu<Degree>::menu_option_member Degree::gimme_the_name()
 
 void Degree::addStudent()
 {
-
-
     string name;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     do{
         system("clear");
         cout<<"Enter the name of the student or \'q\' to cancel: ";
         if (!cin.good()){
             cin.ignore(numeric_limits<char>::max(), '\n');
         }
-    }while(getline(cin, name, '\n') || !checkletters(name));
+    }while(!getline(cin, name, '\n') || !checkletters(name));
 
     if(name=="q"){
         return;
@@ -480,7 +479,7 @@ void Degree::addCourse()
         }else{                      //if we get here, valid is true so we check if there is already a course with that identification or not
             for (auto it: courselist){
                 if (it->getIdentification()==id){
-                    valid = false;                        // if there ir, we say that valid is false
+                    valid = false;                        // if there is, we say that valid is false
                     cout<<"There is already a course with this identification, choose another"<<endl;
                     cin.ignore(numeric_limits<char>::max(), '\n');
                     cin.get();

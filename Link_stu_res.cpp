@@ -192,14 +192,18 @@ void Link_stu_res::grade()
     char selection;
 
     do {
+
     system("clear");
     cout<<resourcePtr->getname()+" - grades of "+ stuPtr->getname()+ " ID: "+stuPtr->getidentifier()<<endl;
-    cout<<"\t[1] Partial evaluation 1"<<endl
-       <<"\t[2] Partial evaluation 2"<<endl
-            <<"\t[3] Partial evaluation 3"<<endl
-           <<"\t[4] Partial evaluation 4"<<endl
-             <<"\t[5] Final evaluation"<<endl
-            <<"\t'q' Exit"<<endl;
+
+    for(unsigned i=0; i<4; i++){
+    cout<<"\t["<<i+1<<"] Partial evaluation"<<i+1<<" "<<(partial[i].getvalue()==-1? "Not graded":to_string( partial[i].getvalue()))<<endl;
+    }
+//       <<"\t[2] Partial evaluation 2"<<endl
+//            <<"\t[3] Partial evaluation 3"<<endl
+//           <<"\t[4] Partial evaluation 4"<<endl
+//             <<"\t[5] Final evaluation"<<endl
+            cout<<"\t'q' Exit"<<endl;
         if (!cin.good()){
             cin.clear();
             cin.ignore(numeric_limits<char>::max(), '\n');

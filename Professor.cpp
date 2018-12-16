@@ -110,7 +110,7 @@ void Professor::manageCourses()
 
             if (selected_course)
                 delete selected_course;
-             }
+        }
             break;
         case 'q': return;
         default:
@@ -151,39 +151,39 @@ void Professor::selectCourseAndAdd()       //Function to add a course
         Menu<Course> course_selector (courses_options, "Select the Course:");
         selected_course = course_selector.run_selector();
 
-    if (selected_course){
+        if (selected_course){
 
-        for (auto _course: courselist){
-            if (selected_course==_course->getResource()){
-                cout<<"This professor is already enrolled in this course\n";
-                cin.ignore(numeric_limits<int>::max(), '\n');
-                cin.get();
-                return;
+            for (auto _course: courselist){
+                if (selected_course==_course->getResource()){
+                    cout<<"This professor is already enrolled in this course\n";
+                    cin.ignore(numeric_limits<int>::max(), '\n');
+                    cin.get();
+                    return;
+                }
             }
+
+            do {
+                system("clear");
+                cout<<"Select Role:\n";
+                cout<<"\t[1] Named Chair\n\t[2] Associated\n\t'q' Back";
+                cin>>roletobe;
+                switch (roletobe) {
+                case '1':
+                    enroll(selected_course, role::named_chair);
+                    return;
+                case '2':
+                    enroll(selected_course, role::associated);
+                    return;
+                case 'q': return;
+                default:
+                    cout<<"Select a valid number or \'q\' to cancel\n\tPress any key to retry"<<endl;
+                    break;
+                }
+
+            }while(true);
+
         }
-
-        do {
-            system("clear");
-            cout<<"Select Role:\n";
-            cout<<"\t[1] Named Chair\n\t[2] Associated\n\t'q' Back";
-            cin>>roletobe;
-            switch (roletobe) {
-            case '1':
-                enroll(selected_course, role::named_chair);
-                return;
-            case '2':
-                enroll(selected_course, role::associated);
-                return;
-            case 'q': return;
-            default:
-                cout<<"Select a valid number or \'q\' to cancel\n\tPress any key to retry"<<endl;
-                break;
-            }
-
-        }while(true);
-
     }
-}
 
 }
 
@@ -1055,23 +1055,16 @@ void Professor::edit()    //Edit Professor's attributes(name, id)
         cin>>selection;
         switch (selection) {
         case '1':{
-            char newname[40];
-            bool valid=false;
+            string newname;
 
             do {
                 system("clear");
                 cout<<"Enter the new name (letters a-z, A-Z) or \'q\' to cancel\n"<<endl;
                 cin.ignore(numeric_limits<char>::max(), '\n');
-                cin.getline(newname, 50);
-                if (newname=="q"){
-                    break;
-                }
-                                                                  //we check if the name characters are only letters
-                if (!(valid=checkletters(newname))){             //if valid=false, means that there is some character that is not a letter
-                    cout<<"Enter a valid name (letters a-z, A-Z) or \'q\' to cancel\n"<<endl;
-                }
-            }while (!valid);          //we do this until all the character of the name are letters
-            if (valid){
+
+            }while (getline(cin, newname, '\n') || !checkletters(newname)); //we do this until all the character of the name are letters
+
+            if (newname!="q"){
                 this->setname(newname);
             }
             break;

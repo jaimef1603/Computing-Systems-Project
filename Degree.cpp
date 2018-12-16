@@ -6,7 +6,7 @@
 #include <cstring>
 #include <limits>
 #include "Student.h"
-
+#include "VirtualCampus.h"
 using namespace std;
 
 Degree::Degree():name()
@@ -85,17 +85,22 @@ Menu<Degree>::menu_option_member Degree::gimme_the_name()
 void Degree::addStudent()
 {
 
-    char name[40];
-    cout<<"Enter the name of the student or \'q\' to cancel: ";
-    cin.ignore(numeric_limits<char>::max(), '\n');
-    cin.getline(name, 50);
+
+    string name;
+    do{
+        system("clear");
+        cout<<"Enter the name of the student or \'q\' to cancel: ";
+        if (!cin.good()){
+            cin.ignore(numeric_limits<char>::max(), '\n');
+        }
+    }while(getline(cin, name, '\n') || !checkletters(name));
+
     if(name=="q"){
         return;
     }
     Student *there_is_a_new_face_in_class = new Student(this, name);
     stulist.push_back(there_is_a_new_face_in_class);
     there_is_a_new_face_in_class->showDetails();
-
 }
 
 
@@ -448,14 +453,14 @@ void Degree::addCourse()
 {
     bool valid;
     string id;
-    char name[40];
+    string name;
     string buffer;
     int credits=0;
     do{
         system("clear");
         cout<<"Enter the name of the course (letters a-z, A-Z) or \'q\' to cancel : ";
         cin.ignore(numeric_limits<char>::max(), '\n');
-        cin.getline(name, 50);
+        getline(cin, name, '\n');
         if(name=="q"){
             return;
         }
@@ -535,31 +540,32 @@ void Degree::showcourses()       //Function to show all the courses
 void Degree::edit()     //Function to edit degree's attributes (name)
 {
     char selection;
+    cin.ignore(numeric_limits<char>::max(), '\n');
 
     do{
         system("clear");
         cout<<"\t[1] Edit name\n\t 'q' Back\n";
+        if(!cin.good()){
+            cin.ignore(numeric_limits<char>::max(), '\n');
+        }
         cin>>selection;
         switch (selection) {
         case '1':{
-            char newname[40];
-            bool valid=false;
+            string newname;
 
             do {
                 system("clear");
                 cout<<"Enter the new name (letters a-z, A-Z) or \'q\' to cancel"<<endl;
-                cin.ignore(numeric_limits<char>::max(), '\n');
-                cin.getline(newname, 50);
-                if (newname=="q"){
-                    break;
-                }
+
+                    cin.ignore(numeric_limits<char>::max(), '\n');
+
                                                                //checkletters returns true if the name characters are only letters
-                if (!(valid=checkletters(newname))){           //and false if there is a character that is not a letter
-                    cout<<"Enter a valid name (letters a-z, A-Z) or \'q\' to exit\n"<<endl;
-                }
-            }while (!valid);       //we do this until the name characters are only letters
-            if (valid){
+
+            }while (!getline(cin, newname, '\n') || !checkletters(newname));       //we do this until the name characters are only letters
+            if (newname!="q"){
+                system(("cp "+vc->getData_dir()+"/Degrees/"+removeSpaces(this->name)+".back "+vc->getData_dir()+"/Degrees/"+removeSpaces(newname)+".back").c_str());
                 this->setname(newname);
+
             }
             break;
         }

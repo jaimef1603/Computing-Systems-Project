@@ -15,6 +15,9 @@ bool checkStuId(string id);
 bool checkResId(string identification);
 
 void UCaseWord(string& word);
+string removeSpaces(string &line);
+string removeSpaces(string &&line);
+
 
 template <typename A> void ListshowAll(vector<A>);
 template <typename A> void ListshowAll(ArrayList<A>);

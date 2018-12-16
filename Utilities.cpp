@@ -133,6 +133,33 @@ template <typename A> void ListshowAll(vector<A> vect)
 
 
 
+string removeSpaces (string &line)
+{
+    string ret = line;
+    unsigned long to_erase;
+    while ((to_erase = ret.find(" "))!=string::npos){
+        ret.erase(to_erase);
+    };
+
+    return ret;
+
+}
+
+
+
+string removeSpaces (string &&line)
+{
+    string ret = line;
+    unsigned long to_erase;
+    while ((to_erase = ret.find(" "))!=string::npos){
+        ret.erase(to_erase, 1);
+    };
+
+    return ret;
+
+}
+
+
 template <typename A> void ListshowAll(ArrayList<A> arrL)
 {
     for (unsigned i=0; i<arrL.getsize(); i++){

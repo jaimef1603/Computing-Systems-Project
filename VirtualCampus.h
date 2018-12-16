@@ -83,6 +83,9 @@ public:
     vector <Seminar*>& getSeminars();
 
 
+    string getData_dir(){ return data_dir;}
+
+
     void start();
     void run();
     void stop();

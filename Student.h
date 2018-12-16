@@ -85,8 +85,8 @@ public:
 
 
     //FILE HANDLING
-    friend bool Degree::writeSeminarsLinks();
-    friend bool Degree::loadCoursesLinks();
+    friend bool Degree::writeSeminarsLinks(const string&);
+    friend bool Degree::loadCoursesLinks(const string&);
     friend ofstream & operator<< (ofstream& ofs, Student& _student);
     friend ifstream & operator>> (ifstream& ifs, Student& _student);
 

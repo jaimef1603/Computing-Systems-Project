@@ -71,23 +71,23 @@ public:
 
     //Course functions for files
 
-    bool loadCourses();
-    bool writeCourses();
+    bool loadCourses(const string& degree_dir);
+    bool writeCourses(const string& degree_dir);
 
     //Students functions for files
 
-    bool loadStudents();
-    bool writeStudents();
+    bool loadStudents(const string& degree_dir);
+    bool writeStudents(const string& degree_dir);
 
     //CourseLinks functions for files
 
-    bool loadCoursesLinks();
-    bool writeCoursesLinks();
+    bool loadCoursesLinks(const string& degree_dir);
+    bool writeCoursesLinks(const string& degree_dir);
 
     //SeminarLinks functions for files
 
-    bool loadSeminarsLinks();
-    bool writeSeminarsLinks();
+    bool loadSeminarsLinks(const string& degree_dir);
+    bool writeSeminarsLinks(const string& degree_dir);
 };
 
 #endif // DEGREE_H

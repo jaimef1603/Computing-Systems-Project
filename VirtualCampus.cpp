@@ -271,16 +271,17 @@ void VirtualCampus::addDegree()
     system("clear");
     bool valid = true;
     string id;
-    char name[40];
+    string name;
     do{
         system("clear");
         cout<<"Enter the name of the degree (letters a-z, A-Z) or \'q\' to cancel:";
         cin.ignore(numeric_limits<char>::max(), '\n');
-        cin.getline(name, 50);
-        if (name =="q"){
-            return;
-        }
-    }while(!checkletters(name));         //we continue asking for the name until all the characters are letters
+
+    }while(!getline(cin, name ,'\n') || !checkletters(name));         //we continue asking for the name until all the characters are letters
+    if (name =="q"){
+        return;
+    }
+
     do{
         valid=true;
         system("clear");
@@ -468,7 +469,7 @@ void VirtualCampus::addTeacher()
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
 
-        std::cout<<"Enter the name or \'q\' to cancel: ";     
+        std::cout<<"Enter the name or \'q\' to cancel: ";
 
     }while(!getline(cin, name, '\n') || (!checkletters(name) && name!="q"));      //we continue asking the name until its characters are letters
 
@@ -876,7 +877,7 @@ void VirtualCampus::addFDP()
     }
 
 
-    Menu<Degree> degree_selector(degreelist, Degree::gimme_the_name(), "Select a degree to select a student or \'q\' to cancel");
+    Menu<Degree> degree_selector(degreelist, Degree::gimme_the_name(), "Select a degree to select a student or \'q\' to leave it blank");
 
     temp_degree = degree_selector.run_selector();
     if (temp_degree){
@@ -899,7 +900,8 @@ void VirtualCampus::addFDP()
         professor_selector_options.push_back(Menu<Professor>::Menu_option(i+1, nullptr, proflist[i]->getname()+ " ID: "+proflist[i]->getidentifier(), proflist[i]));
     }
 
-    if (temp_student){
+    if (temp_student){  //If temp_student != nullptr it means the user selected a student and didnt abort pressing q
+        //so we let them leave the tutor field blank
 
         Menu<Professor> professor_selector (professor_selector_options, "Select the teacher or \'q\' to leave it blank");
 
@@ -907,7 +909,7 @@ void VirtualCampus::addFDP()
 
         projectlist.push_back(new FDP(this, name, id, temp_student, temp_professor));
 
-    }else{
+    }else{ //But if the user didnt select a student and they don't select a professor we abort
 
         Menu<Professor> professor_selector (professor_selector_options, "You must select a teacher or \'q\' to cancel");
 

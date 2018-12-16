@@ -1,6 +1,7 @@
 ﻿# include "Degree.h" //quitar
 #include "VirtualCampus.h"
 #include "Link_stu_res.h"
+#include "Utilities.h"
 
 ofstream & operator<< (ofstream& ofs, Degree& _degree)
 {
@@ -46,10 +47,10 @@ ifstream & operator>> (ifstream& ifs, Degree& _degree)
 
 
 
-bool Degree::loadCourses()
+bool Degree::loadCourses(const string &degree_dir)
 {
     unsigned long course_number;
-    ifstream infile("Data/Degrees/"+name+"/Courses", ios::in | ios::binary|ios::ate);
+    ifstream infile(degree_dir+"/Courses", ios::in | ios::binary|ios::ate);
     if (infile){
 	if(infile.tellg()>0){
 	    infile.seekg(0, ios::beg);
@@ -61,8 +62,8 @@ bool Degree::loadCourses()
 	}
 	infile.close();
     }else{
-	cerr<<"Creating file "<<"Data/Degrees/"+name+"/Courses";
-	system(("touch ./Data/Degrees/"+name+"/Courses").c_str());
+	cerr<<"Creating file "<<degree_dir<<"/Courses";
+	system(("touch "+degree_dir+"/Courses").c_str());
     }
 
    return true;
@@ -70,9 +71,9 @@ bool Degree::loadCourses()
 
 
 
-bool Degree::writeCourses()
+bool Degree::writeCourses(const string& degree_dir)
 {
-    ofstream outfile("Data/Degrees/"+name+"/Courses", ios::trunc | ios::binary);
+    ofstream outfile(degree_dir+"/Courses", ios::trunc | ios::binary);
     if (outfile){
 	unsigned long course_number = courselist.size();
 	outfile.write(reinterpret_cast<char*>(&course_number), sizeof(unsigned long));
@@ -81,7 +82,7 @@ bool Degree::writeCourses()
 	}
 	outfile.close();
     }else{
-	cerr<<"File "<<"Data/Degrees/"<<name<<"/Courses not found, there will be data losses";
+	cerr<<"File "<<degree_dir<<"/Courses not found, there will be data losses";
     }
 
 
@@ -89,10 +90,10 @@ bool Degree::writeCourses()
 }
 
 
-bool Degree::loadStudents()
+bool Degree::loadStudents(const string& degree_dir)
 {
     unsigned long course_number;
-    ifstream infile("Data/Degrees/"+name+"/Students", ios::in | ios::binary|ios::ate);
+    ifstream infile(degree_dir+"/Students", ios::in | ios::binary|ios::ate);
     if (infile){
 	if(infile.tellg()>0){
 	    infile.seekg(0, ios::beg);
@@ -104,8 +105,8 @@ bool Degree::loadStudents()
 	}
 	infile.close();
     }else{
-	cerr<<"Creating file "<<"Data/Degrees/"+name+"/Students";
-	system(("touch ./Data/Degrees/"+name+"/Students").c_str());
+	cerr<<"Creating file "<<degree_dir<<"/Students";
+	system(("touch "+degree_dir+"/Students").c_str());
     }
 
     return true;
@@ -113,10 +114,10 @@ bool Degree::loadStudents()
 
 
 
-bool Degree::writeStudents()
+bool Degree::writeStudents(const string& degree_dir)
 {
     char _id[8];
-    ofstream logs("Data/logs", ios::app| ios::ate | ios::binary);
+    ofstream logs(vc->getData_dir()+"/logs", ios::app| ios::ate | ios::binary);
     if (logs){
 
 	for (auto _student: stulist){
@@ -130,7 +131,7 @@ bool Degree::writeStudents()
     }
 
 
-    ofstream outfile("Data/Degrees/"+name+"/Students", ios::trunc | ios::binary);
+    ofstream outfile(degree_dir+"/Students", ios::trunc | ios::binary);
     if (outfile){
 	unsigned long student_number = stulist.size();
 	outfile.write(reinterpret_cast<char*>(&student_number), sizeof(unsigned long));
@@ -139,7 +140,7 @@ bool Degree::writeStudents()
 	}
 	outfile.close();
     }else{
-	cerr<<"File "<<"Data/Degrees/"<<name<<"/Students not found, there will be data losses";
+	cerr<<"File "<<degree_dir<<"/Students not found, there will be data losses";
     }
 
     return true;
@@ -147,7 +148,7 @@ bool Degree::writeStudents()
 
 
 
-bool Degree::loadCoursesLinks()
+bool Degree::loadCoursesLinks(const string &degree_dir)
 {
 
     unsigned long n_students;
@@ -156,7 +157,7 @@ bool Degree::loadCoursesLinks()
     char course_id[8];
     char student_id[8];
     unsigned long course_number;
-    ifstream infile("Data/Degrees/"+name+"/CoursesLinks", ios::in | ios::binary|ios::ate);
+    ifstream infile(degree_dir+"/CoursesLinks", ios::in | ios::binary|ios::ate);
     if (infile){
 	if(infile.tellg()>0){
 	    infile.seekg(0, ios::beg);
@@ -193,8 +194,9 @@ bool Degree::loadCoursesLinks()
 	}
 	infile.close();
     }else{
-	cerr<<"Creating file "<<"Data/Degrees/"+name+"/CoursesLinks";
-	system(("touch ./Data/Degrees/"+name+"/CoursesLinks").c_str());
+	cerr<<"Creating file "<<degree_dir<<"/CoursesLinks";
+
+	system(("touch "+degree_dir+"/CoursesLinks").c_str());
     }
 
 
@@ -204,12 +206,12 @@ bool Degree::loadCoursesLinks()
 
 
 
-bool Degree::writeCoursesLinks()
+bool Degree::writeCoursesLinks(const string &degree_dir)
 {
     unsigned long n_students;
     char id_course[8];
     char id_student[8];
-    ofstream outfile("Data/Degrees/"+name+"/CoursesLinks", ios::trunc | ios::binary);
+    ofstream outfile(degree_dir+"/CoursesLinks", ios::trunc | ios::binary);
     if (outfile){
 	unsigned long course_number = courselist.size();
 	outfile.write(reinterpret_cast<char*>(&course_number), sizeof(unsigned long));
@@ -229,7 +231,7 @@ bool Degree::writeCoursesLinks()
 	}
 	outfile.close();
     }else{
-	cerr<<"File "<<"Data/Degrees/"<<name<<"/CourseLinks not found, there will be data losses";
+	cerr<<"File "<<degree_dir<<"/CourseLinks not found, there will be data losses";
 	return false;
     }
 
@@ -240,7 +242,7 @@ bool Degree::writeCoursesLinks()
 
 
 
-bool Degree::loadSeminarsLinks()
+bool Degree::loadSeminarsLinks(const string& degree_dir)
 {
 
     unsigned long n_students;
@@ -249,7 +251,7 @@ bool Degree::loadSeminarsLinks()
     char seminar_id[8];
     char student_id[8];
     unsigned long seminar_number;
-    ifstream infile("Data/Degrees/"+name+"/SeminarsLinks", ios::in | ios::binary|ios::ate);
+    ifstream infile(degree_dir+"/SeminarsLinks", ios::in | ios::binary|ios::ate);
     if (infile){
 	if(infile.tellg()>0){
 	    infile.seekg(0, ios::beg);
@@ -277,8 +279,8 @@ bool Degree::loadSeminarsLinks()
 	}
 	infile.close();
     }else{
-	cerr<<"Creating file "<<"Data/Degrees/"+name+"/SeminarsLinks";
-	system(("touch ./Data/Degrees/"+name+"/SeminarsLinks").c_str());
+	cerr<<"Creating file "<<degree_dir<<"/SeminarsLinks";
+	system(("touch "+degree_dir+"/SeminarsLinks").c_str());
     }
 
 
@@ -287,15 +289,15 @@ bool Degree::loadSeminarsLinks()
 
 
 
-bool Degree::writeSeminarsLinks(){
-
+bool Degree::writeSeminarsLinks(const string &degree_dir)
+{
 
 
     unsigned long n_students;
     unsigned long seminar_number;
     char id_seminar[8];
     char id_student[8];
-    ofstream outfile("Data/Degrees/"+name+"/SeminarsLinks", ios::trunc | ios::binary);
+    ofstream outfile(degree_dir+"/SeminarsLinks", ios::trunc | ios::binary);
     if (outfile){
 	n_students = stulist.size();
 	outfile.write(reinterpret_cast<char*>(&n_students), sizeof(unsigned long));
@@ -311,7 +313,7 @@ bool Degree::writeSeminarsLinks(){
 	}
 	outfile.close();
     }else{
-	cerr<<"File "<<"Data/Degrees/"<<name<<"/SeminarsLinks not found, there will be data losses";
+	cerr<<"File "<<degree_dir<<"/SeminarsLinks not found, there will be data losses";
 	return false;
     }
 

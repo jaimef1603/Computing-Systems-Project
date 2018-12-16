@@ -183,12 +183,14 @@ bool VirtualCampus::loadDegrees()
 				system((string("mv ")+data_dir+string("/Degrees/Degrees ")+data_dir+string("/Degrees/Degrees.back")).c_str());
 			}
 		}else{
-			system((string("touch ")+data_dir+string("/Degrees/Degrees.back ")).c_str());
+			system((string("touch ")+data_dir+string("/Degrees/Degrees.back")).c_str());
 		}
 
 	}else{
 		cerr<<"Creating degrees directory";
 		system((string("mkdir ")+data_dir+string("/Degrees")).c_str());
+		system((string("touch ")+data_dir+string("/Degrees/Degrees.back")).c_str());
+
 	}
 
 

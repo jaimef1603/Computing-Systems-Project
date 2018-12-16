@@ -72,13 +72,13 @@ void VirtualCampus::start()
     string ident;
     if (login(ident)){
 
-        ifstream directory("Data/", ios::in);
+        ifstream directory(data_dir+string("/"), ios::in);
         if (!directory){
             cerr<<"Creating data directory";
-            system("mkdir ./Data");
+            system((string("mkdir ./")+data_dir).c_str());
         }else{
             directory.close();
-            directory.open("Data/.~"+string(data_dir)+".lock");
+            directory.open(data_dir+string("/.~")+string(data_dir)+".lock");
             if (directory){
                 recover=true;
                 directory.close();
@@ -89,7 +89,7 @@ void VirtualCampus::start()
         loadFDPs();
         loadSeminars();
         loadDegrees();
-        system(("touch Data/.~"+string(data_dir)+".lock").c_str());
+        system((string("touch ")+data_dir+string("/.~")+string(data_dir)+".lock").c_str());
 
         if (ident != "ADMIN"){
             for(auto _prof: proflist){
@@ -124,7 +124,7 @@ void VirtualCampus::stop()
     writeSeminars();
     writeFDPs();
 
-    system(("rm Data/.~"+string(data_dir)+".lock").c_str());
+    system((string("rm ")+data_dir+"/.~"+string(data_dir)+".lock").c_str());
     cin.get();
 }
 
